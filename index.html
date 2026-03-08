@@ -5,1454 +5,2499 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bunker forestier autosuffisant | Modulimo</title>
   <style>
-    :root{
-      --bg:#0b1220;
-      --bg2:#111827;
-      --panel:rgba(15,23,42,.82);
-      --text:#e5e7eb;
-      --muted:#94a3b8;
-      --accent:#22c55e;
-      --accent2:#38bdf8;
-      --warning:#f59e0b;
-      --danger:#ef4444;
-      --border:rgba(255,255,255,.12);
-      --shadow:0 20px 50px rgba(0,0,0,.35);
-      --radius:22px;
+    :root {
+      --bg: #071018;
+      --bg-2: #0b1620;
+      --panel: rgba(11, 22, 32, 0.78);
+      --panel-2: rgba(9, 18, 28, 0.9);
+      --panel-border: rgba(151, 255, 217, 0.12);
+      --text: #e8f0f7;
+      --muted: #9fb2c5;
+      --soft: #7f93a6;
+      --accent: #6de6d6;
+      --accent-2: #8ef7a9;
+      --amber: #ffb347;
+      --amber-2: #ff8f1f;
+      --red: #ff5261;
+      --cyan: #52dfff;
+      --chip: rgba(255, 255, 255, 0.05);
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+      --radius: 22px;
+      --radius-sm: 16px;
+      --header-h: 78px;
+      --poster-scale: 1;
+      --poster-x: 0px;
+      --poster-y: 0px;
     }
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      color:var(--text);
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
       background:
-        radial-gradient(circle at top, rgba(34,197,94,.12), transparent 28%),
-        radial-gradient(circle at right, rgba(56,189,248,.10), transparent 24%),
-        linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
-      min-height:100vh;
+        radial-gradient(circle at 15% 15%, rgba(82, 223, 255, 0.08), transparent 28%),
+        radial-gradient(circle at 85% 12%, rgba(109, 230, 214, 0.09), transparent 24%),
+        radial-gradient(circle at 50% 85%, rgba(142, 247, 169, 0.05), transparent 28%),
+        linear-gradient(180deg, #040b11 0%, #071018 45%, #06111a 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    a{color:inherit}
-    img{max-width:100%;display:block}
-
-    .page{
-      width:min(1440px,calc(100% - 24px));
-      margin:0 auto;
-      padding:16px 0 48px;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mask-image: radial-gradient(circle at center, black 55%, transparent 100%);
+      opacity: 0.25;
+      z-index: 0;
     }
 
-    .topbar{
-      position:sticky;
-      top:10px;
-      z-index:40;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:14px;
-      flex-wrap:wrap;
-      padding:14px 18px;
-      margin-bottom:18px;
-      border:1px solid var(--border);
-      border-radius:20px;
-      background:rgba(15,23,42,.82);
-      backdrop-filter:blur(14px);
-      box-shadow:var(--shadow);
+    a { color: inherit; text-decoration: none; }
+
+    .site-shell {
+      position: relative;
+      z-index: 1;
     }
 
-    .topbar-left{
-      display:flex;
-      align-items:center;
-      gap:18px;
-      flex-wrap:wrap;
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 18px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: rgba(4, 10, 16, 0.66);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
-    .brand img{
-      height:48px;
-      width:auto;
-      object-fit:contain;
+    .topbar-inner {
+      width: min(1500px, 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
     }
 
-    .nav-links{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
     }
 
-    .nav-links a{
-      text-decoration:none;
-      color:var(--muted);
-      font-size:14px;
-      padding:8px 12px;
-      border-radius:10px;
-      border:1px solid transparent;
-      transition:.15s ease;
+    .brand-logo-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
     }
 
-    .nav-links a:hover{
-      color:var(--text);
-      border-color:var(--border);
-      background:rgba(255,255,255,.04);
+    .brand-logo-wrap:hover {
+      transform: translateY(-1px);
+      border-color: rgba(109, 230, 214, 0.22);
+      background: rgba(255,255,255,0.06);
     }
 
-    .toolbar{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
+    .brand-logo {
+      height: 30px;
+      width: auto;
+      display: block;
+      object-fit: contain;
     }
 
-    .btn,.toggle,select{
-      appearance:none;
-      border:1px solid var(--border);
-      background:rgba(17,24,39,.72);
-      color:var(--text);
-      padding:10px 14px;
-      border-radius:12px;
-      cursor:pointer;
-      transition:transform .15s ease,border-color .15s ease,background .15s ease;
-      font:inherit;
+    .brand-meta {
+      min-width: 0;
     }
 
-    .btn:hover,.toggle:hover,select:hover{
-      transform:translateY(-1px);
-      border-color:rgba(255,255,255,.24);
-      background:rgba(31,41,55,.95);
+    .brand-kicker {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.88;
+      margin-bottom: 2px;
     }
 
-    .toggle.active{
-      background:linear-gradient(135deg, rgba(34,197,94,.22), rgba(56,189,248,.22));
-      border-color:rgba(56,189,248,.45);
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .hero{
-      display:grid;
-      grid-template-columns:minmax(0,1.6fr) minmax(320px,.8fr);
-      gap:18px;
-      margin-bottom:18px;
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
-    .card,.panel-card{
-      background:var(--panel);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(12px);
+    .lang-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
 
-    .hero-card{
-      padding:24px;
+    .lang-btn,
+    .ghost-btn,
+    .pill-btn,
+    .icon-btn,
+    .filter-btn,
+    .list-reset-btn {
+      appearance: none;
+      border: 0;
+      outline: none;
+      cursor: pointer;
+      font: inherit;
+      color: inherit;
     }
 
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color:var(--accent);
-      font-weight:700;
-      margin-bottom:10px;
+    .lang-btn {
+      min-width: 48px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease;
     }
 
-    h1{
-      margin:0 0 10px;
-      font-size:clamp(32px,4vw,54px);
-      line-height:1.02;
-      letter-spacing:-.03em;
+    .lang-btn.active {
+      background: linear-gradient(135deg, rgba(109, 230, 214, 0.18), rgba(82, 223, 255, 0.14));
+      color: var(--text);
+      box-shadow: inset 0 0 0 1px rgba(109, 230, 214, 0.2);
     }
 
-    .hero-card p{
-      margin:0;
-      color:var(--muted);
-      font-size:17px;
-      line-height:1.65;
-      max-width:74ch;
+    .lang-btn:hover { transform: translateY(-1px); }
+
+    .ghost-btn,
+    .pill-btn,
+    .icon-btn,
+    .filter-btn,
+    .list-reset-btn {
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
     }
 
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:12px;
-      padding:18px;
+    .ghost-btn,
+    .pill-btn,
+    .list-reset-btn {
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+      font-weight: 600;
     }
 
-    .stat{
-      background:rgba(17,24,39,.8);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:16px;
+    .ghost-btn:hover,
+    .pill-btn:hover,
+    .list-reset-btn:hover,
+    .filter-btn:hover,
+    .icon-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(109, 230, 214, 0.22);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
     }
 
-    .stat strong{
-      display:block;
-      font-size:26px;
-      margin-bottom:4px;
+    .hero {
+      width: min(1500px, calc(100% - 32px));
+      margin: 22px auto 18px;
+      padding: 28px 28px 24px;
+      border-radius: calc(var(--radius) + 4px);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)),
+        linear-gradient(180deg, rgba(9, 18, 28, 0.84), rgba(6, 13, 22, 0.96));
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
     }
 
-    .stat span{
-      color:var(--muted);
-      font-size:13px;
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: auto auto -160px -80px;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(82,223,255,0.16), transparent 68%);
+      z-index: -1;
     }
 
-    .main-grid{
-      display:grid;
-      grid-template-columns:minmax(0,1.45fr) minmax(340px,.85fr);
-      gap:18px;
-      align-items:start;
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: -140px;
+      right: -90px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(142,247,169,0.12), transparent 70%);
+      z-index: -1;
     }
 
-    .image-card{
-      grid-column:1;
-      padding:16px;
-      position:sticky;
-      top:96px;
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.75fr);
+      gap: 24px;
+      align-items: end;
     }
 
-    .sidebar{
-      grid-column:2;
-      position:sticky;
-      top:96px;
-      display:grid;
-      gap:18px;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.92;
+      margin-bottom: 16px;
     }
 
-    .image-toolbar{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:12px;
-      flex-wrap:wrap;
+    .eyebrow::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(109,230,214,0), rgba(109,230,214,0.9));
     }
 
-    .toolbar-group{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
+    .hero-title {
+      margin: 0;
+      font-size: clamp(2rem, 3vw, 4rem);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      max-width: 13ch;
     }
 
-    .muted{color:var(--muted)}
-
-    .diagram-wrap{
-      position:relative;
-      border-radius:22px;
-      overflow:hidden;
-      background:#0b1020;
-      border:1px solid var(--border);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.03);
-      min-height:calc(100vh - 170px);
+    .hero-subtext {
+      margin: 18px 0 0;
+      max-width: 78ch;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 1rem;
     }
 
-    .poster-title{
-      position:absolute;
-      z-index:12;
-      left:18px;
-      top:92px;
-      max-width:min(64%,720px);
-      background:linear-gradient(135deg, rgba(15,23,42,.92), rgba(17,24,39,.78));
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:18px;
-      padding:14px 16px;
-      box-shadow:0 18px 35px rgba(0,0,0,.22);
-      backdrop-filter:blur(10px);
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
     }
 
-    .poster-title h2{
-      margin:0 0 6px;
-      font-size:clamp(20px,2.3vw,34px);
-      line-height:1.05;
-      letter-spacing:-.03em;
-      color:#fff;
+    .stat-card {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.06);
+      min-height: 104px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
 
-    .poster-title p{
-      margin:0;
-      color:rgba(255,255,255,.82);
-      font-size:13px;
-      line-height:1.5;
+    .stat-label {
+      color: var(--soft);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 700;
     }
 
-    .poster-system-legend{
-      position:absolute;
-      z-index:12;
-      right:18px;
-      top:18px;
-      width:min(250px,28vw);
-      background:rgba(255,255,255,.95);
-      color:#0f172a;
-      border-radius:18px;
-      padding:12px 14px;
-      box-shadow:0 18px 35px rgba(0,0,0,.22);
-      border:1px solid rgba(15,23,42,.08);
+    .stat-value {
+      font-size: clamp(1.35rem, 2vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
     }
 
-    .poster-system-legend h3{
-      margin:0 0 8px;
-      font-size:14px;
-      letter-spacing:.04em;
-      text-transform:uppercase;
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
     }
 
-    .poster-system-legend ul{
-      list-style:none;
-      margin:0;
-      padding:0;
-      display:grid;
-      gap:8px;
+    .main-layout {
+      width: min(1500px, calc(100% - 32px));
+      margin: 0 auto 42px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(320px, 460px);
+      gap: 22px;
+      align-items: start;
     }
 
-    .poster-system-legend li{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      font-size:12px;
-      line-height:1.35;
-      color:#334155;
+    .poster-column {
+      position: sticky;
+      top: calc(var(--header-h) + 18px);
+      align-self: start;
     }
 
-    .legend-chip{
-      width:10px;
-      height:10px;
-      border-radius:999px;
-      flex:0 0 auto;
+    .poster-card,
+    .panel-card {
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(12, 22, 34, 0.82), rgba(7, 14, 22, 0.94));
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
     }
 
-    .zoom-shell{
-      width:100%;
-      overflow:hidden;
-      background:radial-gradient(circle at top, rgba(255,255,255,.04), transparent 30%),#0b1020;
-      height:100%;
+    .poster-card {
+      padding: 18px;
+      min-height: calc(100vh - var(--header-h) - 42px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
 
-    #diagramParallax{
-      will-change:transform;
-      transition:transform .18s ease-out;
+    .poster-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(82,223,255,0.08), transparent 26%),
+        radial-gradient(circle at 85% 12%, rgba(142,247,169,0.06), transparent 24%);
+      opacity: 0.75;
     }
 
-    #zoomTarget{
-      position:relative;
-      transform-origin:center center;
-      width:100%;
-      transition:transform .22s ease;
+    .poster-toolbar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    #diagramImage{
-      width:100%;
-      height:auto;
-      display:block;
-      user-select:none;
-      pointer-events:none;
+    .poster-toolbar-left,
+    .poster-toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .hotspot{
-      position:absolute;
-      transform:translate(-50%,-50%);
-      width:34px;
-      height:34px;
-      border-radius:999px;
-      border:2px solid rgba(255,255,255,.96);
-      background:rgba(245,158,11,.95);
-      box-shadow:0 0 0 8px rgba(245,158,11,.18),0 6px 20px rgba(0,0,0,.35);
-      display:grid;
-      place-items:center;
-      color:#111827;
-      font-weight:800;
-      font-size:13px;
-      cursor:pointer;
-      transition:transform .16s ease,box-shadow .16s ease,background .16s ease,opacity .16s ease;
+    .kicker-chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
-    .hotspot:hover,.hotspot.active{
-      transform:translate(-50%,-50%) scale(1.08);
-      box-shadow:0 0 0 10px rgba(56,189,248,.18),0 10px 26px rgba(0,0,0,.42);
-      background:rgba(56,189,248,.96);
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
 
-    .hotspot.stair-hotspot{
-      width:42px;
-      height:42px;
-      background:var(--danger);
-      color:#fff;
-      border-width:3px;
-      box-shadow:0 0 0 10px rgba(239,68,68,.18),0 8px 24px rgba(0,0,0,.4);
-      animation:stairPulse 2s ease-in-out infinite;
+    .poster-stage {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      min-height: 0;
+      border-radius: 20px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+        rgba(2, 8, 13, 0.7);
+      border: 1px solid rgba(255,255,255,0.06);
     }
 
-    .hotspot.stair-hotspot:hover,.hotspot.stair-hotspot.active{
-      background:#f97316;
-      box-shadow:0 0 0 12px rgba(249,115,22,.22),0 10px 28px rgba(0,0,0,.45);
+    .poster-inner {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(82,223,255,0.06), transparent 40%),
+        linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.16));
     }
 
-    @keyframes stairPulse{
-      0%,100%{
-        box-shadow:0 0 0 0 rgba(249,115,22,0),0 0 0 10px rgba(239,68,68,.18),0 8px 24px rgba(0,0,0,.4)
+    .poster-viewport {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      cursor: default;
+    }
+
+    .poster-media {
+      position: absolute;
+      inset: 0;
+      transform: translate(var(--poster-x), var(--poster-y)) scale(var(--poster-scale));
+      transform-origin: center center;
+      transition: transform 220ms ease;
+      will-change: transform;
+    }
+
+    .poster-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+      filter: saturate(1.03) contrast(1.02);
+    }
+
+    .poster-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+        radial-gradient(circle at center, rgba(82,223,255,0.03), transparent 45%);
+      mix-blend-mode: screen;
+    }
+
+    .poster-grid-hint {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.22;
+      mask-image: radial-gradient(circle at center, black 32%, transparent 88%);
+    }
+
+    .hotspot-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hotspot {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      transform: translate(-50%, -50%);
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,0.5);
+      background:
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,0.85), rgba(255,255,255,0.18) 28%, transparent 35%),
+        radial-gradient(circle at center, var(--amber), var(--amber-2));
+      box-shadow:
+        0 0 0 1px rgba(255, 179, 71, 0.25),
+        0 0 18px rgba(255, 143, 31, 0.32),
+        0 8px 18px rgba(0,0,0,0.25);
+      pointer-events: auto;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+      z-index: 4;
+    }
+
+    .hotspot::before {
+      content: "";
+      position: absolute;
+      inset: -12px;
+      border-radius: inherit;
+      border: 1px dashed rgba(255,255,255,0.06);
+      opacity: 0.55;
+    }
+
+    .hotspot::after {
+      content: attr(data-number);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 10px;
+      font-weight: 800;
+      color: #071018;
+      text-shadow: none;
+    }
+
+    .hotspot:hover {
+      transform: translate(-50%, -50%) scale(1.08);
+      border-color: rgba(82,223,255,0.95);
+      box-shadow:
+        0 0 0 1px rgba(82,223,255,0.45),
+        0 0 25px rgba(82,223,255,0.35),
+        0 8px 18px rgba(0,0,0,0.25);
+      background:
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,0.92), rgba(255,255,255,0.22) 28%, transparent 35%),
+        radial-gradient(circle at center, #8be8ff, #2bcaff);
+    }
+
+    .hotspot.active {
+      transform: translate(-50%, -50%) scale(1.1);
+      border-color: rgba(109,230,214,0.98);
+      box-shadow:
+        0 0 0 2px rgba(109,230,214,0.35),
+        0 0 30px rgba(109,230,214,0.4),
+        0 12px 22px rgba(0,0,0,0.25);
+      background:
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,0.95), rgba(255,255,255,0.24) 28%, transparent 35%),
+        radial-gradient(circle at center, #9df8c8, #31d6bb);
+    }
+
+    .hotspot.stair {
+      width: 42px;
+      height: 42px;
+      border-color: rgba(255,255,255,0.65);
+      background:
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,0.92), rgba(255,255,255,0.18) 28%, transparent 35%),
+        radial-gradient(circle at center, #ff8793, #ff3b4d 68%, #bb0a27 100%);
+      box-shadow:
+        0 0 0 2px rgba(255, 82, 97, 0.25),
+        0 0 22px rgba(255, 82, 97, 0.46),
+        0 0 44px rgba(255, 82, 97, 0.18),
+        0 10px 24px rgba(0,0,0,0.28);
+      animation: stairPulse 2.2s ease-in-out infinite;
+    }
+
+    .hotspot.stair::before {
+      inset: -18px;
+      border: 1px solid rgba(255,82,97,0.2);
+      opacity: 0.95;
+      animation: stairHalo 2.2s ease-in-out infinite;
+    }
+
+    .hotspot.stair::after {
+      color: white;
+      font-size: 11px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+    }
+
+    .hotspot.stair:hover,
+    .hotspot.stair.active {
+      border-color: rgba(255,255,255,0.95);
+      box-shadow:
+        0 0 0 2px rgba(82,223,255,0.25),
+        0 0 28px rgba(255,82,97,0.62),
+        0 0 54px rgba(255,82,97,0.24),
+        0 12px 26px rgba(0,0,0,0.3);
+    }
+
+    @keyframes stairPulse {
+      0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
       }
-      50%{
-        box-shadow:0 0 0 18px rgba(249,115,22,.10),0 0 0 12px rgba(239,68,68,.28),0 8px 24px rgba(0,0,0,.45)
+      50% {
+        transform: translate(-50%, -50%) scale(1.08);
       }
     }
 
-    .hotspot.hidden-by-filter{display:none}
-
-    .legend{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-      gap:10px;
-      margin-top:12px;
+    @keyframes stairHalo {
+      0% {
+        transform: scale(0.78);
+        opacity: 0.7;
+      }
+      70% {
+        transform: scale(1.22);
+        opacity: 0.06;
+      }
+      100% {
+        transform: scale(1.28);
+        opacity: 0;
+      }
     }
 
-    .legend-item{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 12px;
-      background:rgba(17,24,39,.75);
-      border:1px solid var(--border);
-      border-radius:14px;
-      color:var(--muted);
-      font-size:14px;
+    .poster-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
     }
 
-    .legend-dot{
-      width:12px;
-      height:12px;
-      border-radius:999px;
-      background:var(--warning);
-      box-shadow:0 0 0 4px rgba(245,158,11,.15);
+    .poster-caption-main {
+      min-width: 0;
     }
 
-    .panel-card{
-      padding:20px;
+    .poster-caption-title {
+      margin: 0 0 4px;
+      font-size: 1rem;
+      font-weight: 700;
     }
 
-    .panel-head{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:start;
-      margin-bottom:14px;
+    .poster-caption-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
     }
 
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-size:12px;
-      color:var(--accent2);
-      border:1px solid rgba(56,189,248,.25);
-      background:rgba(56,189,248,.08);
-      padding:7px 10px;
-      border-radius:999px;
-      white-space:nowrap;
+    .poster-legend {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
 
-    h2,h3{
-      margin:0;
-      letter-spacing:-.02em;
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 8px;
+      vertical-align: middle;
     }
 
-    #systemTitle{
-      font-size:clamp(24px,2vw,30px);
-      margin-bottom:6px;
+    .legend-dot.standard {
+      background: radial-gradient(circle at 35% 35%, #fff2d7, #ffb347);
+      box-shadow: 0 0 14px rgba(255,179,71,0.25);
     }
 
-    .meta-grid{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:10px;
-      margin:16px 0;
+    .legend-dot.stair {
+      background: radial-gradient(circle at 35% 35%, #ffd1d6, #ff5261);
+      box-shadow: 0 0 16px rgba(255,82,97,0.38);
     }
 
-    .meta-card{
-      padding:12px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      background:rgba(17,24,39,.72);
+    .side-column {
+      position: sticky;
+      top: calc(var(--header-h) + 18px);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-height: calc(100vh - var(--header-h) - 24px);
+      overflow: auto;
+      padding-right: 2px;
     }
 
-    .meta-card span{
-      display:block;
-      color:var(--muted);
-      font-size:12px;
-      margin-bottom:4px;
-      text-transform:uppercase;
-      letter-spacing:.08em;
+    .side-column::-webkit-scrollbar {
+      width: 10px;
     }
 
-    .meta-card strong{
-      font-size:14px;
-      line-height:1.45;
+    .side-column::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
     }
 
-    .section-title{
-      font-size:13px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.1em;
-      margin:18px 0 10px;
-      font-weight:700;
+    .panel-card {
+      padding: 20px;
     }
 
-    .bullet-list{
-      margin:0;
-      padding-left:18px;
-      line-height:1.65;
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
-    .bullet-list li+li{margin-top:6px}
-
-    .search-wrap{
-      position:relative;
-      margin-bottom:12px;
+    .panel-kicker {
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
     }
 
-    .search-wrap input{
-      width:100%;
-      padding:12px 14px 12px 42px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      background:rgba(17,24,39,.75);
-      color:var(--text);
-      font:inherit;
+    .component-title {
+      margin: 0;
+      font-size: 1.45rem;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
     }
 
-    .search-wrap svg{
-      position:absolute;
-      left:14px;
-      top:50%;
-      transform:translateY(-50%);
-      width:18px;
-      height:18px;
-      opacity:.72;
+    .component-id-badge {
+      flex: 0 0 auto;
+      min-width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      background: linear-gradient(135deg, rgba(109,230,214,0.18), rgba(82,223,255,0.12));
+      border: 1px solid rgba(109,230,214,0.18);
+      color: var(--text);
     }
 
-    .component-list{
-      display:grid;
-      gap:10px;
-      max-height:560px;
-      overflow:auto;
-      padding-right:4px;
+    .component-short {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.98rem;
     }
 
-    .component-item{
-      width:100%;
-      text-align:left;
-      border:1px solid var(--border);
-      background:rgba(17,24,39,.74);
-      border-radius:16px;
-      padding:14px;
-      color:var(--text);
-      cursor:pointer;
-      transition:transform .14s ease,border-color .14s ease,background .14s ease;
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
     }
 
-    .component-item:hover,.component-item.active{
-      transform:translateY(-1px);
-      background:rgba(31,41,55,.98);
-      border-color:rgba(56,189,248,.35);
+    .meta-card {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.06);
+      min-height: 100px;
     }
 
-    .component-item strong{
-      display:block;
-      margin-bottom:6px;
-      font-size:15px;
+    .meta-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--soft);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 8px;
     }
 
-    .component-item span{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.5;
+    .meta-value {
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 0.95rem;
     }
 
-    .sr-only{
-      position:absolute;
-      width:1px;
-      height:1px;
-      padding:0;
-      margin:-1px;
-      overflow:hidden;
-      clip:rect(0,0,0,0);
-      white-space:nowrap;
-      border:0;
+    .summary-blocks {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
     }
 
-    @media (max-width:1100px){
-      .hero,.main-grid{grid-template-columns:1fr}
-      .image-card,.sidebar{position:static}
-      .nav-links{width:100%}
+    .summary-card {
+      padding: 15px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
     }
 
-    @media (max-width:680px){
-      .page{width:min(100%,calc(100% - 16px))}
-      .stats,.meta-grid{grid-template-columns:1fr}
-      .image-toolbar{flex-direction:column;align-items:stretch}
-      .hotspot{width:30px;height:30px;font-size:12px}
-      .poster-title{top:78px;max-width:76%}
-      .poster-system-legend{position:static;width:auto;margin:12px;border-radius:16px}
-      .poster-title h2{font-size:20px}
-      .poster-title p{font-size:12px}
+    .summary-title {
+      margin: 0 0 8px;
+      font-size: 12px;
+      color: var(--soft);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+    }
+
+    .summary-text {
+      margin: 0;
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 0.96rem;
+    }
+
+    .feature-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .feature-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.95rem;
+    }
+
+    .feature-list li::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      margin-top: 0.46em;
+      flex: 0 0 auto;
+      background: radial-gradient(circle at 35% 35%, #dffcf4, #6de6d6);
+      box-shadow: 0 0 12px rgba(109,230,214,0.35);
+    }
+
+    .catalog-tools {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .catalog-topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .catalog-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 50px;
+      padding: 0 16px 0 44px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.035);
+      color: var(--text);
+      outline: none;
+      font: inherit;
+      transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .search-input::placeholder {
+      color: #7c8ea0;
+    }
+
+    .search-input:focus {
+      border-color: rgba(82,223,255,0.38);
+      box-shadow: 0 0 0 4px rgba(82,223,255,0.08);
+      background: rgba(255,255,255,0.045);
+    }
+
+    .search-wrap::before {
+      content: "⌕";
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--soft);
+      font-size: 18px;
+      pointer-events: none;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.83rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .filter-btn.active {
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(109,230,214,0.16), rgba(82,223,255,0.12));
+      border-color: rgba(109,230,214,0.18);
+    }
+
+    .catalog-list {
+      display: grid;
+      gap: 10px;
+      max-height: 520px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .catalog-list::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .catalog-list::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+
+    .catalog-item {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      text-align: left;
+      color: var(--text);
+    }
+
+    .catalog-item.hidden {
+      display: none;
+    }
+
+    .catalog-item.active {
+      background: linear-gradient(135deg, rgba(109,230,214,0.11), rgba(82,223,255,0.08));
+      border-color: rgba(109,230,214,0.18);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .catalog-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .catalog-copy {
+      min-width: 0;
+    }
+
+    .catalog-title {
+      margin: 0 0 5px;
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .catalog-short {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+
+    .catalog-tag {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--soft);
+      font-size: 0.73rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .empty-state {
+      display: none;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px dashed rgba(255,255,255,0.1);
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .empty-state.show {
+      display: block;
+    }
+
+    .fullscreen-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(2, 8, 13, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .fullscreen-modal.show {
+      display: flex;
+    }
+
+    .fullscreen-inner {
+      position: relative;
+      width: min(96vw, 1700px);
+      height: min(92vh, 980px);
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 35px 100px rgba(0,0,0,0.48);
+      background: linear-gradient(180deg, rgba(8,16,25,0.96), rgba(4,9,14,0.98));
+    }
+
+    .fullscreen-topbar {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 14px;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .fullscreen-stage {
+      position: absolute;
+      inset: 0;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 1160px) {
+      .hero-grid,
+      .main-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .poster-column,
+      .side-column {
+        position: relative;
+        top: 0;
+      }
+
+      .poster-card {
+        min-height: 72vh;
+      }
+
+      .side-column {
+        max-height: none;
+        overflow: visible;
+      }
+
+      .hero-title {
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      :root {
+        --header-h: 88px;
+      }
+
+      .topbar {
+        height: auto;
+        min-height: var(--header-h);
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        gap: 12px;
+        flex-direction: column;
+      }
+
+      .topbar-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .hero,
+      .main-layout {
+        width: min(100% - 20px, 1500px);
+      }
+
+      .hero {
+        padding: 22px 18px 18px;
+      }
+
+      .hero-stats,
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .poster-card,
+      .panel-card {
+        border-radius: 18px;
+      }
+
+      .poster-card {
+        min-height: 64vh;
+        padding: 14px;
+      }
+
+      .catalog-item {
+        grid-template-columns: auto 1fr;
+      }
+
+      .catalog-tag {
+        grid-column: 1 / -1;
+        justify-self: start;
+      }
+
+      .poster-toolbar {
+        align-items: flex-start;
+      }
+
+      .poster-caption {
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="topbar">
-      <div class="topbar-left">
-        <a class="brand" href="https://www.modulimo.com" target="_blank" rel="noopener">
-          <img src="images/modulimo-logo.png" alt="Modulimo logo">
+  <div class="site-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="https://www.modulimo.com" target="_blank" rel="noopener noreferrer" aria-label="Modulimo">
+          <span class="brand-logo-wrap">
+            <img class="brand-logo" src="images/modulimo-logo.png" alt="Modulimo" />
+          </span>
+          <span class="brand-meta">
+            <span class="brand-kicker" data-i18n="header.kicker">Deep-tech project</span>
+            <span class="brand-title" data-i18n="header.title">Bunker forestier autosuffisant | Modulimo</span>
+          </span>
         </a>
 
-        <nav class="nav-links">
-          <a href="#affiche" id="navPoster">Affiche</a>
-          <a href="#composantes" id="navSystems">Composantes</a>
-          <a href="#projet" id="navProject">Projet</a>
-        </nav>
-      </div>
-
-      <div class="toolbar">
-        <button class="toggle active" id="langFrBtn" type="button">FR</button>
-        <button class="toggle" id="langEnBtn" type="button">EN</button>
-        <button class="btn" id="focusToggle" type="button">Mode focus</button>
-        <button class="btn" id="resetView" type="button">Réinitialiser</button>
-      </div>
-    </div>
-
-    <section class="hero" id="projet">
-      <div class="card hero-card">
-        <div class="eyebrow" id="eyebrow">Infographie interactive</div>
-        <h1 id="mainTitle">Bunker forestier autosuffisant</h1>
-        <p id="subtitle">Explore chaque composante du projet : forêt nourricière, trois escaliers d’accès, noyau sécurisé, agriculture souterraine, recyclage de l’eau, énergie solaire, batterie au sable, compost thermique et ventilation bioclimatique.</p>
-      </div>
-
-      <div class="card stats">
-        <div class="stat"><strong>30</strong><span id="stat1Label">personnes</span></div>
-        <div class="stat"><strong>3</strong><span id="stat2Label">accès visibles</span></div>
-        <div class="stat"><strong>2</strong><span id="stat3Label">niveaux souterrains</span></div>
-        <div class="stat"><strong>FR / EN</strong><span id="stat4Label">traduction intégrée</span></div>
-      </div>
-    </section>
-
-    <section class="main-grid">
-      <article class="card image-card" id="affiche">
-        <div class="image-toolbar">
-          <div class="toolbar-group">
-            <label class="muted" for="categoryFilter" id="filterLabel">Filtrer :</label>
-            <select id="categoryFilter"></select>
+        <div class="topbar-actions">
+          <div class="lang-switch" role="group" aria-label="Language switcher">
+            <button class="lang-btn active" type="button" data-lang="fr">FR</button>
+            <button class="lang-btn" type="button" data-lang="en">EN</button>
           </div>
+          <button class="ghost-btn" type="button" id="headerFullscreenBtn" data-i18n="header.fullscreen">
+            Affiche plein écran
+          </button>
+        </div>
+      </div>
+    </header>
 
-          <div class="toolbar-group">
-            <button class="btn" id="zoomOut" type="button">−</button>
-            <button class="btn" id="zoomIn" type="button">＋</button>
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow" data-i18n="hero.eyebrow">Infographie interactive</div>
+          <h1 class="hero-title" data-i18n="hero.title">Bunker forestier autosuffisant</h1>
+          <p class="hero-subtext" data-i18n="hero.subtext">
+            Explore chaque composante du projet : forêt nourricière, trois escaliers d’accès, noyau sécurisé, agriculture souterraine, recyclage de l’eau, énergie solaire, batterie au sable, compost thermique et ventilation bioclimatique.
+          </p>
+          <div class="hero-cta-row">
+            <button class="pill-btn" type="button" id="heroResetBtn" data-i18n="hero.reset">Réinitialiser l’exploration</button>
+            <button class="pill-btn" type="button" id="heroFocusAccessBtn" data-filter-shortcut="access" data-i18n="hero.focusAccess">Voir les accès</button>
           </div>
         </div>
 
-        <div class="diagram-wrap">
-          <div class="poster-title">
-            <h2 id="posterTitleMain">Bunker forestier autosuffisant</h2>
-            <p id="posterTitleSub">Écosystème souterrain pour 30 personnes • Surface discrète • Production alimentaire • Énergie et recyclage</p>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="stats.peopleLabel">Capacité</span>
+            <span class="stat-value" data-i18n="stats.peopleValue">30 personnes</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="stats.accessLabel">Entrées</span>
+            <span class="stat-value" data-i18n="stats.accessValue">3 accès visibles</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="stats.levelsLabel">Structure</span>
+            <span class="stat-value" data-i18n="stats.levelsValue">2 niveaux souterrains</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="main-layout">
+      <section class="poster-column">
+        <div class="poster-card">
+          <div class="poster-toolbar">
+            <div class="poster-toolbar-left">
+              <span class="kicker-chip" data-i18n="poster.kicker">Affiche interactive</span>
+              <button class="list-reset-btn" type="button" id="resetBtn" data-i18n="poster.reset">Réinitialiser</button>
+            </div>
+
+            <div class="poster-toolbar-right">
+              <button class="icon-btn" type="button" id="zoomOutBtn" aria-label="Zoom out">−</button>
+              <button class="icon-btn" type="button" id="zoomInBtn" aria-label="Zoom in">+</button>
+              <button class="pill-btn" type="button" id="posterFullscreenBtn" data-i18n="poster.fullscreen">
+                Plein écran
+              </button>
+            </div>
           </div>
 
-          <div class="poster-system-legend">
-            <h3 id="posterLegendTitle">Systèmes</h3>
-            <ul>
-              <li><span class="legend-chip" style="background:#22c55e"></span><span id="posterLegend1">Forêt nourricière et surface discrète</span></li>
-              <li><span class="legend-chip" style="background:#ef4444"></span><span id="posterLegend2">Trois escaliers sécurisés</span></li>
-              <li><span class="legend-chip" style="background:#38bdf8"></span><span id="posterLegend3">Habitation et noyau central</span></li>
-              <li><span class="legend-chip" style="background:#a855f7"></span><span id="posterLegend4">Agriculture, aquaponie et élevages</span></li>
-              <li><span class="legend-chip" style="background:#f59e0b"></span><span id="posterLegend5">Eau propre, eau grise, ruissellement et énergie</span></li>
-            </ul>
-          </div>
-
-          <div class="zoom-shell" id="zoomShell">
-            <div id="diagramParallax">
-              <div id="zoomTarget">
-                <img id="diagramImage" src="images/bunker-diagram_V1.png" alt="Affiche interactive du bunker forestier autosuffisant">
+          <div class="poster-stage" id="posterStage">
+            <div class="poster-inner">
+              <div class="poster-viewport" id="posterViewport">
+                <div class="poster-media" id="posterMedia">
+                  <img
+                    class="poster-image"
+                    src="images/bunker-diagram_V2.png"
+                    alt="Diagramme interactif du bunker forestier autosuffisant"
+                    id="posterImage"
+                  />
+                  <div class="poster-grid-hint"></div>
+                  <div class="hotspot-layer" id="hotspotLayer"></div>
+                  <div class="poster-overlay"></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="legend" id="legend"></div>
-      </article>
-
-      <aside class="sidebar" id="composantes">
-        <section class="panel-card" aria-live="polite">
-          <div class="panel-head">
-            <div>
-              <div class="eyebrow" id="panelEyebrow">Composante sélectionnée</div>
-              <h2 id="systemTitle"></h2>
-              <div class="muted" id="systemSummary"></div>
+          <div class="poster-caption">
+            <div class="poster-caption-main">
+              <h2 class="poster-caption-title" data-i18n="poster.captionTitle">Lecture du système</h2>
+              <p class="poster-caption-text" data-i18n="poster.captionText">
+                Cliquez sur un point du schéma ou sur une composante du catalogue pour afficher sa fiche détaillée.
+              </p>
             </div>
-            <div class="pill" id="systemCategory"></div>
+
+            <div class="poster-legend">
+              <span><span class="legend-dot standard"></span><span data-i18n="poster.legendStandard">Composantes</span></span>
+              <span><span class="legend-dot stair"></span><span data-i18n="poster.legendStairs">Escaliers A / B / C</span></span>
+            </div>
           </div>
+        </div>
+      </section>
+
+      <aside class="side-column">
+        <section class="panel-card">
+          <div class="panel-header">
+            <div>
+              <div class="panel-kicker" data-i18n="detail.kicker">Fiche de composante</div>
+              <h2 class="component-title" id="componentTitle">Escalier A – accès principal</h2>
+            </div>
+            <div class="component-id-badge" id="componentBadge">01</div>
+          </div>
+
+          <p class="component-short" id="componentShort"></p>
 
           <div class="meta-grid">
             <div class="meta-card">
-              <span id="metaRoleLabel">Rôle</span>
-              <strong id="metaRole"></strong>
+              <span class="meta-label" data-i18n="detail.category">Catégorie</span>
+              <div class="meta-value" id="componentCategory"></div>
             </div>
             <div class="meta-card">
-              <span id="metaBenefitsLabel">Bénéfices</span>
-              <strong id="metaBenefits"></strong>
+              <span class="meta-label" data-i18n="detail.role">Rôle</span>
+              <div class="meta-value" id="componentRole"></div>
             </div>
           </div>
 
-          <div class="section-title" id="featuresLabel">Caractéristiques</div>
-          <ul class="bullet-list" id="featuresList"></ul>
+          <div class="summary-blocks">
+            <div class="summary-card">
+              <h3 class="summary-title" data-i18n="detail.benefits">Bénéfices</h3>
+              <p class="summary-text" id="componentBenefits"></p>
+            </div>
 
-          <div class="section-title" id="notesLabel">Résumé technique</div>
-          <p class="muted" id="systemDetails" style="margin:0;line-height:1.75"></p>
+            <div class="summary-card">
+              <h3 class="summary-title" data-i18n="detail.summary">Résumé</h3>
+              <p class="summary-text" id="componentDetails"></p>
+            </div>
+
+            <div class="summary-card">
+              <h3 class="summary-title" data-i18n="detail.features">Caractéristiques</h3>
+              <ul class="feature-list" id="componentFeatures"></ul>
+            </div>
+
+            <div class="summary-card">
+              <h3 class="summary-title" data-i18n="detail.tech">Résumé technique</h3>
+              <p class="summary-text" id="componentTechnical"></p>
+            </div>
+          </div>
         </section>
 
         <section class="panel-card">
-          <div class="panel-head">
+          <div class="panel-header">
             <div>
-              <div class="eyebrow" id="catalogEyebrow">Catalogue interactif</div>
-              <h3 id="catalogTitle">Toutes les composantes</h3>
+              <div class="panel-kicker" data-i18n="catalog.kicker">Catalogue interactif</div>
+              <h2 class="component-title" style="font-size:1.26rem;" data-i18n="catalog.title">Catalogue interactif</h2>
             </div>
-            <div class="pill" id="countPill"></div>
           </div>
 
-          <div class="search-wrap">
-            <span class="sr-only">Recherche</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="7"></circle>
-              <path d="M20 20l-3.5-3.5"></path>
-            </svg>
-            <input id="searchInput" type="text">
+          <div class="catalog-tools">
+            <div class="catalog-topline">
+              <div class="catalog-count">
+                <span data-i18n="catalog.countLabel">Éléments affichés</span>
+                <strong id="catalogCount">17</strong>
+              </div>
+              <button class="list-reset-btn" type="button" id="catalogResetBtn" data-i18n="catalog.reset">
+                Réinitialiser
+              </button>
+            </div>
+
+            <div class="search-wrap">
+              <label class="sr-only" for="searchInput">Recherche</label>
+              <input class="search-input" id="searchInput" type="search" autocomplete="off" />
+            </div>
+
+            <div class="filter-row" id="filterRow"></div>
           </div>
 
-          <div class="component-list" id="componentList"></div>
+          <div class="catalog-list" id="catalogList"></div>
+          <div class="empty-state" id="emptyState" data-i18n="catalog.empty">
+            Aucune composante ne correspond à la recherche ou au filtre sélectionné.
+          </div>
         </section>
       </aside>
-    </section>
+    </main>
+  </div>
+
+  <div class="fullscreen-modal" id="fullscreenModal" aria-hidden="true">
+    <div class="fullscreen-inner">
+      <div class="fullscreen-topbar">
+        <div class="poster-toolbar-left">
+          <span class="kicker-chip" data-i18n="fullscreen.kicker">Mode plein écran</span>
+        </div>
+        <div class="poster-toolbar-right">
+          <button class="icon-btn" type="button" id="fullscreenZoomOut" aria-label="Zoom out">−</button>
+          <button class="icon-btn" type="button" id="fullscreenZoomIn" aria-label="Zoom in">+</button>
+          <button class="pill-btn" type="button" id="closeFullscreenBtn" data-i18n="fullscreen.close">Fermer</button>
+        </div>
+      </div>
+
+      <div class="fullscreen-stage">
+        <div class="poster-inner">
+          <div class="poster-viewport" id="fullscreenViewport">
+            <div class="poster-media" id="fullscreenMedia">
+              <img
+                class="poster-image"
+                src="images/bunker-diagram_V2.png"
+                alt="Diagramme interactif plein écran du bunker forestier autosuffisant"
+              />
+              <div class="poster-grid-hint"></div>
+              <div class="hotspot-layer" id="fullscreenHotspotLayer"></div>
+              <div class="poster-overlay"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
-    const data = {
+    const translations = {
       fr: {
-        ui: {
-          eyebrow: "Infographie interactive",
-          mainTitle: "Bunker forestier autosuffisant",
-          subtitle: "Explore chaque composante du projet : forêt nourricière, trois escaliers d’accès, noyau sécurisé, agriculture souterraine, recyclage de l’eau, énergie solaire, batterie au sable, compost thermique et ventilation bioclimatique.",
-          stat1Label: "personnes",
-          stat2Label: "accès visibles",
-          stat3Label: "niveaux souterrains",
-          stat4Label: "traduction intégrée",
-          filterLabel: "Filtrer :",
-          focusOn: "Mode focus",
-          focusOff: "Quitter le focus",
-          resetView: "Réinitialiser",
-          panelEyebrow: "Composante sélectionnée",
-          roleLabel: "Rôle",
-          benefitsLabel: "Bénéfices",
-          featuresLabel: "Caractéristiques",
-          notesLabel: "Résumé technique",
-          catalogEyebrow: "Catalogue interactif",
-          catalogTitle: "Toutes les composantes",
-          searchPlaceholder: "Rechercher une composante…",
-          countSingle: "élément",
-          countPlural: "éléments",
-          navPoster: "Affiche",
-          navSystems: "Composantes",
-          navProject: "Projet",
-          posterTitleMain: "Bunker forestier autosuffisant",
-          posterTitleSub: "Écosystème souterrain pour 30 personnes • Surface discrète • Production alimentaire • Énergie et recyclage",
-          posterLegendTitle: "Systèmes",
-          posterLegend1: "Forêt nourricière et surface discrète",
-          posterLegend2: "Trois escaliers sécurisés",
-          posterLegend3: "Habitation et noyau central",
-          posterLegend4: "Agriculture, aquaponie et élevages",
-          posterLegend5: "Eau propre, eau grise, ruissellement et énergie",
-          categories: {
-            all: "Toutes les composantes",
-            surface: "Surface",
-            access: "Accès et sécurité",
-            living: "Habitation",
-            agriculture: "Agriculture",
-            resources: "Ressources"
-          }
+        header: {
+          kicker: "Infographie premium",
+          title: "Bunker forestier autosuffisant | Modulimo",
+          fullscreen: "Affiche plein écran"
         },
-        legend: [
-          { color:"#f59e0b", label:"Cliquer sur un point pour ouvrir un résumé" },
-          { color:"#ef4444", label:"Les 3 escaliers sont accentués en rouge" },
-          { color:"#22c55e", label:"Filtrer par catégorie pour simplifier la lecture" }
-        ]
+        hero: {
+          eyebrow: "Infographie interactive",
+          title: "Bunker forestier autosuffisant",
+          subtext: "Explore chaque composante du projet : forêt nourricière, trois escaliers d’accès, noyau sécurisé, agriculture souterraine, recyclage de l’eau, énergie solaire, batterie au sable, compost thermique et ventilation bioclimatique.",
+          reset: "Réinitialiser l’exploration",
+          focusAccess: "Voir les accès"
+        },
+        stats: {
+          peopleLabel: "Capacité",
+          peopleValue: "30 personnes",
+          accessLabel: "Entrées",
+          accessValue: "3 accès visibles",
+          levelsLabel: "Structure",
+          levelsValue: "2 niveaux souterrains"
+        },
+        poster: {
+          kicker: "Affiche interactive",
+          reset: "Réinitialiser",
+          fullscreen: "Plein écran",
+          captionTitle: "Lecture du système",
+          captionText: "Cliquez sur un point du schéma ou sur une composante du catalogue pour afficher sa fiche détaillée.",
+          legendStandard: "Composantes",
+          legendStairs: "Escaliers A / B / C"
+        },
+        detail: {
+          kicker: "Fiche de composante",
+          category: "Catégorie",
+          role: "Rôle",
+          benefits: "Bénéfices",
+          summary: "Résumé",
+          features: "Caractéristiques",
+          tech: "Résumé technique"
+        },
+        catalog: {
+          kicker: "Catalogue interactif",
+          title: "Catalogue interactif",
+          countLabel: "Éléments affichés",
+          reset: "Réinitialiser",
+          searchPlaceholder: "Rechercher une composante, un usage ou un mot-clé…",
+          empty: "Aucune composante ne correspond à la recherche ou au filtre sélectionné."
+        },
+        fullscreen: {
+          kicker: "Mode plein écran",
+          close: "Fermer"
+        },
+        categories: {
+          all: "Toutes",
+          access: "Accès",
+          surface: "Surface",
+          living: "Vie",
+          agriculture: "Agriculture",
+          resources: "Ressources"
+        }
       },
       en: {
-        ui: {
-          eyebrow: "Interactive infographic",
-          mainTitle: "Self-sufficient forest bunker",
-          subtitle: "Explore every system in the project: food forest, three access stairs, secure core, underground agriculture, water recycling, solar energy, sand battery, thermal compost and bioclimatic ventilation.",
-          stat1Label: "people",
-          stat2Label: "visible access shafts",
-          stat3Label: "underground levels",
-          stat4Label: "built-in translation",
-          filterLabel: "Filter:",
-          focusOn: "Focus mode",
-          focusOff: "Exit focus",
-          resetView: "Reset",
-          panelEyebrow: "Selected component",
-          roleLabel: "Role",
-          benefitsLabel: "Benefits",
-          featuresLabel: "Key features",
-          notesLabel: "Technical summary",
-          catalogEyebrow: "Interactive catalog",
-          catalogTitle: "All components",
-          searchPlaceholder: "Search a component…",
-          countSingle: "item",
-          countPlural: "items",
-          navPoster: "Poster",
-          navSystems: "Systems",
-          navProject: "Project",
-          posterTitleMain: "Self-sufficient forest bunker",
-          posterTitleSub: "Underground ecosystem for 30 people • Discreet surface • Food production • Energy and recycling",
-          posterLegendTitle: "Systems",
-          posterLegend1: "Food forest and discreet surface",
-          posterLegend2: "Three secure stair accesses",
-          posterLegend3: "Living level and secure core",
-          posterLegend4: "Agriculture, aquaponics and breeding",
-          posterLegend5: "Clean water, greywater, runoff and energy",
-          categories: {
-            all: "All components",
-            surface: "Surface",
-            access: "Access & safety",
-            living: "Living area",
-            agriculture: "Agriculture",
-            resources: "Resources"
-          }
+        header: {
+          kicker: "Premium infographic",
+          title: "Self-sufficient forest bunker | Modulimo",
+          fullscreen: "Fullscreen poster"
         },
-        legend: [
-          { color:"#f59e0b", label:"Click a marker to open a summary" },
-          { color:"#ef4444", label:"The 3 stairs are emphasized in red" },
-          { color:"#22c55e", label:"Filter by category to simplify the view" }
-        ]
+        hero: {
+          eyebrow: "Interactive infographic",
+          title: "Self-sufficient forest bunker",
+          subtext: "Explore each project subsystem: food forest, three visible access stairs, secure core, underground farming, water recycling, solar energy, sand battery, thermal composting and bioclimatic ventilation.",
+          reset: "Reset exploration",
+          focusAccess: "Show access points"
+        },
+        stats: {
+          peopleLabel: "Capacity",
+          peopleValue: "30 people",
+          accessLabel: "Entries",
+          accessValue: "3 visible accesses",
+          levelsLabel: "Structure",
+          levelsValue: "2 underground levels"
+        },
+        poster: {
+          kicker: "Interactive poster",
+          reset: "Reset",
+          fullscreen: "Fullscreen",
+          captionTitle: "System reading",
+          captionText: "Click a point on the diagram or a component in the catalog to display its detailed card.",
+          legendStandard: "Components",
+          legendStairs: "Stairs A / B / C"
+        },
+        detail: {
+          kicker: "Component card",
+          category: "Category",
+          role: "Role",
+          benefits: "Benefits",
+          summary: "Summary",
+          features: "Features",
+          tech: "Technical summary"
+        },
+        catalog: {
+          kicker: "Interactive catalog",
+          title: "Interactive catalog",
+          countLabel: "Displayed items",
+          reset: "Reset",
+          searchPlaceholder: "Search a component, use case or keyword…",
+          empty: "No component matches the current search or selected filter."
+        },
+        fullscreen: {
+          kicker: "Fullscreen mode",
+          close: "Close"
+        },
+        categories: {
+          all: "All",
+          access: "Access",
+          surface: "Surface",
+          living: "Living",
+          agriculture: "Agriculture",
+          resources: "Resources"
+        }
       }
     };
 
     const baseComponents = [
       {
-        id:"stair-left", number:1, x:19.7, y:44.5, category:"access",
-        fr:{
-          title:"Escalier A – accès principal",
-          short:"Escalier colimaçon visible dans un puits dédié à gauche.",
-          role:"Entrée principale sécurisée",
-          benefits:"Redondance, orientation simple, accès familles",
-          details:"Premier des trois accès. Le puits descend depuis un conteneur discret en surface et mène à un couloir en chicane vers le noyau central. Il est volontairement très visible dans cette version pour la lecture pédagogique.",
-          features:["Escalier colimaçon dans un puits vertical distinct","Tunnel en chicane avant le noyau central","Positionné dans le triangle des trois accès"]
+        id: "stair-left",
+        number: 1,
+        x: 19.7,
+        y: 44.5,
+        category: "access",
+        fr: {
+          title: "Escalier A – accès principal",
+          short: "Escalier colimaçon visible dans un puits dédié à gauche. Elle descend dans un tunnel en chicane, l’espace au sol et l’espace en dessous sont séparés par une couche de terre suffisante pour protéger de la radiation.",
+          role: "Entrée principale sécurisée dans un conteneur de 10 pieds orienté vers le sud avec des panneaux solaires sur le toit sur une structure pour les disposer à 55 degré vers le soleil.",
+          benefits: "Redondance, orientation simple, accès familles.",
+          details: "Premier des trois accès. Le puits descend depuis un conteneur discret en surface et mène à un couloir en chicane vers le noyau central. Il est volontairement très visible dans cette version pour la lecture pédagogique.",
+          features: [
+            "Escalier colimaçon dans un puits vertical distinct",
+            "Tunnel traversant une couche de terre en chicane avant le noyau central",
+            "Puit de lumière un tube apporte la lumière en bas.",
+            "Positionné dans le triangle des trois accès"
+          ]
         },
-        en:{
-          title:"Stair A – main access",
-          short:"Visible spiral stair shaft on the left side.",
-          role:"Primary secure entry",
-          benefits:"Redundancy, easy orientation, family access",
-          details:"First of the three access shafts. The shaft drops from a discreet surface container and connects to the secure core through a zigzag corridor.",
-          features:["Dedicated spiral stair shaft","Zigzag corridor before the secure core","Part of the three-access triangle"]
+        en: {
+          title: "Stair A – main access",
+          short: "Visible spiral stair shaft on the left side.",
+          role: "Primary secure entry.",
+          benefits: "Redundancy, easy orientation, family access.",
+          details: "First of the three access shafts. The shaft drops from a discreet surface container and connects to the secure core through a zigzag corridor.",
+          features: [
+            "Dedicated spiral stair shaft",
+            "Zigzag corridor before the secure core",
+            "Part of the three-access triangle"
+          ]
         }
       },
       {
-        id:"stair-center", number:2, x:49.5, y:47.5, category:"access",
-        fr:{
-          title:"Escalier B – accès central sous la tour",
-          short:"Puits central lisible sous la tour bioclimatique végétalisée.",
-          role:"Accès central et circulation verticale",
-          benefits:"Lien direct avec la tour, lumière, ventilation",
-          details:"Accès central placé sous la tour bioclimatique. Il peut cumuler les fonctions de circulation, d’éclairage indirect et de distribution d’air.",
-          features:["Sous la tour végétalisée","Fonction mixte : circulation, lumière et ventilation","Dessert les deux niveaux du bunker"]
+        id: "stair-center",
+        number: 2,
+        x: 49.5,
+        y: 47.5,
+        category: "access",
+        fr: {
+          title: "Escalier B – accès central sous la tour",
+          short: "Puits central lisible sous la tour bioclimatique végétalisée.",
+          role: "Accès central et circulation verticale.",
+          benefits: "Lien direct avec la tour, lumière, ventilation.",
+          details: "Accès central placé sous la tour bioclimatique. Il peut cumuler les fonctions de circulation, d’éclairage indirect et de distribution d’air.",
+          features: [
+            "Sous la tour végétalisée",
+            "Puit de lumière un tube apporte la lumière en bas.",
+            "Fonction mixte : circulation, lumière et ventilation",
+            "Dessert les deux niveaux du bunker"
+          ]
         },
-        en:{
-          title:"Stair B – central access under the tower",
-          short:"Central shaft clearly visible beneath the vegetated tower.",
-          role:"Central access and vertical circulation",
-          benefits:"Linked to tower, light and ventilation",
-          details:"Central access located under the bioclimatic tower. It can combine circulation, indirect light and air distribution.",
-          features:["Located below the tower","Mixed role: circulation, light and ventilation","Connects both underground levels"]
+        en: {
+          title: "Stair B – central access under the tower",
+          short: "Central shaft clearly visible beneath the vegetated tower.",
+          role: "Central access and vertical circulation.",
+          benefits: "Linked to tower, light and ventilation.",
+          details: "Central access located under the bioclimatic tower. It can combine circulation, indirect light and air distribution.",
+          features: [
+            "Located below the tower",
+            "Mixed role: circulation, light and ventilation",
+            "Connects both underground levels"
+          ]
         }
       },
       {
-        id:"stair-right", number:3, x:82.0, y:44.8, category:"access",
-        fr:{
-          title:"Escalier C – accès secours",
-          short:"Troisième accès, indépendant, à droite du bunker.",
-          role:"Sortie de secours et accès technique",
-          benefits:"Résilience, évacuation, maintenance",
-          details:"Troisième puits d’escalier, physiquement séparé des deux autres. Il augmente fortement la robustesse globale.",
-          features:["Séparé des deux autres accès","Connecté au noyau sécurisé par un couloir","Peut aussi servir à la maintenance"]
+        id: "stair-right",
+        number: 3,
+        x: 82.0,
+        y: 44.8,
+        category: "access",
+        fr: {
+          title: "Escalier C – accès secours",
+          short: "Troisième accès, indépendant, à droite du bunker. Elle descend dans un tunnel en chicane, l’espace au sol et l’espace en dessous sont séparés par une couche de terre suffisante pour protéger de la radiation.",
+          role: "Sortie de secours et accès technique.",
+          benefits: "Résilience, évacuation, maintenance.",
+          details: "Troisième puits d’escalier, physiquement séparé des deux autres. Il augmente fortement la robustesse globale. Sécurisée dans un conteneur de 10 pieds orienté vers le sud avec des panneaux solaires sur le toit sur une structure pour les disposer à 55 degré vers le soleil.",
+          features: [
+            "Séparé des deux autres accès",
+            "Connecté au noyau sécurisé par un couloir",
+            "Puit de lumière un tube apporte la lumière en bas.",
+            "Peut aussi servir à la maintenance"
+          ]
         },
-        en:{
-          title:"Stair C – emergency access",
-          short:"Third independent stair shaft on the right.",
-          role:"Emergency exit and technical access",
-          benefits:"Resilience, evacuation, maintenance",
-          details:"Third stair shaft, physically separated from the others. It strongly improves overall robustness.",
-          features:["Separated from the other two accesses","Connected to the secure core","Can also serve maintenance tasks"]
+        en: {
+          title: "Stair C – emergency access",
+          short: "Third independent stair shaft on the right.",
+          role: "Emergency exit and technical access.",
+          benefits: "Resilience, evacuation, maintenance.",
+          details: "Third stair shaft, physically separated from the others. It strongly improves overall robustness.",
+          features: [
+            "Separated from the other two accesses",
+            "Connected to the secure core",
+            "Can also serve maintenance tasks"
+          ]
         }
       },
       {
-        id:"tower", number:4, x:49.5, y:20.2, category:"surface",
-        fr:{
-          title:"Tour bioclimatique végétalisée",
-          short:"Tour discrète couverte de végétation avec fonctions passives.",
-          role:"Ventilation, lumière et camouflage",
-          benefits:"Discrétion visuelle, tirage naturel, toiture vivante",
-          details:"La tour est pensée comme un organe passif. Sa végétation latérale et son toit vert l’intègrent à la forêt.",
-          features:["Façades couvertes de plantes grimpantes","Toiture végétalisée","Supporte ventilation et lumière naturelle"]
+        id: "tower",
+        number: 4,
+        x: 49.5,
+        y: 20.2,
+        category: "surface",
+        fr: {
+          title: "Tour bioclimatique végétalisée",
+          short: "Émergence de surface assurant lecture du site, ventilation contrôlée et présence végétale.",
+          role: "Interface climatique entre la surface et le bunker.",
+          benefits: "Ventilation passive, lumière indirecte, signature discrète.",
+          details: "La tour centralise plusieurs fonctions visibles : entrée de lumière, extraction d’air, repère spatial et tampon thermique. Son enveloppe végétalisée améliore l’intégration paysagère et réduit les contrastes thermiques.",
+          features: [
+            "Volume vertical au-dessus du noyau central",
+            "Habillage végétalisé et lecture pédagogique du système",
+            "Peut accueillir prises d’air, extraction et contrôle solaire",
+            "Repère central visible depuis les trois accès"
+          ]
         },
-        en:{
-          title:"Vegetated bioclimatic tower",
-          short:"Discrete tower covered with vegetation and passive functions.",
-          role:"Ventilation, light and camouflage",
-          benefits:"Visual discretion, natural draft, living roof",
-          details:"The tower works as a passive organ. Vegetation on the sides and roof blends it into the forest.",
-          features:["Climbing plants on side walls","Green roof","Supports natural ventilation and daylight"]
+        en: {
+          title: "Vegetated bioclimatic tower",
+          short: "Surface emergence providing site legibility, controlled ventilation and planted presence.",
+          role: "Climatic interface between the surface and the bunker.",
+          benefits: "Passive ventilation, indirect light, discreet signature.",
+          details: "The tower combines several visible functions: light intake, air exhaust, spatial landmark and thermal buffer. Its planted envelope improves landscape integration and reduces thermal contrasts.",
+          features: [
+            "Vertical volume above the central core",
+            "Vegetated skin with didactic system readability",
+            "Can host air intake, exhaust and solar control",
+            "Central landmark visible from the three accesses"
+          ]
         }
       },
       {
-        id:"orchard-left", number:5, x:22.2, y:27.7, category:"surface",
-        fr:{
-          title:"Forêt nourricière – secteur gauche",
-          short:"Pommiers, pruniers, cerisiers rustiques et arbustes comestibles.",
-          role:"Production discrète en surface",
-          benefits:"Camouflage, récolte, biodiversité",
-          details:"La surface doit ressembler d’abord à une forêt nourricière québécoise.",
-          features:["Pommiers et pruniers rustiques","Arbustes de petits fruits","Aspect naturel plus qu’industriel"]
+        id: "orchard-left",
+        number: 5,
+        x: 22.2,
+        y: 27.7,
+        category: "surface",
+        fr: {
+          title: "Forêt nourricière – secteur ouest",
+          short: "Zone de production alimentaire de surface intégrée au couvert forestier.",
+          role: "Apport vivrier complémentaire et camouflage écologique.",
+          benefits: "Résilience alimentaire, biodiversité, discrétion visuelle.",
+          details: "Cette première zone de forêt nourricière combine arbres fruitiers, arbustes, plantes vivaces et couverture du sol. Elle augmente l’autonomie saisonnière tout en rendant la surface cohérente avec un paysage naturel.",
+          features: [
+            "Plantation en strates inspirée des écosystèmes forestiers",
+            "Production répartie et moins vulnérable à une seule culture",
+            "Renforce le microclimat autour du site",
+            "Compatible avec récupération organique locale"
+          ]
         },
-        en:{
-          title:"Food forest – left sector",
-          short:"Apples, plums, hardy cherries and edible shrubs.",
-          role:"Discrete surface production",
-          benefits:"Camouflage, harvest, biodiversity",
-          details:"The surface should first read as a Quebec-style food forest.",
-          features:["Hardy apple and plum trees","Berry shrubs","Natural rather than industrial look"]
+        en: {
+          title: "Food forest – west sector",
+          short: "Surface food-production zone integrated into the forest cover.",
+          role: "Supplementary food source and ecological camouflage.",
+          benefits: "Food resilience, biodiversity, visual discretion.",
+          details: "This first food-forest area combines fruit trees, shrubs, perennials and ground cover. It improves seasonal autonomy while keeping the surface coherent with a natural landscape.",
+          features: [
+            "Layered planting inspired by forest ecosystems",
+            "Distributed production less vulnerable than single-crop layouts",
+            "Strengthens the local microclimate",
+            "Compatible with local organic-loop recovery"
+          ]
         }
       },
       {
-        id:"orchard-right", number:6, x:80.1, y:22.9, category:"surface",
-        fr:{
-          title:"Forêt nourricière – secteur droit",
-          short:"Deuxième zone arborée avec arbres fruitiers et à noix.",
-          role:"Redondance productive en surface",
-          benefits:"Couverture visuelle et production étalée",
-          details:"Le site est visuellement divisé en plusieurs masses végétales.",
-          features:["Noisetiers et arbres à noix compatibles Québec","Répartition autour des accès","Masquage des petits bâtiments"]
+        id: "orchard-right",
+        number: 6,
+        x: 80.1,
+        y: 22.9,
+        category: "surface",
+        fr: {
+          title: "Forêt nourricière – secteur est",
+          short: "Deuxième pôle de culture extérieure pour équilibrer la production et l’entretien.",
+          role: "Redondance agricole de surface et diversification des récoltes.",
+          benefits: "Répartition des risques, rendements variés, flexibilité d’usage.",
+          details: "Le secteur est complète la zone ouest avec une autre implantation nourricière. La séparation spatiale limite les pertes simultanées et facilite la gestion par zones selon l’ensoleillement, le vent et les cycles de récolte.",
+          features: [
+            "Deuxième massif nourricier distinct",
+            "Répartition stratégique des espèces selon exposition",
+            "Favorise pollinisation et résilience de l’ensemble",
+            "Peut intégrer petits fruits, herbacées et plantes médicinales"
+          ]
         },
-        en:{
-          title:"Food forest – right sector",
-          short:"Second tree mass with fruit and nut species.",
-          role:"Redundant surface productivity",
-          benefits:"Visual cover and distributed production",
-          details:"The site is visually split into several planted masses.",
-          features:["Hazels and Quebec-compatible nut trees","Distributed around access points","Masks small surface structures"]
+        en: {
+          title: "Food forest – east sector",
+          short: "Second outdoor cultivation pole balancing production and maintenance.",
+          role: "Surface agriculture redundancy and harvest diversification.",
+          benefits: "Risk distribution, varied yields, flexible use.",
+          details: "The east sector complements the west zone with another food-oriented planting area. Spatial separation limits simultaneous losses and supports zone-based management depending on sun, wind and harvest cycles.",
+          features: [
+            "Second distinct food-forest mass",
+            "Strategic species placement by exposure",
+            "Supports pollination and overall resilience",
+            "Can integrate berries, herbs and medicinal plants"
+          ]
         }
       },
       {
-        id:"containers", number:7, x:84.4, y:36.9, category:"surface",
-        fr:{
-          title:"Conteneurs d’accès camouflés",
-          short:"Petits volumes techniques presque perdus dans la végétation.",
-          role:"Sas, maintenance et accès discrets",
-          benefits:"Modularité, protection météo, discrétion",
-          details:"Les conteneurs de surface protègent les entrées et certains équipements.",
-          features:["Sas d’entrée","Protection contre pluie, neige et glace","Peu visibles depuis l’extérieur"]
+        id: "containers",
+        number: 7,
+        x: 84.4,
+        y: 36.9,
+        category: "surface",
+        fr: {
+          title: "Conteneurs techniques de surface",
+          short: "Volumes compacts servant d’abris d’accès, de stockage et de support énergétique.",
+          role: "Enveloppes discrètes pour accès, équipements et logistique.",
+          benefits: "Modularité, robustesse, déploiement rapide.",
+          details: "Les conteneurs de 10 pieds visibles en surface servent de têtes d’accès, de points techniques et de supports pour les panneaux solaires. Leur format standard facilite la fabrication, le transport et la maintenance sur site.",
+          features: [
+            "Format modulaire facile à installer",
+            "Peuvent héberger accès, stockage et équipements",
+            "Toiture exploitable pour panneaux solaires inclinés",
+            "Lecture claire entre infrastructure visible et noyau enterré"
+          ]
         },
-        en:{
-          title:"Camouflaged access containers",
-          short:"Small technical volumes hidden in vegetation.",
-          role:"Airlock, maintenance and discreet access",
-          benefits:"Modularity, weather protection, discretion",
-          details:"Surface containers protect entrances and some equipment.",
-          features:["Entry airlocks","Protection against rain, snow and ice","Low visibility from outside"]
+        en: {
+          title: "Surface technical containers",
+          short: "Compact volumes used as access shelters, storage nodes and energy supports.",
+          role: "Discreet envelopes for access, equipment and logistics.",
+          benefits: "Modularity, robustness, rapid deployment.",
+          details: "The 10-foot containers visible on the surface act as access heads, technical points and support structures for solar panels. Their standard format simplifies fabrication, transport and site maintenance.",
+          features: [
+            "Modular format that is easy to install",
+            "Can host access, storage and equipment",
+            "Usable roof area for tilted solar panels",
+            "Clear reading between visible infrastructure and buried core"
+          ]
         }
       },
       {
-        id:"living", number:8, x:29.6, y:47.6, category:"living",
-        fr:{
-          title:"Niveau habitation",
-          short:"Zone familles, cuisine, stockage courant et espace commun.",
-          role:"Vie quotidienne",
-          benefits:"Confort, circulation simple, occupation longue durée",
-          details:"Premier niveau souterrain réservé à la vie.",
-          features:["Zone familiale lisible","Cuisine collective","Espaces de stockage quotidien"]
+        id: "living",
+        number: 8,
+        x: 29.6,
+        y: 47.6,
+        category: "living",
+        fr: {
+          title: "Zone de vie – 5 familles de 5 personnes",
+          short: "Espace d’habitation principal dimensionné pour environ 25 occupants permanents.",
+          role: "Assurer vie quotidienne, repos, intimité et routines collectives.",
+          benefits: "Organisation familiale, confort minimal, stabilité psychologique.",
+          details: "Cette zone regroupe les fonctions de vie essentielles : couchage, rangements, alcôves, petits espaces communs et services associés. L’objectif est de structurer une occupation durable avec séparation lisible entre espaces privés et zones partagées.",
+          features: [
+            "Capacité pensée pour cinq cellules familiales",
+            "Organisation rationnelle des volumes habitables",
+            "Proximité avec le noyau pour sécurité et distribution",
+            "Peut intégrer mobilier modulaire et rangement compact"
+          ]
         },
-        en:{
-          title:"Living level",
-          short:"Family area, kitchen, daily storage and common zone.",
-          role:"Daily life",
-          benefits:"Comfort, simple circulation, long-term occupation",
-          details:"First underground level dedicated to living.",
-          features:["Clear family area","Shared kitchen","Daily storage spaces"]
+        en: {
+          title: "Living zone – 5 families of 5 people",
+          short: "Main habitation area sized for about 25 permanent occupants.",
+          role: "Support daily life, rest, privacy and collective routines.",
+          benefits: "Family organization, baseline comfort, psychological stability.",
+          details: "This area groups the essential living functions: sleeping, storage, alcoves, small common spaces and related services. The goal is to support long-duration occupancy with a clear separation between private and shared zones.",
+          features: [
+            "Capacity planned for five family cells",
+            "Rational organization of habitable volume",
+            "Close to the core for security and distribution",
+            "Can integrate modular furniture and compact storage"
+          ]
         }
       },
       {
-        id:"core", number:9, x:50.1, y:38.3, category:"access",
-        fr:{
-          title:"Noyau central sécurisé",
-          short:"Sas central entre les accès et les zones de vie.",
-          role:"Décontamination, distribution et sécurité",
-          benefits:"Coupe-feu, filtration, contrôle des circulations",
-          details:"Le noyau reçoit les trois accès.",
-          features:["Réunit les trois accès","Zone tampon avant les pièces principales","Peut intégrer filtration et rangement critique"]
+        id: "core",
+        number: 9,
+        x: 50.1,
+        y: 38.3,
+        category: "access",
+        fr: {
+          title: "Noyau sécurisé central",
+          short: "Cœur structurel et logistique reliant les accès, la vie et la production souterraine.",
+          role: "Distribuer les flux critiques et concentrer les fonctions stratégiques.",
+          benefits: "Robustesse, lisibilité, circulation protégée.",
+          details: "Le noyau central agit comme colonne vertébrale du bunker. Il relie les trois escaliers, les niveaux souterrains et les systèmes vitaux dans une géométrie compacte, facile à défendre, à ventiler et à entretenir.",
+          features: [
+            "Connexion directe avec les trois accès",
+            "Point de distribution des circulations et des réseaux",
+            "Zone logique pour équipements critiques et contrôle",
+            "Permet une lecture claire du plan général"
+          ]
         },
-        en:{
-          title:"Secure central core",
-          short:"Protected hub between access shafts and living areas.",
-          role:"Decontamination, distribution and safety",
-          benefits:"Fire separation, filtration, circulation control",
-          details:"The core receives the three access corridors.",
-          features:["Connects the three accesses","Buffer zone before main spaces","Can include filtration and critical storage"]
+        en: {
+          title: "Central secure core",
+          short: "Structural and logistical heart connecting access, living and underground production.",
+          role: "Distribute critical flows and concentrate strategic functions.",
+          benefits: "Robustness, legibility, protected circulation.",
+          details: "The central core acts as the bunker’s backbone. It links the three stairs, the underground levels and the vital systems in a compact geometry that is easier to defend, ventilate and maintain.",
+          features: [
+            "Direct connection to the three accesses",
+            "Distribution point for circulation and networks",
+            "Logical zone for critical equipment and control",
+            "Provides a clear reading of the overall plan"
+          ]
         }
       },
       {
-        id:"sabloponie", number:10, x:30.4, y:64.3, category:"agriculture",
-        fr:{
-          title:"Sabloponie",
-          short:"Culture de légumes sur sable comme biofiltre stable.",
-          role:"Production végétale",
-          benefits:"Simplicité, stabilité, faible complexité",
-          details:"La sabloponie est choisie pour sa robustesse.",
-          features:["Légumes feuilles, herbes et cultures rapides","Substrat minéral stable","Compatible avec recyclage d’eau"]
+        id: "sabloponie",
+        number: 10,
+        x: 30.4,
+        y: 64.3,
+        category: "agriculture",
+        fr: {
+          title: "Sabloponie",
+          short: "Culture filtrante sur substrat minéral pour produire avec peu d’eau et une bonne stabilité biologique.",
+          role: "Production végétale sobre en intrants et en énergie.",
+          benefits: "Faible consommation d’eau, résilience, entretien maîtrisable.",
+          details: "La sabloponie repose sur un substrat granulaire jouant à la fois le rôle de support racinaire et de filtre biologique. Elle est pertinente dans une logique d’autonomie parce qu’elle tolère mieux certaines variations qu’un système très finement instrumenté.",
+          features: [
+            "Substrat minéral stable et durable",
+            "Filtration biologique intégrée au système de culture",
+            "Compatible avec circuits d’eau recirculés",
+            "Approche robuste pour production de légumes variés"
+          ]
         },
-        en:{
-          title:"Sandponics",
-          short:"Vegetable cultivation on sand used as a stable biofilter.",
-          role:"Plant production",
-          benefits:"Simplicity, stability, lower complexity",
-          details:"Sandponics is chosen for robustness.",
-          features:["Leafy greens, herbs and fast crops","Stable mineral substrate","Compatible with water recycling"]
+        en: {
+          title: "Sandponics",
+          short: "Mineral-substrate cultivation producing food with limited water use and good biological stability.",
+          role: "Low-input, energy-aware plant production.",
+          benefits: "Low water demand, resilience, manageable maintenance.",
+          details: "Sandponics relies on a granular substrate acting both as root support and biological filter. It fits self-sufficiency logic because it can tolerate certain variations better than very finely tuned systems.",
+          features: [
+            "Stable and durable mineral substrate",
+            "Biological filtration integrated into the growing system",
+            "Compatible with recirculating water loops",
+            "Robust approach for varied vegetable production"
+          ]
         }
       },
       {
-        id:"aquaponie", number:11, x:39.5, y:68.3, category:"agriculture",
-        fr:{
-          title:"Aquaponie",
-          short:"Bassins de poissons liés au circuit nutritif des plantes.",
-          role:"Protéines et nutriments",
-          benefits:"Boucle biologique, rendement, pédagogie",
-          details:"Les bassins apportent une source de protéines.",
-          features:["Bassins de poissons visibles","Lien direct avec les cultures","Production de protéines fraîches"]
+        id: "aquaponie",
+        number: 11,
+        x: 39.5,
+        y: 68.3,
+        category: "agriculture",
+        fr: {
+          title: "Aquaponie",
+          short: "Boucle productive couplant élevage aquatique et culture végétale en recirculation.",
+          role: "Créer une synergie entre protéines, nutriments et végétaux.",
+          benefits: "Valorisation des rejets, production multiple, cycle intégré.",
+          details: "L’aquaponie associe bassins et zones de culture pour transformer les nutriments issus de la vie aquatique en fertilisation végétale. Dans le bunker, elle enrichit la diversité alimentaire tout en donnant une lecture claire d’un écosystème technique fermé.",
+          features: [
+            "Recirculation de l’eau entre bassins et cultures",
+            "Production végétale et aquatique dans une même logique",
+            "Réduction des pertes nutritives",
+            "Peut compléter d’autres modules agricoles souterrains"
+          ]
         },
-        en:{
-          title:"Aquaponics",
-          short:"Fish tanks tied to the nutrient flow of the plants.",
-          role:"Protein and nutrient loop",
-          benefits:"Biological loop, yield, educational value",
-          details:"The tanks provide a protein source.",
-          features:["Visible fish tanks","Linked to plant production","Fresh protein source"]
+        en: {
+          title: "Aquaponics",
+          short: "Productive loop coupling aquatic rearing and plant cultivation in recirculation.",
+          role: "Create synergy between protein, nutrients and plant growth.",
+          benefits: "Waste valorization, multiple outputs, integrated cycle.",
+          details: "Aquaponics links tanks and grow areas to convert aquatic nutrients into plant fertilization. Inside the bunker, it diversifies food production while clearly expressing a closed technical ecosystem.",
+          features: [
+            "Water recirculation between tanks and crops",
+            "Plant and aquatic production in one logic",
+            "Reduced nutrient losses",
+            "Can complement other underground agriculture modules"
+          ]
         }
       },
       {
-        id:"microgreens", number:12, x:54.0, y:57.6, category:"agriculture",
-        fr:{
-          title:"Micro-greens et germination",
-          short:"Production très rapide de pousses et de germinations.",
-          role:"Apport vitaminique",
-          benefits:"Cycles rapides, faible surface, fraîcheur",
-          details:"Les pousses et germinations complètent l’alimentation.",
-          features:["Cycles courts","Faible emprise au sol","Bonne densité nutritionnelle"]
+        id: "microgreens",
+        number: 12,
+        x: 54.0,
+        y: 57.6,
+        category: "agriculture",
+        fr: {
+          title: "Micro-pousses",
+          short: "Production rapide, dense et nutritive pour renouveler fréquemment l’apport frais.",
+          role: "Assurer un flux court de verdure et de micronutriments.",
+          benefits: "Cycles rapides, faible empreinte, forte densité nutritionnelle.",
+          details: "Les micro-pousses sont adaptées aux environnements contrôlés car elles exigent peu d’espace et offrent des récoltes fréquentes. Elles jouent un rôle important dans la variété alimentaire, le moral des occupants et l’efficacité surfacique.",
+          features: [
+            "Cycles de production très courts",
+            "Faible volume pour rendement nutritionnel élevé",
+            "Faciles à intégrer près des zones techniques",
+            "Complètent bien légumes, champignons et protéines"
+          ]
         },
-        en:{
-          title:"Microgreens and sprouting",
-          short:"Very fast production of shoots and sprouts.",
-          role:"Vitamin supply",
-          benefits:"Fast cycles, low surface use, freshness",
-          details:"Shoots and sprouts complement the diet.",
-          features:["Short cycles","Small footprint","High nutritional density"]
+        en: {
+          title: "Microgreens",
+          short: "Fast, dense and nutritious production renewing fresh intake frequently.",
+          role: "Provide a short-cycle stream of greens and micronutrients.",
+          benefits: "Fast cycles, low footprint, high nutritional density.",
+          details: "Microgreens fit controlled environments well because they need little space and provide frequent harvests. They contribute to food variety, occupant morale and high surface efficiency.",
+          features: [
+            "Very short production cycles",
+            "Low volume for high nutritional output",
+            "Easy to integrate near technical zones",
+            "Pairs well with vegetables, fungi and protein systems"
+          ]
         }
       },
       {
-        id:"fungi", number:13, x:62.4, y:59.2, category:"agriculture",
-        fr:{
-          title:"Culture de champignons",
-          short:"Pleurotes et autres champignons cultivés sur substrat.",
-          role:"Production complémentaire",
-          benefits:"Substrats recyclés, diversité alimentaire",
-          details:"La champignonnière valorise des substrats recyclés.",
-          features:["Substrats recyclés","Production dense","Zone séparée"]
+        id: "fungi",
+        number: 13,
+        x: 62.4,
+        y: 59.2,
+        category: "agriculture",
+        fr: {
+          title: "Champignons",
+          short: "Module fongique exploitant humidité, matière organique et zones peu lumineuses.",
+          role: "Diversifier la production alimentaire avec un système compact.",
+          benefits: "Valorisation de substrats, faible besoin lumineux, rendement utile.",
+          details: "La culture de champignons s’intègre naturellement aux espaces contrôlés du bunker. Elle permet de convertir certaines biomasses en nourriture tout en occupant des volumes où d’autres cultures seraient moins performantes.",
+          features: [
+            "Compatible avec ambiance fraîche et humide",
+            "Utilise des substrats organiques valorisables",
+            "Production complémentaire aux cultures éclairées",
+            "Bon usage des zones souterraines moins sollicitées"
+          ]
         },
-        en:{
-          title:"Mushroom cultivation",
-          short:"Oyster mushrooms and other fungi on substrate.",
-          role:"Complementary food production",
-          benefits:"Recycled substrate, food diversity",
-          details:"The mushroom area valorizes recycled substrates.",
-          features:["Recycled substrate","Dense output","Separated area"]
+        en: {
+          title: "Fungi",
+          short: "Fungal module using humidity, organic matter and low-light areas.",
+          role: "Diversify food production with a compact system.",
+          benefits: "Substrate valorization, low light demand, useful yield.",
+          details: "Mushroom cultivation fits naturally in the bunker’s controlled spaces. It can convert certain biomasses into food while occupying volumes where other crops would be less efficient.",
+          features: [
+            "Compatible with cool and humid conditions",
+            "Uses recoverable organic substrates",
+            "Complementary to lit crop systems",
+            "Good use of less-demanded underground zones"
+          ]
         }
       },
       {
-        id:"insects", number:14, x:61.2, y:65.4, category:"agriculture",
-        fr:{
-          title:"Élevage d’insectes",
-          short:"Vers de farine, grillons ou larves pour protéines et alimentation animale.",
-          role:"Protéines et recyclage",
-          benefits:"Très compact, efficace, utile pour poissons et poules",
-          details:"Les insectes ferment une partie de la boucle alimentaire.",
-          features:["Production dense","Peut nourrir poissons et poules","Réduit certaines pertes organiques"]
+        id: "insects",
+        number: 14,
+        x: 61.2,
+        y: 65.4,
+        category: "agriculture",
+        fr: {
+          title: "Élevage d’insectes",
+          short: "Source protéique compacte et très efficace en conversion de matière.",
+          role: "Produire protéines et valoriser certaines fractions organiques.",
+          benefits: "Rendement surfacique élevé, cycle court, boucle circulaire.",
+          details: "L’élevage d’insectes ajoute une filière protéique robuste avec une faible emprise spatiale. Il s’intègre bien à un écosystème fermé où les flux organiques doivent être transformés efficacement.",
+          features: [
+            "Densité de production importante",
+            "Peut valoriser certains coproduits organiques",
+            "Intérêt pour alimentation animale ou humaine selon scénario",
+            "Module pertinent pour autonomie en protéines"
+          ]
         },
-        en:{
-          title:"Insect farming",
-          short:"Mealworms, crickets or larvae for protein and feed.",
-          role:"Protein and recycling",
-          benefits:"Very compact, efficient, useful for fish and chickens",
-          details:"Insects close part of the food loop.",
-          features:["Dense production","Can feed fish and chickens","Reduces some organic losses"]
+        en: {
+          title: "Insect farming",
+          short: "Compact protein source with very efficient matter conversion.",
+          role: "Produce protein and valorize selected organic fractions.",
+          benefits: "High surface yield, short cycles, circular loop.",
+          details: "Insect farming adds a robust protein pathway with very small spatial requirements. It fits closed ecosystems where organic flows must be transformed efficiently.",
+          features: [
+            "High production density",
+            "Can valorize selected organic co-products",
+            "Relevant for animal feed or human food depending on the scenario",
+            "Strong module for protein autonomy"
+          ]
         }
       },
       {
-        id:"chickens", number:15, x:59.5, y:75.5, category:"agriculture",
-        fr:{
-          title:"Poules",
-          short:"Petit élevage d’appoint pour les œufs et la valorisation des restes.",
-          role:"Œufs et recyclage",
-          benefits:"Apport alimentaire régulier, interaction avec l’écosystème",
-          details:"Petit module d’appoint pour les œufs.",
-          features:["Production d’œufs","Valorisation de certains restes","Module d’appoint"]
+        id: "chickens",
+        number: 15,
+        x: 59.5,
+        y: 75.5,
+        category: "agriculture",
+        fr: {
+          title: "Poulailler contrôlé",
+          short: "Petit élevage pour œufs, compostage assisté et boucle organique complémentaire.",
+          role: "Ajouter une production animale légère et des flux organiques utiles.",
+          benefits: "Œufs, valorisation organique, diversité de système.",
+          details: "Le module avicole reste volontairement dimensionné à petite échelle. Il contribue à la diversité alimentaire, à la récupération de matière organique et à certains échanges thermiques ou biologiques avec d’autres sous-systèmes.",
+          features: [
+            "Production régulière d’œufs",
+            "Intégrable à une chaîne organique et compostage",
+            "Dimension compacte compatible avec gestion intérieure",
+            "Doit être associé à contrôle d’air et hygiène stricte"
+          ]
         },
-        en:{
-          title:"Chickens",
-          short:"Small support flock for eggs and leftover valorization.",
-          role:"Eggs and recycling",
-          benefits:"Regular food output, ecosystem integration",
-          details:"Small support module for eggs.",
-          features:["Egg production","Uses leftovers","Support module"]
+        en: {
+          title: "Controlled chicken module",
+          short: "Small-scale husbandry for eggs, assisted composting and complementary organic looping.",
+          role: "Add light animal production and useful organic flows.",
+          benefits: "Eggs, organic valorization, system diversity.",
+          details: "The poultry module is intentionally kept small in scale. It contributes to food diversity, organic-matter recovery and selected thermal or biological interactions with other subsystems.",
+          features: [
+            "Regular egg production",
+            "Can connect to an organic loop and composting chain",
+            "Compact scale compatible with indoor management",
+            "Requires air control and strict hygiene"
+          ]
         }
       },
       {
-        id:"sand-battery", number:16, x:71.4, y:62.9, category:"resources",
-        fr:{
-          title:"Batterie thermique au sable",
-          short:"Réservoir de chaleur pour stocker de l’énergie thermique.",
-          role:"Stockage de chaleur",
-          benefits:"Faible coût, inertie élevée, complément du solaire",
-          details:"Le réservoir au sable stocke la chaleur.",
-          features:["Stockage thermique","Lié au solaire et au compost","Stabilise les besoins de chauffage"]
+        id: "sand-battery",
+        number: 16,
+        x: 71.4,
+        y: 62.9,
+        category: "resources",
+        fr: {
+          title: "Batterie au sable chauffée par compost",
+          short: "Stockage thermique massif couplé à une source de chaleur organique lente.",
+          role: "Accumuler et redistribuer l’énergie thermique dans le temps.",
+          benefits: "Inertie, sobriété énergétique, valorisation de chaleur basse température.",
+          details: "Le stockage thermique dans un médium granulaire permet de lisser les apports de chaleur. Couplé à un compost thermique ou à d’autres sources lentes, il soutient les besoins du bunker sans dépendre uniquement d’une énergie instantanée.",
+          features: [
+            "Masse thermique importante pour déphasage",
+            "Compatible avec chaleur issue du compost",
+            "Utile pour stabiliser certains espaces techniques ou agricoles",
+            "Approche de stockage simple et robuste"
+          ]
         },
-        en:{
-          title:"Sand thermal battery",
-          short:"Heat reservoir for storing thermal energy.",
-          role:"Heat storage",
-          benefits:"Low cost, high inertia, solar complement",
-          details:"The sand battery stores heat.",
-          features:["Thermal storage","Linked to solar and compost","Smooths heating needs"]
+        en: {
+          title: "Sand battery heated by compost",
+          short: "Mass thermal storage coupled with a slow organic heat source.",
+          role: "Accumulate and redistribute thermal energy over time.",
+          benefits: "Thermal inertia, energy sobriety, low-grade heat valorization.",
+          details: "Thermal storage in a granular medium helps smooth heat inputs over time. Coupled with thermal composting or other slow sources, it supports bunker needs without relying only on instantaneous energy.",
+          features: [
+            "High thermal mass for time-shifting heat",
+            "Compatible with compost-derived heat",
+            "Useful to stabilize technical or agricultural spaces",
+            "Simple and robust storage approach"
+          ]
         }
       },
       {
-        id:"compost", number:17, x:80.1, y:69.0, category:"resources",
-        fr:{
-          title:"Compost thermique",
-          short:"Module biologique produisant chaleur et fertilisants.",
-          role:"Recyclage organique",
-          benefits:"Valorise les déchets, fournit chaleur et amendements",
-          details:"Le compost recycle une partie des déchets.",
-          features:["Valorisation des déchets organiques","Production de chaleur","Complément à la batterie au sable"]
+        id: "water",
+        number: 17,
+        x: 86.3,
+        y: 44.4,
+        category: "resources",
+        fr: {
+          title: "Citernes et gestion de l’eau",
+          short: "Deux citernes visibles : à gauche eau propre. À droite eau grise; au centre en bas : captage du ruissellement.",
+          role: "Sécurisation de la ressource critique.",
+          benefits: "Autonomie, recyclage, lecture claire du système d’eau.",
+          details: "Le visuel doit montrer clairement deux citernes distinctes à proximité du bunker : une pour l’eau propre et une pour l’eau grise. Il doit aussi faire voir le captage de l’eau de ruissellement vers le réseau de gestion hydrique.",
+          features: [
+            "Citerne d’eau propre clairement identifiée",
+            "Citerne d’eau grise séparée",
+            "Captage du ruissellement visible vers le système d’eau"
+          ]
         },
-        en:{
-          title:"Thermal compost module",
-          short:"Biological module producing heat and amendments.",
-          role:"Organic recycling",
-          benefits:"Turns waste into heat and nutrients",
-          details:"The compost recycles part of the waste stream.",
-          features:["Organic recycling","Heat generation","Complements sand battery"]
-        }
-      },
-      {
-        id:"water", number:18, x:86.3, y:44.4, category:"resources",
-        fr:{
-          title:"Citernes et gestion de l’eau",
-          short:"Deux citernes visibles : eau propre, eau grise et captage du ruissellement.",
-          role:"Sécurisation de la ressource critique",
-          benefits:"Autonomie, recyclage, lecture claire du système d’eau",
-          details:"Le visuel doit montrer clairement deux citernes distinctes à proximité du bunker : une pour l’eau propre et une pour l’eau grise. Il doit aussi faire voir le captage de l’eau de ruissellement vers le réseau de gestion hydrique.",
-          features:["Citerne d’eau propre clairement identifiée","Citerne d’eau grise séparée","Captage du ruissellement visible vers le système d’eau"]
-        },
-        en:{
-          title:"Water tanks and water management",
-          short:"Two visible tanks: clean water, greywater and runoff capture.",
-          role:"Securing the critical resource",
-          benefits:"Autonomy, recycling, clearer water system reading",
-          details:"The visual should clearly show two separate tanks near the bunker: one for clean water and one for greywater. It should also show runoff capture feeding the water-management system.",
-          features:["Clearly identified clean-water tank","Separate greywater tank","Visible runoff capture into the water system"]
+        en: {
+          title: "Water tanks and water management",
+          short: "Two visible tanks: clean water, greywater and runoff capture.",
+          role: "Securing the critical resource.",
+          benefits: "Autonomy, recycling, clearer water system reading.",
+          details: "The visual should clearly show two separate tanks near the bunker: one for clean water and one for greywater. It should also show runoff capture feeding the water-management system.",
+          features: [
+            "Clearly identified clean-water tank",
+            "Separate greywater tank",
+            "Visible runoff capture into the water system"
+          ]
         }
       }
     ];
 
-    let currentLang="fr";
-    let selectedId="stair-left";
-    let currentFilter="all";
-    let currentSearch="";
-    let focusMode=false;
-    let zoom=1;
+    const state = {
+      lang: "fr",
+      activeId: "stair-left",
+      filter: "all",
+      query: "",
+      zoom: 1,
+      fullscreenZoom: 1
+    };
 
-    const diagramWrap=document.getElementById("zoomTarget");
-    const legendEl=document.getElementById("legend");
-    const componentList=document.getElementById("componentList");
-    const categoryFilter=document.getElementById("categoryFilter");
-    const searchInput=document.getElementById("searchInput");
-    const countPill=document.getElementById("countPill");
-    const zoomShell=document.getElementById("zoomShell");
-    const diagramParallax=document.getElementById("diagramParallax");
+    const categoryOrder = ["all", "access", "surface", "living", "agriculture", "resources"];
 
-    function getComponents(){
-      return baseComponents.map(c => ({
-        id:c.id,
-        number:c.number,
-        x:c.x,
-        y:c.y,
-        category:c.category,
-        ...c[currentLang]
-      }));
+    const els = {
+      langBtns: [...document.querySelectorAll(".lang-btn")],
+      filterRow: document.getElementById("filterRow"),
+      catalogList: document.getElementById("catalogList"),
+      catalogCount: document.getElementById("catalogCount"),
+      searchInput: document.getElementById("searchInput"),
+      emptyState: document.getElementById("emptyState"),
+      hotspotLayer: document.getElementById("hotspotLayer"),
+      fullscreenHotspotLayer: document.getElementById("fullscreenHotspotLayer"),
+      posterStage: document.getElementById("posterStage"),
+      posterViewport: document.getElementById("posterViewport"),
+      posterMedia: document.getElementById("posterMedia"),
+      fullscreenModal: document.getElementById("fullscreenModal"),
+      fullscreenViewport: document.getElementById("fullscreenViewport"),
+      fullscreenMedia: document.getElementById("fullscreenMedia"),
+      componentTitle: document.getElementById("componentTitle"),
+      componentBadge: document.getElementById("componentBadge"),
+      componentShort: document.getElementById("componentShort"),
+      componentCategory: document.getElementById("componentCategory"),
+      componentRole: document.getElementById("componentRole"),
+      componentBenefits: document.getElementById("componentBenefits"),
+      componentDetails: document.getElementById("componentDetails"),
+      componentFeatures: document.getElementById("componentFeatures"),
+      componentTechnical: document.getElementById("componentTechnical"),
+      headerFullscreenBtn: document.getElementById("headerFullscreenBtn"),
+      posterFullscreenBtn: document.getElementById("posterFullscreenBtn"),
+      closeFullscreenBtn: document.getElementById("closeFullscreenBtn"),
+      zoomInBtn: document.getElementById("zoomInBtn"),
+      zoomOutBtn: document.getElementById("zoomOutBtn"),
+      fullscreenZoomIn: document.getElementById("fullscreenZoomIn"),
+      fullscreenZoomOut: document.getElementById("fullscreenZoomOut"),
+      resetBtn: document.getElementById("resetBtn"),
+      heroResetBtn: document.getElementById("heroResetBtn"),
+      heroFocusAccessBtn: document.getElementById("heroFocusAccessBtn"),
+      catalogResetBtn: document.getElementById("catalogResetBtn")
+    };
+
+    function getComponent(id) {
+      return baseComponents.find(item => item.id === id) || baseComponents[0];
     }
 
-    function categoryLabel(cat){
-      return data[currentLang].ui.categories[cat] || cat;
+    function getLocalized(comp) {
+      return comp[state.lang];
     }
 
-    function hexToRgba(hex,a){
-      const c=hex.replace("#","");
-      const b=parseInt(c,16);
-      return `rgba(${(b>>16)&255},${(b>>8)&255},${b&255},${a})`;
+    function categoryLabel(key) {
+      return translations[state.lang].categories[key] || key;
     }
 
-    function applyUIStrings(){
-      const ui=data[currentLang].ui;
-      document.documentElement.lang=currentLang;
-
-      document.getElementById("eyebrow").textContent=ui.eyebrow;
-      document.getElementById("mainTitle").textContent=ui.mainTitle;
-      document.getElementById("subtitle").textContent=ui.subtitle;
-      document.getElementById("stat1Label").textContent=ui.stat1Label;
-      document.getElementById("stat2Label").textContent=ui.stat2Label;
-      document.getElementById("stat3Label").textContent=ui.stat3Label;
-      document.getElementById("stat4Label").textContent=ui.stat4Label;
-      document.getElementById("filterLabel").textContent=ui.filterLabel;
-      document.getElementById("panelEyebrow").textContent=ui.panelEyebrow;
-      document.getElementById("metaRoleLabel").textContent=ui.roleLabel;
-      document.getElementById("metaBenefitsLabel").textContent=ui.benefitsLabel;
-      document.getElementById("featuresLabel").textContent=ui.featuresLabel;
-      document.getElementById("notesLabel").textContent=ui.notesLabel;
-      document.getElementById("catalogEyebrow").textContent=ui.catalogEyebrow;
-      document.getElementById("catalogTitle").textContent=ui.catalogTitle;
-      document.getElementById("navPoster").textContent=ui.navPoster;
-      document.getElementById("navSystems").textContent=ui.navSystems;
-      document.getElementById("navProject").textContent=ui.navProject;
-      document.getElementById("posterTitleMain").textContent=ui.posterTitleMain;
-      document.getElementById("posterTitleSub").textContent=ui.posterTitleSub;
-      document.getElementById("posterLegendTitle").textContent=ui.posterLegendTitle;
-      document.getElementById("posterLegend1").textContent=ui.posterLegend1;
-      document.getElementById("posterLegend2").textContent=ui.posterLegend2;
-      document.getElementById("posterLegend3").textContent=ui.posterLegend3;
-      document.getElementById("posterLegend4").textContent=ui.posterLegend4;
-      document.getElementById("posterLegend5").textContent=ui.posterLegend5;
-      document.getElementById("focusToggle").textContent=focusMode ? ui.focusOff : ui.focusOn;
-      document.getElementById("resetView").textContent=ui.resetView;
-      document.getElementById("searchInput").placeholder=ui.searchPlaceholder;
-
-      categoryFilter.innerHTML=
-        `<option value="all">${ui.categories.all}</option>
-         <option value="surface">${ui.categories.surface}</option>
-         <option value="access">${ui.categories.access}</option>
-         <option value="living">${ui.categories.living}</option>
-         <option value="agriculture">${ui.categories.agriculture}</option>
-         <option value="resources">${ui.categories.resources}</option>`;
-      categoryFilter.value=currentFilter;
-
-      document.getElementById("langFrBtn").classList.toggle("active",currentLang==="fr");
-      document.getElementById("langEnBtn").classList.toggle("active",currentLang==="en");
-
-      renderLegend();
+    function makeTechnicalSummary(comp) {
+      const local = getLocalized(comp);
+      if (state.lang === "fr") {
+        return `Élément n°${comp.number.toString().padStart(2, "0")} situé à ${comp.x.toFixed(1)}% / ${comp.y.toFixed(1)}% dans le diagramme. Catégorie : ${categoryLabel(comp.category)}. Ce sous-système relie la logique d’autonomie du bunker à une lecture claire du projet et participe à la redondance fonctionnelle de l’ensemble.`;
+      }
+      return `Component #${comp.number.toString().padStart(2, "0")} located at ${comp.x.toFixed(1)}% / ${comp.y.toFixed(1)}% in the diagram. Category: ${categoryLabel(comp.category)}. This subsystem supports the bunker’s self-sufficiency logic while keeping the project legible and functionally redundant.`;
     }
 
-    function filteredComponents(){
-      return getComponents().filter(c=>{
-        const categoryOk=currentFilter==="all" || c.category===currentFilter;
-        const searchOk=!currentSearch || `${c.title} ${c.short} ${c.details} ${c.features.join(" ")}`.toLowerCase().includes(currentSearch.toLowerCase());
-        return categoryOk && searchOk;
-      });
-    }
+    function applyI18n() {
+      document.documentElement.lang = state.lang;
 
-    function renderLegend(){
-      legendEl.innerHTML="";
-      data[currentLang].legend.forEach(item=>{
-        const row=document.createElement("div");
-        row.className="legend-item";
-        row.innerHTML=`<span class="legend-dot" style="background:${item.color};box-shadow:0 0 0 4px ${hexToRgba(item.color,.18)}"></span><span>${item.label}</span>`;
-        legendEl.appendChild(row);
-      });
-    }
-
-    function createHotspots(){
-      diagramWrap.querySelectorAll(".hotspot").forEach(h=>h.remove());
-
-      getComponents().forEach(component=>{
-        const b=document.createElement("button");
-        b.className="hotspot";
-        if(["stair-left","stair-center","stair-right"].includes(component.id)){
-          b.classList.add("stair-hotspot");
+      document.querySelectorAll("[data-i18n]").forEach(node => {
+        const path = node.dataset.i18n.split(".");
+        let value = translations[state.lang];
+        path.forEach(key => value = value?.[key]);
+        if (typeof value === "string") {
+          node.textContent = value;
         }
-        b.type="button";
-        b.dataset.id=component.id;
-        b.style.left=`${component.x}%`;
-        b.style.top=`${component.y}%`;
-        b.setAttribute("aria-label",component.title);
-        b.textContent=component.number;
-        b.addEventListener("click",()=>{
-          selectedId=component.id;
-          updateSelection();
+      });
+
+      els.searchInput.placeholder = translations[state.lang].catalog.searchPlaceholder;
+      renderFilters();
+      renderCatalog();
+      renderHotspots();
+      updateDetailCard();
+    }
+
+    function renderFilters() {
+      els.filterRow.innerHTML = "";
+      categoryOrder.forEach(category => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "filter-btn" + (state.filter === category ? " active" : "");
+        button.textContent = categoryLabel(category);
+        button.dataset.category = category;
+        button.addEventListener("click", () => {
+          state.filter = category;
+          renderFilters();
+          renderCatalog();
+          renderHotspots();
+          ensureActiveVisible();
         });
-        diagramWrap.appendChild(b);
-      });
-
-      updateHotspotsVisibility();
-      updateSelection();
-    }
-
-    function updateHotspotsVisibility(){
-      const visibleIds=new Set(filteredComponents().map(c=>c.id));
-      diagramWrap.querySelectorAll(".hotspot").forEach(h=>{
-        h.classList.toggle("hidden-by-filter",!visibleIds.has(h.dataset.id));
+        els.filterRow.appendChild(button);
       });
     }
 
-    function updateSelection(){
-      const components=getComponents();
-      let component=components.find(c=>c.id===selectedId);
-      const visible=filteredComponents();
+    function matchesSearch(comp) {
+      if (!state.query.trim()) return true;
+      const q = state.query.trim().toLowerCase();
+      const local = getLocalized(comp);
+      const haystack = [
+        comp.id,
+        String(comp.number),
+        local.title,
+        local.short,
+        local.role,
+        local.benefits,
+        local.details,
+        ...local.features,
+        categoryLabel(comp.category)
+      ].join(" ").toLowerCase();
 
-      if(!component || (!visible.find(v=>v.id===selectedId) && visible.length)){
-        component=visible[0];
-        selectedId=component ? component.id : components[0]?.id;
+      return haystack.includes(q);
+    }
+
+    function matchesFilter(comp) {
+      return state.filter === "all" || comp.category === state.filter;
+    }
+
+    function getVisibleComponents() {
+      return baseComponents.filter(comp => matchesFilter(comp) && matchesSearch(comp));
+    }
+
+    function renderCatalog() {
+      const visible = getVisibleComponents();
+      els.catalogList.innerHTML = "";
+
+      visible.forEach(comp => {
+        const local = getLocalized(comp);
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "catalog-item" + (state.activeId === comp.id ? " active" : "");
+        item.dataset.id = comp.id;
+        item.innerHTML = `
+          <span class="catalog-number">${String(comp.number).padStart(2, "0")}</span>
+          <span class="catalog-copy">
+            <p class="catalog-title">${escapeHtml(local.title)}</p>
+            <p class="catalog-short">${escapeHtml(local.short)}</p>
+          </span>
+          <span class="catalog-tag">${escapeHtml(categoryLabel(comp.category))}</span>
+        `;
+        item.addEventListener("click", () => setActiveComponent(comp.id, true));
+        els.catalogList.appendChild(item);
+      });
+
+      els.catalogCount.textContent = visible.length;
+      els.emptyState.classList.toggle("show", visible.length === 0);
+    }
+
+    function renderHotspots() {
+      els.hotspotLayer.innerHTML = "";
+      els.fullscreenHotspotLayer.innerHTML = "";
+
+      const visibleIds = new Set(getVisibleComponents().map(item => item.id));
+
+      baseComponents.forEach(comp => {
+        const hotspot = buildHotspot(comp, visibleIds.has(comp.id));
+        els.hotspotLayer.appendChild(hotspot);
+
+        const hotspotFullscreen = buildHotspot(comp, visibleIds.has(comp.id), true);
+        els.fullscreenHotspotLayer.appendChild(hotspotFullscreen);
+      });
+    }
+
+    function buildHotspot(comp, visible, isFullscreen = false) {
+      const local = getLocalized(comp);
+      const btn = document.createElement("button");
+      btn.type = "button";
+      const isStair = ["stair-left", "stair-center", "stair-right"].includes(comp.id);
+      btn.className = "hotspot" + (isStair ? " stair" : "") + (state.activeId === comp.id ? " active" : "");
+      btn.id = isFullscreen ? `${comp.id}-fs` : comp.id;
+      btn.style.setProperty("--x", `${comp.x}%`);
+      btn.style.setProperty("--y", `${comp.y}%`);
+      btn.dataset.id = comp.id;
+      btn.dataset.number = comp.number;
+      btn.setAttribute("aria-label", local.title);
+      btn.title = local.title;
+      btn.style.display = visible ? "block" : "none";
+      btn.addEventListener("click", () => setActiveComponent(comp.id, true));
+      return btn;
+    }
+
+    function updateDetailCard() {
+      const comp = getComponent(state.activeId);
+      const local = getLocalized(comp);
+
+      els.componentTitle.textContent = local.title;
+      els.componentBadge.textContent = String(comp.number).padStart(2, "0");
+      els.componentShort.textContent = local.short;
+      els.componentCategory.textContent = categoryLabel(comp.category);
+      els.componentRole.textContent = local.role;
+      els.componentBenefits.textContent = local.benefits;
+      els.componentDetails.textContent = local.details;
+      els.componentTechnical.textContent = makeTechnicalSummary(comp);
+
+      els.componentFeatures.innerHTML = "";
+      local.features.forEach(feature => {
+        const li = document.createElement("li");
+        li.textContent = feature;
+        els.componentFeatures.appendChild(li);
+      });
+
+      document.querySelectorAll(".catalog-item").forEach(item => {
+        item.classList.toggle("active", item.dataset.id === state.activeId);
+      });
+
+      document.querySelectorAll(".hotspot").forEach(item => {
+        const rawId = item.dataset.id;
+        item.classList.toggle("active", rawId === state.activeId);
+      });
+    }
+
+    function setActiveComponent(id, scrollIntoView = false) {
+      state.activeId = id;
+      updateDetailCard();
+
+      const comp = getComponent(id);
+      const catalogItem = [...document.querySelectorAll(".catalog-item")].find(item => item.dataset.id === id);
+      if (scrollIntoView && catalogItem) {
+        catalogItem.scrollIntoView({ block: "nearest", behavior: "smooth" });
       }
-      if(!component) return;
 
-      document.getElementById("systemTitle").textContent=component.title;
-      document.getElementById("systemSummary").textContent=component.short;
-      document.getElementById("systemCategory").textContent=categoryLabel(component.category);
-      document.getElementById("metaRole").textContent=component.role;
-      document.getElementById("metaBenefits").textContent=component.benefits;
-      document.getElementById("systemDetails").textContent=component.details;
-
-      const fl=document.getElementById("featuresList");
-      fl.innerHTML="";
-      component.features.forEach(item=>{
-        const li=document.createElement("li");
-        li.textContent=item;
-        fl.appendChild(li);
-      });
-
-      diagramWrap.querySelectorAll(".hotspot").forEach(h=>{
-        h.classList.toggle("active",h.dataset.id===component.id);
-      });
-
-      componentList.querySelectorAll(".component-item").forEach(item=>{
-        item.classList.toggle("active",item.dataset.id===component.id);
-      });
-
-      if(focusMode){
-        diagramWrap.querySelectorAll(".hotspot").forEach(h=>{
-          h.style.opacity=h.dataset.id===component.id ? "1" : "0.16";
-        });
-      }else{
-        diagramWrap.querySelectorAll(".hotspot").forEach(h=>{
-          h.style.opacity="";
-        });
+      const hotspot = document.querySelector(`.hotspot[data-id="${id}"]`);
+      if (scrollIntoView && hotspot && !els.fullscreenModal.classList.contains("show")) {
+        hotspot.animate(
+          [
+            { transform: hotspot.classList.contains("stair") ? "translate(-50%, -50%) scale(1)" : "translate(-50%, -50%) scale(1)" },
+            { transform: hotspot.classList.contains("stair") ? "translate(-50%, -50%) scale(1.16)" : "translate(-50%, -50%) scale(1.14)" },
+            { transform: hotspot.classList.contains("stair") ? "translate(-50%, -50%) scale(1.08)" : "translate(-50%, -50%) scale(1.1)" }
+          ],
+          { duration: 520, easing: "ease-out" }
+        );
       }
     }
 
-    function renderCatalog(){
-      const ui=data[currentLang].ui;
-      const list=filteredComponents();
-
-      componentList.innerHTML="";
-      list.forEach(component=>{
-        const button=document.createElement("button");
-        button.type="button";
-        button.className="component-item";
-        button.dataset.id=component.id;
-        button.innerHTML=`<strong>${component.number}. ${component.title}</strong><span>${component.short}</span>`;
-        button.addEventListener("click",()=>{
-          selectedId=component.id;
-          updateSelection();
-        });
-        componentList.appendChild(button);
-      });
-
-      countPill.textContent=`${list.length} ${list.length===1 ? ui.countSingle : ui.countPlural}`;
-      updateSelection();
-    }
-
-    function setLanguage(lang){
-      currentLang=lang;
-      applyUIStrings();
-      createHotspots();
+    function ensureActiveVisible() {
+      const visible = getVisibleComponents();
+      if (!visible.some(item => item.id === state.activeId)) {
+        state.activeId = visible[0]?.id || baseComponents[0].id;
+      }
       renderCatalog();
+      renderHotspots();
+      updateDetailCard();
     }
 
-    function setZoom(value){
-      zoom=Math.max(.7,Math.min(2.4,value));
-      diagramWrap.style.transform=`scale(${zoom})`;
-    }
-
-    const imageCard=document.querySelector(".image-card");
-    if(imageCard && diagramParallax){
-      imageCard.addEventListener("mousemove",e=>{
-        const r=imageCard.getBoundingClientRect();
-        const x=(e.clientX-r.left)/r.width-.5;
-        const y=(e.clientY-r.top)/r.height-.5;
-        diagramParallax.style.transform=`translate(${x*-10}px, ${y*-10}px)`;
-      });
-      imageCard.addEventListener("mouseleave",()=>{
-        diagramParallax.style.transform="translate(0,0)";
-      });
-    }
-
-    document.getElementById("langFrBtn").addEventListener("click",()=>setLanguage("fr"));
-    document.getElementById("langEnBtn").addEventListener("click",()=>setLanguage("en"));
-
-    categoryFilter.addEventListener("change",e=>{
-      currentFilter=e.target.value;
-      updateHotspotsVisibility();
+    function resetExplorer() {
+      state.query = "";
+      state.filter = "all";
+      state.activeId = "stair-left";
+      els.searchInput.value = "";
+      renderFilters();
       renderCatalog();
-    });
-
-    searchInput.addEventListener("input",e=>{
-      currentSearch=e.target.value.trim();
-      updateHotspotsVisibility();
-      renderCatalog();
-    });
-
-    document.getElementById("zoomIn").addEventListener("click",()=>setZoom(zoom+.15));
-    document.getElementById("zoomOut").addEventListener("click",()=>setZoom(zoom-.15));
-
-    document.getElementById("focusToggle").addEventListener("click",()=>{
-      focusMode=!focusMode;
-      document.getElementById("focusToggle").textContent=focusMode ? data[currentLang].ui.focusOff : data[currentLang].ui.focusOn;
-      updateSelection();
-    });
-
-    document.getElementById("resetView").addEventListener("click",()=>{
-      currentFilter="all";
-      currentSearch="";
-      focusMode=false;
-      selectedId="stair-left";
-      categoryFilter.value="all";
-      searchInput.value="";
+      renderHotspots();
+      updateDetailCard();
       setZoom(1);
-      zoomShell.scrollTo({top:0,left:0,behavior:"smooth"});
-      applyUIStrings();
-      updateHotspotsVisibility();
-      renderCatalog();
-    });
+      setFullscreenZoom(1);
+    }
 
-    applyUIStrings();
-    createHotspots();
-    renderCatalog();
+    function setZoom(value) {
+      state.zoom = Math.max(0.8, Math.min(2.4, value));
+      document.documentElement.style.setProperty("--poster-scale", state.zoom.toFixed(2));
+    }
+
+    function setFullscreenZoom(value) {
+      state.fullscreenZoom = Math.max(0.8, Math.min(2.6, value));
+      els.fullscreenMedia.style.transform = `scale(${state.fullscreenZoom.toFixed(2)})`;
+    }
+
+    function openFullscreen() {
+      els.fullscreenModal.classList.add("show");
+      els.fullscreenModal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      setFullscreenZoom(state.zoom);
+      updateDetailCard();
+    }
+
+    function closeFullscreen() {
+      els.fullscreenModal.classList.remove("show");
+      els.fullscreenModal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function bindEvents() {
+      els.langBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.lang = btn.dataset.lang;
+          els.langBtns.forEach(other => other.classList.toggle("active", other === btn));
+          applyI18n();
+        });
+      });
+
+      els.searchInput.addEventListener("input", event => {
+        state.query = event.target.value;
+        renderCatalog();
+        renderHotspots();
+        ensureActiveVisible();
+      });
+
+      els.zoomInBtn.addEventListener("click", () => setZoom(state.zoom + 0.12));
+      els.zoomOutBtn.addEventListener("click", () => setZoom(state.zoom - 0.12));
+      els.fullscreenZoomIn.addEventListener("click", () => setFullscreenZoom(state.fullscreenZoom + 0.12));
+      els.fullscreenZoomOut.addEventListener("click", () => setFullscreenZoom(state.fullscreenZoom - 0.12));
+
+      els.headerFullscreenBtn.addEventListener("click", openFullscreen);
+      els.posterFullscreenBtn.addEventListener("click", openFullscreen);
+      els.closeFullscreenBtn.addEventListener("click", closeFullscreen);
+
+      els.resetBtn.addEventListener("click", resetExplorer);
+      els.heroResetBtn.addEventListener("click", resetExplorer);
+      els.catalogResetBtn.addEventListener("click", resetExplorer);
+
+      els.heroFocusAccessBtn.addEventListener("click", () => {
+        state.filter = "access";
+        renderFilters();
+        renderCatalog();
+        renderHotspots();
+        ensureActiveVisible();
+      });
+
+      els.fullscreenModal.addEventListener("click", (event) => {
+        if (event.target === els.fullscreenModal) closeFullscreen();
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && els.fullscreenModal.classList.contains("show")) {
+          closeFullscreen();
+        }
+      });
+
+      addParallax(els.posterViewport, false);
+      addParallax(els.fullscreenViewport, true);
+    }
+
+    function addParallax(viewport, fullscreen = false) {
+      const strength = fullscreen ? 16 : 10;
+      viewport.addEventListener("mousemove", (event) => {
+        const rect = viewport.getBoundingClientRect();
+        const px = (event.clientX - rect.left) / rect.width;
+        const py = (event.clientY - rect.top) / rect.height;
+        const tx = (px - 0.5) * strength;
+        const ty = (py - 0.5) * strength;
+
+        if (fullscreen) {
+          els.fullscreenMedia.style.transform = `translate(${tx}px, ${ty}px) scale(${state.fullscreenZoom.toFixed(2)})`;
+        } else {
+          document.documentElement.style.setProperty("--poster-x", `${tx}px`);
+          document.documentElement.style.setProperty("--poster-y", `${ty}px`);
+        }
+      });
+
+      viewport.addEventListener("mouseleave", () => {
+        if (fullscreen) {
+          els.fullscreenMedia.style.transform = `translate(0px, 0px) scale(${state.fullscreenZoom.toFixed(2)})`;
+        } else {
+          document.documentElement.style.setProperty("--poster-x", "0px");
+          document.documentElement.style.setProperty("--poster-y", "0px");
+        }
+      });
+    }
+
+    bindEvents();
+    applyI18n();
     setZoom(1);
+    setFullscreenZoom(1);
+    setActiveComponent(state.activeId);
   </script>
 </body>
 </html>
