@@ -1206,6 +1206,72 @@
         align-items: flex-start;
       }
     }
+
+    /* ── Bunker V4 Accordion ── */
+    .bunker-v4-accordion {
+      width: min(1500px, calc(100% - 32px));
+      margin: 0 auto 28px;
+    }
+    .bunker-v4-toggle-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 22px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(109,230,214,0.10), rgba(82,223,255,0.07));
+      border: 1px solid rgba(109,230,214,0.20);
+      color: #e8f0f7;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+      transition: background 200ms ease, border-color 200ms ease, transform 160ms ease;
+      appearance: none;
+      outline: none;
+    }
+    .bunker-v4-toggle-btn:hover {
+      background: linear-gradient(135deg, rgba(109,230,214,0.16), rgba(82,223,255,0.12));
+      border-color: rgba(109,230,214,0.34);
+      transform: translateY(-1px);
+    }
+    .bunker-v4-toggle-btn .btn-label {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .bunker-v4-toggle-btn .btn-icon { font-size: 20px; color: #6de6d6; flex-shrink: 0; }
+    .bunker-v4-toggle-btn .btn-chevron {
+      font-size: 18px; color: #6de6d6;
+      transition: transform 300ms ease; flex-shrink: 0;
+    }
+    .bunker-v4-toggle-btn[aria-expanded="true"] .btn-chevron { transform: rotate(180deg); }
+    .bunker-v4-body {
+      display: none; margin-top: 10px; border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.30);
+      animation: v4FadeIn 280ms ease;
+    }
+    .bunker-v4-body.open { display: block; }
+    @keyframes v4FadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    #bunkerV4Panel { font-family: 'Share Tech Mono', monospace; background: #060c18; padding: 14px; }
+    #bunkerV4Panel h1 { font-family: 'Orbitron', sans-serif; font-size: 14px; letter-spacing: 4px; text-align: center; color: #fff; margin: 0 0 4px; padding: 0; }
+    #bunkerV4Panel .sub { text-align: center; font-size: 9px; color: #3a6a8a; letter-spacing: 2px; margin-bottom: 14px; }
+    #bunkerV4Panel .bv4-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    #bunkerV4Panel .bv4-panel { background: #0a1220; border: 1px solid #1a3050; border-radius: 3px; padding: 10px; }
+    #bunkerV4Panel .bv4-pt { font-family: 'Orbitron', sans-serif; font-size: 8px; letter-spacing: 2px; color: #3a6a8a; margin-bottom: 8px; border-bottom: 1px solid #1a3050; padding-bottom: 5px; }
+    #bunkerV4Panel .bv4-iso { max-width: 100%; margin: 14px 0 0; background: #0a1220; border: 1px solid #1a3050; border-radius: 3px; padding: 10px; }
+    #bunkerV4Panel .bv4-legend-wrap { max-width: 100%; margin: 14px 0 0; background: #0a1220; border: 1px solid #1a3050; border-radius: 3px; padding: 10px 14px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    #bunkerV4Panel .bv4-lt { font-family: 'Orbitron', sans-serif; font-size: 8px; letter-spacing: 2px; color: #3a6a8a; width: 100%; border-bottom: 1px solid #1a3050; padding-bottom: 5px; margin-bottom: 2px; }
+    #bunkerV4Panel .bv4-li { display: flex; align-items: center; gap: 6px; font-size: 9px; color: #7ecfff; }
+    #bunkerV4Panel .bv4-lc { width: 20px; height: 9px; border-radius: 1px; flex-shrink: 0; }
+    #bunkerV4Panel .bv4-footer { text-align: center; margin-top: 10px; font-size: 8px; color: #1a3050; letter-spacing: 2px; padding-bottom: 4px; }
+    @media (max-width: 900px) { #bunkerV4Panel .bv4-grid { grid-template-columns: 1fr; } }
+
   </style>
 </head>
 <body>
@@ -1264,6 +1330,307 @@
         </div>
       </div>
     </section>
+
+
+    <!-- ══ BUNKER V4 ACCORDEON ══ -->
+    <div class="bunker-v4-accordion">
+      <button
+        class="bunker-v4-toggle-btn"
+        type="button"
+        id="bunkerV4Btn"
+        aria-expanded="false"
+        aria-controls="bunkerV4Body"
+      >
+        <span class="btn-label">
+          <span class="btn-icon">&#8853;</span>
+          Plan Technique V4 &mdash; Structure en croix
+        </span>
+        <span class="btn-chevron">&#9660;</span>
+      </button>
+      <div class="bunker-v4-body" id="bunkerV4Body" role="region" aria-labelledby="bunkerV4Btn">
+        <div id="bunkerV4Panel">
+<h1>Bunker Souterrain — Plan Technique V4</h1>
+<div class="sub">STRUCTURE EN CROIX · 4 BRAS 40' · 2 NIVEAUX · 2 COLIMACONS CENTRAUX · 4 ECHELLES AUX EXTREMITES · 5 CONTENEURS 10'</div>
+
+<div class="bv4-grid">
+<div class="bv4-panel">
+  <div class="bv4-pt">VUE DE DESSUS</div>
+  <svg viewBox="0 0 560 560" width="100%" style="display:block">
+    <defs>
+      <pattern id="g1" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0L0 0 0 16" fill="none" stroke="#0b1e30" stroke-width="0.5"/></pattern>
+      <marker id="ar1" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L0,5 L5,2.5z" fill="#3a6aaa"/></marker>
+      <marker id="ar1l" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto-start-reverse"><path d="M0,0 L0,5 L5,2.5z" fill="#3a6aaa"/></marker>
+    </defs>
+    <rect width="560" height="560" fill="#07101a"/><rect width="560" height="560" fill="url(#g1)"/>
+    <rect x="242" y="72" width="76" height="416" fill="none" stroke="#1a6a3a" stroke-width="1.2" stroke-dasharray="5,4" rx="2"/>
+    <rect x="72" y="242" width="416" height="76" fill="none" stroke="#1a6a3a" stroke-width="1.2" stroke-dasharray="5,4" rx="2"/>
+    <g fill="#0a2015" stroke="#2a9a5a" stroke-width="1.2">
+      <rect x="242" y="72" width="11" height="15" rx="2"/><text x="248" y="83" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="307" y="72" width="11" height="15" rx="2"/><text x="313" y="83" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="242" y="473" width="11" height="15" rx="2"/><text x="248" y="484" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="307" y="473" width="11" height="15" rx="2"/><text x="313" y="484" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="72" y="242" width="15" height="11" rx="2"/><text x="80" y="251" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="72" y="307" width="15" height="11" rx="2"/><text x="80" y="316" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="473" y="242" width="15" height="11" rx="2"/><text x="481" y="251" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="473" y="307" width="15" height="11" rx="2"/><text x="481" y="316" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+    </g>
+    <rect x="248" y="80" width="64" height="400" fill="#0c1c30" stroke="#2a5a8a" stroke-width="1.5"/>
+    <rect x="80" y="248" width="400" height="64" fill="#0c1c30" stroke="#2a5a8a" stroke-width="1.5"/>
+    <rect x="254" y="86" width="52" height="194" fill="#091830" stroke="#aa7a3a" stroke-width="2"/>
+    <text x="280" y="180" font-size="6" fill="#aa7a3a" text-anchor="middle" transform="rotate(90,280,180)">2x 20' EVAC N</text>
+    <rect x="254" y="280" width="52" height="194" fill="#091830" stroke="#aa7a3a" stroke-width="2"/>
+    <text x="280" y="378" font-size="6" fill="#aa7a3a" text-anchor="middle" transform="rotate(90,280,378)">2x 20' EVAC S</text>
+    <rect x="86" y="254" width="194" height="52" fill="#091830" stroke="#4a8acc" stroke-width="2"/>
+    <text x="183" y="283" font-size="7" fill="#4a8acc" text-anchor="middle">40' R1 OUEST</text>
+    <rect x="280" y="254" width="194" height="52" fill="#091830" stroke="#4a8acc" stroke-width="2"/>
+    <text x="377" y="283" font-size="7" fill="#4a8acc" text-anchor="middle">40' R3 EST</text>
+    <rect x="254" y="254" width="52" height="52" fill="#0a1020" stroke="#5a9add" stroke-width="2"/>
+    <circle cx="268" cy="268" r="10" fill="#0d0820" stroke="#cc44ff" stroke-width="2"/>
+    <circle cx="268" cy="268" r="5" fill="none" stroke="#cc44ff" stroke-width="1"/>
+    <circle cx="292" cy="292" r="10" fill="#0d0820" stroke="#cc44ff" stroke-width="2"/>
+    <circle cx="292" cy="292" r="5" fill="none" stroke="#cc44ff" stroke-width="1"/>
+    <text x="280" y="318" font-size="5" fill="#cc44ff" text-anchor="middle">2x COLIMACONS</text>
+    <rect x="248" y="222" width="64" height="28" fill="#081510" stroke="#44cc88" stroke-width="2"/>
+    <rect x="252" y="224" width="56" height="10" fill="#06102a" stroke="#4488cc" stroke-width="0.8"/>
+    <line x1="266" y1="224" x2="266" y2="234" stroke="#4488cc" stroke-width="0.5"/>
+    <line x1="280" y1="224" x2="280" y2="234" stroke="#4488cc" stroke-width="0.5"/>
+    <line x1="294" y1="224" x2="294" y2="234" stroke="#4488cc" stroke-width="0.5"/>
+    <line x1="252" y1="229" x2="308" y2="229" stroke="#4488cc" stroke-width="0.5"/>
+    <text x="280" y="243" font-size="6" fill="#44cc88" text-anchor="middle">10' CENTRAL</text>
+    <line x1="280" y1="250" x2="280" y2="254" stroke="#44cc88" stroke-width="2"/>
+    <rect x="267" y="88" width="26" height="18" fill="#0a0a1a" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="272" y1="88" x2="272" y2="106" stroke="#ffaa00" stroke-width="1"/><line x1="287" y1="88" x2="287" y2="106" stroke="#ffaa00" stroke-width="1"/>
+    <line x1="272" y1="94" x2="287" y2="94" stroke="#ffaa00" stroke-width="0.8"/><line x1="272" y1="100" x2="287" y2="100" stroke="#ffaa00" stroke-width="0.8"/>
+    <rect x="254" y="56" width="52" height="28" fill="#081510" stroke="#44cc88" stroke-width="1.5"/>
+    <rect x="256" y="58" width="48" height="10" fill="#06102a" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="280" y="76" font-size="6" fill="#44cc88" text-anchor="middle">10' N</text>
+    <line x1="280" y1="84" x2="280" y2="88" stroke="#ffaa00" stroke-width="1.5"/>
+    <rect x="267" y="454" width="26" height="18" fill="#0a0a1a" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="272" y1="454" x2="272" y2="472" stroke="#ffaa00" stroke-width="1"/><line x1="287" y1="454" x2="287" y2="472" stroke="#ffaa00" stroke-width="1"/>
+    <line x1="272" y1="460" x2="287" y2="460" stroke="#ffaa00" stroke-width="0.8"/><line x1="272" y1="466" x2="287" y2="466" stroke="#ffaa00" stroke-width="0.8"/>
+    <rect x="254" y="476" width="52" height="28" fill="#081510" stroke="#44cc88" stroke-width="1.5"/>
+    <rect x="256" y="490" width="48" height="10" fill="#06102a" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="280" y="488" font-size="6" fill="#44cc88" text-anchor="middle">10' S</text>
+    <line x1="280" y1="472" x2="280" y2="476" stroke="#ffaa00" stroke-width="1.5"/>
+    <rect x="88" y="267" width="18" height="26" fill="#0a0a1a" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="88" y1="272" x2="106" y2="272" stroke="#ffaa00" stroke-width="1"/><line x1="88" y1="287" x2="106" y2="287" stroke="#ffaa00" stroke-width="1"/>
+    <line x1="94" y1="272" x2="94" y2="287" stroke="#ffaa00" stroke-width="0.8"/><line x1="100" y1="272" x2="100" y2="287" stroke="#ffaa00" stroke-width="0.8"/>
+    <rect x="56" y="254" width="28" height="52" fill="#081510" stroke="#44cc88" stroke-width="1.5"/>
+    <rect x="58" y="256" width="10" height="48" fill="#06102a" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="74" y="283" font-size="5" fill="#44cc88" text-anchor="middle" transform="rotate(90,74,283)">10' O</text>
+    <line x1="84" y1="280" x2="88" y2="280" stroke="#ffaa00" stroke-width="1.5"/>
+    <rect x="454" y="267" width="18" height="26" fill="#0a0a1a" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="454" y1="272" x2="472" y2="272" stroke="#ffaa00" stroke-width="1"/><line x1="454" y1="287" x2="472" y2="287" stroke="#ffaa00" stroke-width="1"/>
+    <line x1="460" y1="272" x2="460" y2="287" stroke="#ffaa00" stroke-width="0.8"/><line x1="466" y1="272" x2="466" y2="287" stroke="#ffaa00" stroke-width="0.8"/>
+    <rect x="476" y="254" width="28" height="52" fill="#081510" stroke="#44cc88" stroke-width="1.5"/>
+    <rect x="492" y="256" width="10" height="48" fill="#06102a" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="486" y="283" font-size="5" fill="#44cc88" text-anchor="middle" transform="rotate(90,486,283)">10' E</text>
+    <line x1="472" y1="280" x2="476" y2="280" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="86" y1="526" x2="474" y2="526" stroke="#3a6aaa" stroke-width="0.8" marker-start="url(#ar1l)" marker-end="url(#ar1)"/>
+    <text x="280" y="538" font-size="6" fill="#3a6aaa" text-anchor="middle">40' + 8' + 40' = 88' (26.8m)</text>
+    <line x1="526" y1="86" x2="526" y2="474" stroke="#3a6aaa" stroke-width="0.8" marker-start="url(#ar1l)" marker-end="url(#ar1)"/>
+    <text x="540" y="280" font-size="6" fill="#3a6aaa" text-anchor="middle" transform="rotate(90,540,280)">40' + 8' + 40' = 88'</text>
+    <text x="516" y="26" font-size="14" fill="#3a6aaa">&#8593;</text>
+    <text x="518" y="38" font-size="7" fill="#3a6aaa">N</text>
+  </svg>
+</div>
+
+<div class="bv4-panel">
+  <div class="bv4-pt">COUPE A-A' -- VUE LATERALE</div>
+  <svg viewBox="0 0 560 560" width="100%" style="display:block">
+    <defs>
+      <pattern id="g2" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0L0 0 0 16" fill="none" stroke="#0b1e30" stroke-width="0.5"/></pattern>
+      <pattern id="terre" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#2a1a08" stroke-width="2"/></pattern>
+      <pattern id="grav" width="7" height="7" patternUnits="userSpaceOnUse"><ellipse cx="2" cy="2" rx="1.5" ry="1" fill="#1a2a1a"/><ellipse cx="5" cy="5" rx="1.2" ry="0.8" fill="#1a2a1a"/></pattern>
+      <marker id="ar2" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L0,5 L5,2.5z" fill="#3a6aaa"/></marker>
+      <marker id="ar2l" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto-start-reverse"><path d="M0,0 L0,5 L5,2.5z" fill="#3a6aaa"/></marker>
+    </defs>
+    <rect width="560" height="560" fill="#07101a"/><rect width="560" height="560" fill="url(#g2)"/>
+    <line x1="10" y1="165" x2="550" y2="165" stroke="#3a6aaa" stroke-width="1" stroke-dasharray="6,4"/>
+    <text x="12" y="160" font-size="7" fill="#3a6aaa">SOL +/-0</text>
+    <rect x="216" y="94" width="128" height="70" fill="#07130d" stroke="#44cc88" stroke-width="2"/>
+    <rect x="220" y="96" width="120" height="16" fill="#06102a" stroke="#4488cc" stroke-width="1" transform="rotate(-4,280,104)"/>
+    <line x1="248" y1="95" x2="246" y2="110" stroke="#4488cc" stroke-width="0.7"/>
+    <line x1="270" y1="93" x2="268" y2="108" stroke="#4488cc" stroke-width="0.7"/>
+    <line x1="292" y1="93" x2="290" y2="108" stroke="#4488cc" stroke-width="0.7"/>
+    <line x1="314" y1="95" x2="312" y2="110" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="280" y="140" font-size="7" fill="#44cc88" text-anchor="middle">CONTENEUR 10' CENTRAL</text>
+    <text x="280" y="152" font-size="6" fill="#2a8a55" text-anchor="middle">PANNEAUX SOLAIRES</text>
+    <rect x="18" y="110" width="54" height="54" fill="#07130d" stroke="#44cc88" stroke-width="1.5"/>
+    <rect x="20" y="112" width="50" height="12" fill="#06102a" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="45" y="140" font-size="6" fill="#44cc88" text-anchor="middle">10' O</text>
+    <rect x="488" y="110" width="54" height="54" fill="#07130d" stroke="#44cc88" stroke-width="1.5"/>
+    <rect x="490" y="112" width="50" height="12" fill="#06102a" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="515" y="140" font-size="6" fill="#44cc88" text-anchor="middle">10' E</text>
+    <rect x="36" y="45" width="488" height="120" fill="url(#terre)" opacity="0.55"/>
+    <rect x="36" y="45" width="488" height="120" fill="#150e05" opacity="0.4"/>
+    <text x="12" y="90" font-size="6" fill="#8a6a2a">TERRE</text><text x="12" y="98" font-size="6" fill="#8a6a2a">4 PI.</text>
+    <rect x="30" y="159" width="500" height="7" fill="#111"/>
+    <rect x="30" y="159" width="7" height="212" fill="#111"/>
+    <rect x="523" y="159" width="7" height="212" fill="#111"/>
+    <rect x="30" y="364" width="500" height="7" fill="#111"/>
+    <text x="16" y="268" font-size="5" fill="#555" text-anchor="middle" transform="rotate(-90,16,268)">MEM BITU</text>
+    <rect x="36" y="165" width="488" height="12" fill="#0e1e32" stroke="#2a5080" stroke-width="1.5"/>
+    <rect x="36" y="165" width="12" height="200" fill="#0e1e32" stroke="#2a5080" stroke-width="1.5"/>
+    <rect x="512" y="165" width="12" height="200" fill="#0e1e32" stroke="#2a5080" stroke-width="1.5"/>
+    <rect x="36" y="353" width="488" height="12" fill="#0e1e32" stroke="#2a5080" stroke-width="1.5"/>
+    <text x="12" y="174" font-size="5" fill="#2a5080">BETON 8"</text>
+    <rect x="48" y="329" width="464" height="24" fill="url(#grav)"/>
+    <rect x="48" y="329" width="464" height="24" fill="#08120a" opacity="0.5"/>
+    <text x="12" y="344" font-size="5" fill="#2a9a5a">GRAV 12"</text>
+    <rect x="48" y="177" width="188" height="76" fill="#08182e" stroke="#4a88cc" stroke-width="2"/>
+    <text x="142" y="212" font-size="7" fill="#4a88cc" text-anchor="middle">R1 HAUT 40'</text>
+    <rect x="48" y="253" width="188" height="76" fill="#071528" stroke="#3a78bc" stroke-width="2"/>
+    <text x="142" y="288" font-size="7" fill="#3a78bc" text-anchor="middle">R1 BAS 40'</text>
+    <rect x="324" y="177" width="188" height="76" fill="#08182e" stroke="#4a88cc" stroke-width="2"/>
+    <text x="418" y="212" font-size="7" fill="#4a88cc" text-anchor="middle">R3 HAUT 40'</text>
+    <rect x="324" y="253" width="188" height="76" fill="#071528" stroke="#3a78bc" stroke-width="2"/>
+    <text x="418" y="288" font-size="7" fill="#3a78bc" text-anchor="middle">R3 BAS 40'</text>
+    <text x="12" y="218" font-size="5" fill="#4a88cc">NIV SUP</text><text x="12" y="294" font-size="5" fill="#3a78bc">NIV INF</text>
+    <rect x="236" y="165" width="88" height="164" fill="#0a1020" stroke="#5a9add" stroke-width="2"/>
+    <g stroke="#5a9add" stroke-width="0.6" opacity="0.5">
+      <line x1="248" y1="165" x2="248" y2="329"/><line x1="260" y1="165" x2="260" y2="329"/>
+      <line x1="272" y1="165" x2="272" y2="329"/><line x1="284" y1="165" x2="284" y2="329"/>
+      <line x1="296" y1="165" x2="296" y2="329"/><line x1="308" y1="165" x2="308" y2="329"/>
+      <line x1="320" y1="165" x2="320" y2="329"/>
+      <line x1="236" y1="177" x2="324" y2="177"/><line x1="236" y1="215" x2="324" y2="215"/>
+      <line x1="236" y1="253" x2="324" y2="253"/><line x1="236" y1="291" x2="324" y2="291"/>
+    </g>
+    <ellipse cx="258" cy="208" rx="13" ry="13" fill="#0d0820" stroke="#cc44ff" stroke-width="2"/>
+    <ellipse cx="258" cy="208" rx="6" ry="6" fill="none" stroke="#cc44ff" stroke-width="1"/>
+    <ellipse cx="302" cy="290" rx="13" ry="13" fill="#0d0820" stroke="#cc44ff" stroke-width="2"/>
+    <ellipse cx="302" cy="290" rx="6" ry="6" fill="none" stroke="#cc44ff" stroke-width="1"/>
+    <text x="280" y="346" font-size="6" fill="#cc44ff" text-anchor="middle">2x COLIMACONS</text>
+    <rect x="264" y="94" width="32" height="71" fill="#0c0820" stroke="#cc44ff" stroke-width="1" stroke-dasharray="3,2" opacity="0.8"/>
+    <line x1="264" y1="94" x2="264" y2="165" stroke="#cc44ff" stroke-width="1"/>
+    <line x1="296" y1="94" x2="296" y2="165" stroke="#cc44ff" stroke-width="1"/>
+    <rect x="38" y="165" width="12" height="164" fill="#0a0a18" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="41" y1="165" x2="41" y2="329" stroke="#ffaa00" stroke-width="1"/><line x1="47" y1="165" x2="47" y2="329" stroke="#ffaa00" stroke-width="1"/>
+    <g stroke="#ffaa00" stroke-width="0.8">
+      <line x1="41" y1="177" x2="47" y2="177"/><line x1="41" y1="189" x2="47" y2="189"/><line x1="41" y1="201" x2="47" y2="201"/>
+      <line x1="41" y1="213" x2="47" y2="213"/><line x1="41" y1="225" x2="47" y2="225"/><line x1="41" y1="237" x2="47" y2="237"/>
+      <line x1="41" y1="249" x2="47" y2="249"/><line x1="41" y1="261" x2="47" y2="261"/><line x1="41" y1="273" x2="47" y2="273"/>
+      <line x1="41" y1="285" x2="47" y2="285"/><line x1="41" y1="297" x2="47" y2="297"/><line x1="41" y1="309" x2="47" y2="309"/><line x1="41" y1="321" x2="47" y2="321"/>
+    </g>
+    <rect x="38" y="110" width="12" height="55" fill="#0a0a18" stroke="#ffaa00" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="44" y="106" font-size="5" fill="#ffaa00" text-anchor="middle">ECH O</text>
+    <rect x="510" y="165" width="12" height="164" fill="#0a0a18" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="513" y1="165" x2="513" y2="329" stroke="#ffaa00" stroke-width="1"/><line x1="519" y1="165" x2="519" y2="329" stroke="#ffaa00" stroke-width="1"/>
+    <g stroke="#ffaa00" stroke-width="0.8">
+      <line x1="513" y1="177" x2="519" y2="177"/><line x1="513" y1="189" x2="519" y2="189"/><line x1="513" y1="201" x2="519" y2="201"/>
+      <line x1="513" y1="213" x2="519" y2="213"/><line x1="513" y1="225" x2="519" y2="225"/><line x1="513" y1="237" x2="519" y2="237"/>
+      <line x1="513" y1="249" x2="519" y2="249"/><line x1="513" y1="261" x2="519" y2="261"/><line x1="513" y1="273" x2="519" y2="273"/>
+      <line x1="513" y1="285" x2="519" y2="285"/><line x1="513" y1="297" x2="519" y2="297"/><line x1="513" y1="309" x2="519" y2="309"/><line x1="513" y1="321" x2="519" y2="321"/>
+    </g>
+    <rect x="510" y="110" width="12" height="55" fill="#0a0a18" stroke="#ffaa00" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="516" y="106" font-size="5" fill="#ffaa00" text-anchor="middle">ECH E</text>
+    <circle cx="36" cy="367" r="7" fill="none" stroke="#2a9a5a" stroke-width="1.5"/>
+    <circle cx="524" cy="367" r="7" fill="none" stroke="#2a9a5a" stroke-width="1.5"/>
+    <line x1="43" y1="367" x2="517" y2="367" stroke="#2a9a5a" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="280" y="381" font-size="6" fill="#2a9a5a" text-anchor="middle">DRAIN FRANCAIS PERFORE</text>
+    <rect x="16" y="357" width="14" height="20" fill="#0a2015" stroke="#2a9a5a" stroke-width="1.5" rx="2"/>
+    <text x="23" y="370" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+    <rect x="530" y="357" width="14" height="20" fill="#0a2015" stroke="#2a9a5a" stroke-width="1.5" rx="2"/>
+    <text x="537" y="370" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+    <line x1="546" y1="45" x2="546" y2="165" stroke="#3a6aaa" stroke-width="0.8" marker-start="url(#ar2l)" marker-end="url(#ar2)"/>
+    <text x="556" y="108" font-size="6" fill="#3a6aaa" transform="rotate(90,556,108)">4 PI (1.2m)</text>
+    <line x1="530" y1="177" x2="530" y2="329" stroke="#3a78bc" stroke-width="0.8" marker-start="url(#ar2l)" marker-end="url(#ar2)"/>
+    <text x="540" y="253" font-size="6" fill="#3a78bc" transform="rotate(90,540,253)">2x9'6"=5.8m</text>
+    <line x1="48" y1="415" x2="512" y2="415" stroke="#3a6aaa" stroke-width="0.8" marker-start="url(#ar2l)" marker-end="url(#ar2)"/>
+    <text x="280" y="427" font-size="6" fill="#3a6aaa" text-anchor="middle">R1(40') + CENTRE(8') + R3(40') = 88' (26.8m)</text>
+    <text x="10" y="28" font-size="9" fill="#fff" font-weight="bold">A</text>
+    <text x="546" y="28" font-size="9" fill="#fff" font-weight="bold">A'</text>
+  </svg>
+</div>
+</div>
+
+<div class="bv4-iso">
+  <div class="bv4-pt">VUE ISOMETRIQUE -- STRUCTURE EN CROIX (4 PIEDS DE TERRE VISIBLES)</div>
+  <svg viewBox="0 0 900 420" width="100%" style="display:block">
+    <defs><pattern id="g3" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0L0 0 0 16" fill="none" stroke="#0b1e30" stroke-width="0.5"/></pattern></defs>
+    <rect width="900" height="420" fill="#07101a"/><rect width="900" height="420" fill="url(#g3)"/>
+    <polygon points="130,300 370,175 370,275 130,400" fill="#071528" stroke="#3a78bc" stroke-width="1.5"/>
+    <polygon points="130,200 370,75 370,175 130,300" fill="#08182e" stroke="#4a88cc" stroke-width="1.5"/>
+    <polygon points="130,200 370,75 390,65 150,190" fill="#0d2040" stroke="#4a88cc" stroke-width="1.5"/>
+    <polygon points="130,172 370,47 390,37 150,162" fill="#2a1808" stroke="#3a2010" stroke-width="1" opacity="0.9"/>
+    <text x="230" y="140" font-size="8" fill="#8a6a2a" transform="rotate(-27,230,140)">4 PI. TERRE</text>
+    <polygon points="530,175 770,300 770,400 530,275" fill="#071528" stroke="#3a78bc" stroke-width="1.5"/>
+    <polygon points="530,75 770,200 770,300 530,175" fill="#08182e" stroke="#4a88cc" stroke-width="1.5"/>
+    <polygon points="530,75 770,200 790,190 550,65" fill="#0d2040" stroke="#4a88cc" stroke-width="1.5"/>
+    <polygon points="530,47 770,172 790,162 550,37" fill="#2a1808" stroke="#3a2010" stroke-width="1" opacity="0.9"/>
+    <polygon points="370,75 450,35 450,135 370,175" fill="#0a1525" stroke="#aa7a3a" stroke-width="1.5"/>
+    <polygon points="370,75 450,35 470,25 390,65" fill="#0e1e30" stroke="#aa7a3a" stroke-width="1.5"/>
+    <polygon points="370,47 450,7 470,-3 390,37" fill="#2a1808" stroke="#3a2010" stroke-width="1" opacity="0.9"/>
+    <polygon points="450,235 530,275 530,375 450,335" fill="#0a1525" stroke="#aa7a3a" stroke-width="1.5"/>
+    <polygon points="450,135 530,175 530,275 450,235" fill="#091422" stroke="#aa7a3a" stroke-width="1.5"/>
+    <polygon points="450,135 530,175 550,165 470,125" fill="#0e1e30" stroke="#aa7a3a" stroke-width="1.5"/>
+    <polygon points="450,107 530,147 550,137 470,97" fill="#2a1808" stroke="#3a2010" stroke-width="1" opacity="0.9"/>
+    <polygon points="370,75 450,35 530,75 450,115" fill="#0a1020" stroke="#5a9add" stroke-width="2"/>
+    <polygon points="370,75 370,175 450,135 450,35" fill="#0b1428" stroke="#5a9add" stroke-width="1.5"/>
+    <polygon points="370,47 450,7 530,47 450,87" fill="#2a1808" stroke="#3a2010" stroke-width="1.5" opacity="0.95"/>
+    <polygon points="400,0 450,-24 500,0 450,24" fill="#081510" stroke="#44cc88" stroke-width="2"/>
+    <polygon points="400,0 400,36 450,60 450,24" fill="#071210" stroke="#44cc88" stroke-width="1.5"/>
+    <polygon points="450,24 500,0 500,36 450,60" fill="#060f0d" stroke="#44cc88" stroke-width="1.5"/>
+    <polygon points="402,-3 450,-26 498,-3 450,20" fill="#06102a" stroke="#4488cc" stroke-width="1.2"/>
+    <line x1="426" y1="-15" x2="424" y2="8" stroke="#4488cc" stroke-width="0.7"/>
+    <line x1="450" y1="-26" x2="448" y2="-3" stroke="#4488cc" stroke-width="0.7"/>
+    <line x1="474" y1="-15" x2="472" y2="8" stroke="#4488cc" stroke-width="0.7"/>
+    <line x1="402" y1="-3" x2="498" y2="-3" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="450" y="74" font-size="7" fill="#44cc88" text-anchor="middle">10' CENTRAL</text>
+    <ellipse cx="400" cy="105" rx="12" ry="8" fill="#0d0820" stroke="#cc44ff" stroke-width="2"/>
+    <ellipse cx="400" cy="105" rx="6" ry="4" fill="none" stroke="#cc44ff" stroke-width="1"/>
+    <ellipse cx="428" cy="120" rx="12" ry="8" fill="#0d0820" stroke="#cc44ff" stroke-width="2"/>
+    <ellipse cx="428" cy="120" rx="6" ry="4" fill="none" stroke="#cc44ff" stroke-width="1"/>
+    <text x="414" y="140" font-size="6" fill="#cc44ff">2x COLIMACONS</text>
+    <rect x="132" y="280" width="10" height="60" fill="#0a0a18" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="135" y1="280" x2="135" y2="340" stroke="#ffaa00" stroke-width="0.9"/><line x1="139" y1="280" x2="139" y2="340" stroke="#ffaa00" stroke-width="0.9"/>
+    <line x1="135" y1="292" x2="139" y2="292" stroke="#ffaa00" stroke-width="0.7"/><line x1="135" y1="304" x2="139" y2="304" stroke="#ffaa00" stroke-width="0.7"/>
+    <line x1="135" y1="316" x2="139" y2="316" stroke="#ffaa00" stroke-width="0.7"/><line x1="135" y1="328" x2="139" y2="328" stroke="#ffaa00" stroke-width="0.7"/>
+    <text x="137" y="268" font-size="6" fill="#ffaa00" text-anchor="middle">ECH O</text>
+    <rect x="758" y="280" width="10" height="60" fill="#0a0a18" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="761" y1="280" x2="761" y2="340" stroke="#ffaa00" stroke-width="0.9"/><line x1="765" y1="280" x2="765" y2="340" stroke="#ffaa00" stroke-width="0.9"/>
+    <line x1="761" y1="292" x2="765" y2="292" stroke="#ffaa00" stroke-width="0.7"/><line x1="761" y1="304" x2="765" y2="304" stroke="#ffaa00" stroke-width="0.7"/>
+    <line x1="761" y1="316" x2="765" y2="316" stroke="#ffaa00" stroke-width="0.7"/><line x1="761" y1="328" x2="765" y2="328" stroke="#ffaa00" stroke-width="0.7"/>
+    <text x="763" y="268" font-size="6" fill="#ffaa00" text-anchor="middle">ECH E</text>
+    <rect x="440" y="24" width="10" height="46" fill="#0a0a18" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="443" y1="24" x2="443" y2="70" stroke="#ffaa00" stroke-width="0.9"/><line x1="447" y1="24" x2="447" y2="70" stroke="#ffaa00" stroke-width="0.9"/>
+    <line x1="443" y1="36" x2="447" y2="36" stroke="#ffaa00" stroke-width="0.7"/><line x1="443" y1="48" x2="447" y2="48" stroke="#ffaa00" stroke-width="0.7"/><line x1="443" y1="60" x2="447" y2="60" stroke="#ffaa00" stroke-width="0.7"/>
+    <text x="445" y="15" font-size="6" fill="#ffaa00" text-anchor="middle">ECH N</text>
+    <rect x="440" y="320" width="10" height="46" fill="#0a0a18" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="443" y1="320" x2="443" y2="366" stroke="#ffaa00" stroke-width="0.9"/><line x1="447" y1="320" x2="447" y2="366" stroke="#ffaa00" stroke-width="0.9"/>
+    <line x1="443" y1="332" x2="447" y2="332" stroke="#ffaa00" stroke-width="0.7"/><line x1="443" y1="344" x2="447" y2="344" stroke="#ffaa00" stroke-width="0.7"/><line x1="443" y1="356" x2="447" y2="356" stroke="#ffaa00" stroke-width="0.7"/>
+    <text x="445" y="382" font-size="6" fill="#ffaa00" text-anchor="middle">ECH S</text>
+    <text x="220" y="345" font-size="8" fill="#4a88cc">R1 OUEST 40'</text>
+    <text x="600" y="345" font-size="8" fill="#4a88cc">R3 EST 40'</text>
+    <text x="380" y="36" font-size="7" fill="#aa7a3a">EVAC N</text>
+    <text x="540" y="220" font-size="7" fill="#aa7a3a">EVAC S</text>
+    <text x="840" y="40" font-size="8" fill="#3a6aaa">ISO 30</text>
+    <line x1="840" y1="50" x2="865" y2="63" stroke="#3a6aaa" stroke-width="1"/>
+    <line x1="840" y1="50" x2="840" y2="80" stroke="#3a6aaa" stroke-width="1"/>
+    <line x1="840" y1="50" x2="815" y2="63" stroke="#3a6aaa" stroke-width="1"/>
+  </svg>
+</div>
+
+<div class="bv4-legend-wrap">
+  <div class="bv4-lt">LEGENDE</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#091830;border:2px solid #4a8acc"></div>Conteneurs 40' R1/R3</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#0a1525;border:2px solid #aa7a3a"></div>Conteneurs 20' evacuation N/S</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#0e1e32;border:2px solid #2a5080"></div>Beton arme 8 po (200mm)</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#111;border:1px solid #444"></div>Membrane bitumineuse</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#2a1808;border:1px solid #3a2010"></div>Terre compactee 4 pieds</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#08120a;border:1px dashed #2a9a5a"></div>Gravier 0-3/4 (12 po)</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#07130d;border:2px solid #44cc88"></div>Conteneur 10' surface + panneaux solaires</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#0d0820;border:2px solid #cc44ff"></div>Colimacon (acces central)</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#0a0a18;border:2px solid #ffaa00"></div>Echelle verticale (extremite)</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#0a2015;border:2px solid #2a9a5a"></div>Drain francais + barils 45 gallons</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#0a1020;border:2px solid #5a9add"></div>Cage centrale (intersection)</div>
+</div>
+
+<div class="bv4-footer">PLAN NON CONTRACTUEL -- REFERENCE VISUELLE SEULEMENT -- V4 2026</div>
+        </div>
+      </div>
+    </div>
+    <!-- ══ FIN BUNKER V4 ══ -->
 
     <main class="main-layout">
       <section class="poster-column">
@@ -2492,6 +2859,19 @@
         }
       });
     }
+
+
+    // Bunker V4 accordion toggle
+    (function() {
+      var btn = document.getElementById('bunkerV4Btn');
+      var body = document.getElementById('bunkerV4Body');
+      if (!btn || !body) return;
+      btn.addEventListener('click', function() {
+        var isOpen = body.classList.contains('open');
+        body.classList.toggle('open', !isOpen);
+        btn.setAttribute('aria-expanded', String(!isOpen));
+      });
+    })();
 
     bindEvents();
     applyI18n();
