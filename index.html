@@ -1,141 +1,2883 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modulimo – Bunker interactif</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bunker forestier autosuffisant | Modulimo</title>
+  <style>
+    :root {
+      --bg: #071018;
+      --bg-2: #0b1620;
+      --panel: rgba(11, 22, 32, 0.78);
+      --panel-2: rgba(9, 18, 28, 0.9);
+      --panel-border: rgba(151, 255, 217, 0.12);
+      --text: #e8f0f7;
+      --muted: #9fb2c5;
+      --soft: #7f93a6;
+      --accent: #6de6d6;
+      --accent-2: #8ef7a9;
+      --amber: #ffb347;
+      --amber-2: #ff8f1f;
+      --red: #ff5261;
+      --cyan: #52dfff;
+      --chip: rgba(255, 255, 255, 0.05);
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+      --radius: 22px;
+      --radius-sm: 16px;
+      --header-h: 78px;
+      --poster-scale: 1;
+      --poster-x: 0px;
+      --poster-y: 0px;
+    }
 
-<style>
-body {
-    margin:0;
-    background:#0a0f14;
-    font-family:Arial;
-    color:white;
-    overflow:hidden;
-}
+    * { box-sizing: border-box; }
 
-#container {
-    position:relative;
-    width:100vw;
-    height:100vh;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-img {
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(82, 223, 255, 0.08), transparent 28%),
+        radial-gradient(circle at 85% 12%, rgba(109, 230, 214, 0.09), transparent 24%),
+        radial-gradient(circle at 50% 85%, rgba(142, 247, 169, 0.05), transparent 28%),
+        linear-gradient(180deg, #040b11 0%, #071018 45%, #06111a 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-.overlay {
-    position:absolute;
-    border:2px solid rgba(0,255,150,0.4);
-    border-radius:6px;
-    cursor:pointer;
-    transition:0.2s;
-}
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mask-image: radial-gradient(circle at center, black 55%, transparent 100%);
+      opacity: 0.25;
+      z-index: 0;
+    }
 
-.overlay:hover {
-    border-color:#00ffcc;
-    box-shadow:0 0 15px #00ffcc;
-}
+    a { color: inherit; text-decoration: none; }
 
-.tooltip {
-    position:absolute;
-    background:rgba(0,0,0,0.8);
-    padding:8px 12px;
-    border-radius:6px;
-    font-size:13px;
-    pointer-events:none;
-    opacity:0;
-    transition:0.2s;
-}
+    .site-shell {
+      position: relative;
+      z-index: 1;
+    }
 
-.toggle {
-    position:absolute;
-    top:20px;
-    left:20px;
-    display:flex;
-    gap:10px;
-}
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 18px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: rgba(4, 10, 16, 0.66);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
 
-.btn {
-    padding:8px 14px;
-    background:#111;
-    border:1px solid #444;
-    cursor:pointer;
-    font-size:12px;
-}
+    .topbar-inner {
+      width: min(1500px, 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
 
-.btn.active {
-    background:#00ffaa;
-    color:black;
-}
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
 
-.line {
-    position:absolute;
-    height:3px;
-    opacity:0.7;
-}
+    .brand-logo-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
 
-.water { background:#00aaff; }
-.energy { background:#ff6a00; }
-.food { background:#00ff66; }
+    .brand-logo-wrap:hover {
+      transform: translateY(-1px);
+      border-color: rgba(109, 230, 214, 0.22);
+      background: rgba(255,255,255,0.06);
+    }
 
-</style>
+    .brand-logo {
+      height: 30px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .brand-meta {
+      min-width: 0;
+    }
+
+    .brand-kicker {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.88;
+      margin-bottom: 2px;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .lang-btn,
+    .ghost-btn,
+    .pill-btn,
+    .icon-btn,
+    .filter-btn,
+    .list-reset-btn {
+      appearance: none;
+      border: 0;
+      outline: none;
+      cursor: pointer;
+      font: inherit;
+      color: inherit;
+    }
+
+    .lang-btn {
+      min-width: 48px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, rgba(109, 230, 214, 0.18), rgba(82, 223, 255, 0.14));
+      color: var(--text);
+      box-shadow: inset 0 0 0 1px rgba(109, 230, 214, 0.2);
+    }
+
+    .lang-btn:hover { transform: translateY(-1px); }
+
+    .ghost-btn,
+    .pill-btn,
+    .icon-btn,
+    .filter-btn,
+    .list-reset-btn {
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .ghost-btn,
+    .pill-btn,
+    .list-reset-btn {
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+      font-weight: 600;
+    }
+
+    .ghost-btn:hover,
+    .pill-btn:hover,
+    .list-reset-btn:hover,
+    .filter-btn:hover,
+    .icon-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(109, 230, 214, 0.22);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+    }
+
+    .hero {
+      width: min(1500px, calc(100% - 32px));
+      margin: 22px auto 18px;
+      padding: 28px 28px 24px;
+      border-radius: calc(var(--radius) + 4px);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)),
+        linear-gradient(180deg, rgba(9, 18, 28, 0.84), rgba(6, 13, 22, 0.96));
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: auto auto -160px -80px;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(82,223,255,0.16), transparent 68%);
+      z-index: -1;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: -140px;
+      right: -90px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(142,247,169,0.12), transparent 70%);
+      z-index: -1;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.75fr);
+      gap: 24px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.92;
+      margin-bottom: 16px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(109,230,214,0), rgba(109,230,214,0.9));
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(2rem, 3vw, 4rem);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      max-width: 13ch;
+    }
+
+    .hero-subtext {
+      margin: 18px 0 0;
+      max-width: 78ch;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 1rem;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stat-card {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.06);
+      min-height: 104px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .stat-label {
+      color: var(--soft);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      font-size: clamp(1.35rem, 2vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .main-layout {
+      width: min(1500px, calc(100% - 32px));
+      margin: 0 auto 42px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(320px, 460px);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .poster-column {
+      position: sticky;
+      top: calc(var(--header-h) + 18px);
+      align-self: start;
+    }
+
+    .poster-card,
+    .panel-card {
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(12, 22, 34, 0.82), rgba(7, 14, 22, 0.94));
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .poster-card {
+      padding: 18px;
+      min-height: calc(100vh - var(--header-h) - 42px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .poster-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(82,223,255,0.08), transparent 26%),
+        radial-gradient(circle at 85% 12%, rgba(142,247,169,0.06), transparent 24%);
+      opacity: 0.75;
+    }
+
+    .poster-toolbar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .poster-toolbar-left,
+    .poster-toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .kicker-chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .poster-stage {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      min-height: 0;
+      border-radius: 20px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+        rgba(2, 8, 13, 0.7);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .poster-inner {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(82,223,255,0.06), transparent 40%),
+        linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.16));
+    }
+
+    .poster-viewport {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      cursor: default;
+    }
+
+    .poster-media {
+      position: absolute;
+      inset: 0;
+      transform: translate(var(--poster-x), var(--poster-y)) scale(var(--poster-scale));
+      transform-origin: center center;
+      transition: transform 220ms ease;
+      will-change: transform;
+    }
+
+    .poster-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+      filter: saturate(1.03) contrast(1.02);
+    }
+
+    .poster-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+        radial-gradient(circle at center, rgba(82,223,255,0.03), transparent 45%);
+      mix-blend-mode: screen;
+    }
+
+    .poster-grid-hint {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.22;
+      mask-image: radial-gradient(circle at center, black 32%, transparent 88%);
+    }
+
+    .hotspot-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hotspot {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      transform: translate(-50%, -50%);
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,0.5);
+      background:
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,0.85), rgba(255,255,255,0.18) 28%, transparent 35%),
+        radial-gradient(circle at center, var(--amber), var(--amber-2));
+      box-shadow:
+        0 0 0 1px rgba(255, 179, 71, 0.25),
+        0 0 18px rgba(255, 143, 31, 0.32),
+        0 8px 18px rgba(0,0,0,0.25);
+      pointer-events: auto;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+      z-index: 4;
+    }
+
+    .hotspot::before {
+      content: "";
+      position: absolute;
+      inset: -12px;
+      border-radius: inherit;
+      border: 1px dashed rgba(255,255,255,0.06);
+      opacity: 0.55;
+    }
+
+    .hotspot::after {
+      content: attr(data-number);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 10px;
+      font-weight: 800;
+      color: #071018;
+      text-shadow: none;
+    }
+
+    .hotspot:hover {
+      transform: translate(-50%, -50%) scale(1.08);
+      border-color: rgba(82,223,255,0.95);
+      box-shadow:
+        0 0 0 1px rgba(82,223,255,0.45),
+        0 0 25px rgba(82,223,255,0.35),
+        0 8px 18px rgba(0,0,0,0.25);
+      background:
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,0.92), rgba(255,255,255,0.22) 28%, transparent 35%),
+        radial-gradient(circle at center, #8be8ff, #2bcaff);
+    }
+
+    .hotspot.active {
+      transform: translate(-50%, -50%) scale(1.1);
+      border-color: rgba(109,230,214,0.98);
+      box-shadow:
+        0 0 0 2px rgba(109,230,214,0.35),
+        0 0 30px rgba(109,230,214,0.4),
+        0 12px 22px rgba(0,0,0,0.25);
+      background:
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,0.95), rgba(255,255,255,0.24) 28%, transparent 35%),
+        radial-gradient(circle at center, #9df8c8, #31d6bb);
+    }
+
+    .hotspot.stair {
+      width: 42px;
+      height: 42px;
+      border-color: rgba(255,255,255,0.65);
+      background:
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,0.92), rgba(255,255,255,0.18) 28%, transparent 35%),
+        radial-gradient(circle at center, #ff8793, #ff3b4d 68%, #bb0a27 100%);
+      box-shadow:
+        0 0 0 2px rgba(255, 82, 97, 0.25),
+        0 0 22px rgba(255, 82, 97, 0.46),
+        0 0 44px rgba(255, 82, 97, 0.18),
+        0 10px 24px rgba(0,0,0,0.28);
+      animation: stairPulse 2.2s ease-in-out infinite;
+    }
+
+    .hotspot.stair::before {
+      inset: -18px;
+      border: 1px solid rgba(255,82,97,0.2);
+      opacity: 0.95;
+      animation: stairHalo 2.2s ease-in-out infinite;
+    }
+
+    .hotspot.stair::after {
+      color: white;
+      font-size: 11px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+    }
+
+    .hotspot.stair:hover,
+    .hotspot.stair.active {
+      border-color: rgba(255,255,255,0.95);
+      box-shadow:
+        0 0 0 2px rgba(82,223,255,0.25),
+        0 0 28px rgba(255,82,97,0.62),
+        0 0 54px rgba(255,82,97,0.24),
+        0 12px 26px rgba(0,0,0,0.3);
+    }
+
+    @keyframes stairPulse {
+      0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.08);
+      }
+    }
+
+    @keyframes stairHalo {
+      0% {
+        transform: scale(0.78);
+        opacity: 0.7;
+      }
+      70% {
+        transform: scale(1.22);
+        opacity: 0.06;
+      }
+      100% {
+        transform: scale(1.28);
+        opacity: 0;
+      }
+    }
+
+    .poster-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    .poster-caption-main {
+      min-width: 0;
+    }
+
+    .poster-caption-title {
+      margin: 0 0 4px;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .poster-caption-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .poster-legend {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .legend-dot.standard {
+      background: radial-gradient(circle at 35% 35%, #fff2d7, #ffb347);
+      box-shadow: 0 0 14px rgba(255,179,71,0.25);
+    }
+
+    .legend-dot.stair {
+      background: radial-gradient(circle at 35% 35%, #ffd1d6, #ff5261);
+      box-shadow: 0 0 16px rgba(255,82,97,0.38);
+    }
+
+    .side-column {
+      position: sticky;
+      top: calc(var(--header-h) + 18px);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-height: calc(100vh - var(--header-h) - 24px);
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .side-column::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .side-column::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+
+    .panel-card {
+      padding: 20px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .panel-kicker {
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
+    }
+
+    .component-title {
+      margin: 0;
+      font-size: 1.45rem;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .component-id-badge {
+      flex: 0 0 auto;
+      min-width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      background: linear-gradient(135deg, rgba(109,230,214,0.18), rgba(82,223,255,0.12));
+      border: 1px solid rgba(109,230,214,0.18);
+      color: var(--text);
+    }
+
+    .component-short {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.98rem;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .meta-card {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.06);
+      min-height: 100px;
+    }
+
+    .meta-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--soft);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 8px;
+    }
+
+    .meta-value {
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 0.95rem;
+    }
+
+    .summary-blocks {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .summary-card {
+      padding: 15px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .summary-title {
+      margin: 0 0 8px;
+      font-size: 12px;
+      color: var(--soft);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+    }
+
+    .summary-text {
+      margin: 0;
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 0.96rem;
+    }
+
+    .feature-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .feature-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.95rem;
+    }
+
+    .feature-list li::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      margin-top: 0.46em;
+      flex: 0 0 auto;
+      background: radial-gradient(circle at 35% 35%, #dffcf4, #6de6d6);
+      box-shadow: 0 0 12px rgba(109,230,214,0.35);
+    }
+
+    .catalog-tools {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .catalog-topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .catalog-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 50px;
+      padding: 0 16px 0 44px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.035);
+      color: var(--text);
+      outline: none;
+      font: inherit;
+      transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .search-input::placeholder {
+      color: #7c8ea0;
+    }
+
+    .search-input:focus {
+      border-color: rgba(82,223,255,0.38);
+      box-shadow: 0 0 0 4px rgba(82,223,255,0.08);
+      background: rgba(255,255,255,0.045);
+    }
+
+    .search-wrap::before {
+      content: "⌕";
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--soft);
+      font-size: 18px;
+      pointer-events: none;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.83rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .filter-btn.active {
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(109,230,214,0.16), rgba(82,223,255,0.12));
+      border-color: rgba(109,230,214,0.18);
+    }
+
+    .catalog-list {
+      display: grid;
+      gap: 10px;
+      max-height: 520px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .catalog-list::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .catalog-list::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+
+    .catalog-item {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      text-align: left;
+      color: var(--text);
+    }
+
+    .catalog-item.hidden {
+      display: none;
+    }
+
+    .catalog-item.active {
+      background: linear-gradient(135deg, rgba(109,230,214,0.11), rgba(82,223,255,0.08));
+      border-color: rgba(109,230,214,0.18);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .catalog-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .catalog-copy {
+      min-width: 0;
+    }
+
+    .catalog-title {
+      margin: 0 0 5px;
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .catalog-short {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+
+    .catalog-tag {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--soft);
+      font-size: 0.73rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .empty-state {
+      display: none;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px dashed rgba(255,255,255,0.1);
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .empty-state.show {
+      display: block;
+    }
+
+    .fullscreen-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(2, 8, 13, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .fullscreen-modal.show {
+      display: flex;
+    }
+
+    .fullscreen-inner {
+      position: relative;
+      width: min(96vw, 1700px);
+      height: min(92vh, 980px);
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 35px 100px rgba(0,0,0,0.48);
+      background: linear-gradient(180deg, rgba(8,16,25,0.96), rgba(4,9,14,0.98));
+    }
+
+    .fullscreen-topbar {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 14px;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .fullscreen-stage {
+      position: absolute;
+      inset: 0;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 1160px) {
+      .hero-grid,
+      .main-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .poster-column,
+      .side-column {
+        position: relative;
+        top: 0;
+      }
+
+      .poster-card {
+        min-height: 72vh;
+      }
+
+      .side-column {
+        max-height: none;
+        overflow: visible;
+      }
+
+      .hero-title {
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      :root {
+        --header-h: 88px;
+      }
+
+      .topbar {
+        height: auto;
+        min-height: var(--header-h);
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        gap: 12px;
+        flex-direction: column;
+      }
+
+      .topbar-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .hero,
+      .main-layout {
+        width: min(100% - 20px, 1500px);
+      }
+
+      .hero {
+        padding: 22px 18px 18px;
+      }
+
+      .hero-stats,
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .poster-card,
+      .panel-card {
+        border-radius: 18px;
+      }
+
+      .poster-card {
+        min-height: 64vh;
+        padding: 14px;
+      }
+
+      .catalog-item {
+        grid-template-columns: auto 1fr;
+      }
+
+      .catalog-tag {
+        grid-column: 1 / -1;
+        justify-self: start;
+      }
+
+      .poster-toolbar {
+        align-items: flex-start;
+      }
+
+      .poster-caption {
+        align-items: flex-start;
+      }
+    }
+
+    /* ── Bunker V4 Accordion ── */
+    .bunker-v4-accordion {
+      width: min(1500px, calc(100% - 32px));
+      margin: 0 auto 28px;
+    }
+    .bunker-v4-toggle-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 22px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(109,230,214,0.10), rgba(82,223,255,0.07));
+      border: 1px solid rgba(109,230,214,0.20);
+      color: #e8f0f7;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+      transition: background 200ms ease, border-color 200ms ease, transform 160ms ease;
+      appearance: none;
+      outline: none;
+    }
+    .bunker-v4-toggle-btn:hover {
+      background: linear-gradient(135deg, rgba(109,230,214,0.16), rgba(82,223,255,0.12));
+      border-color: rgba(109,230,214,0.34);
+      transform: translateY(-1px);
+    }
+    .bunker-v4-toggle-btn .btn-label {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .bunker-v4-toggle-btn .btn-icon { font-size: 20px; color: #6de6d6; flex-shrink: 0; }
+    .bunker-v4-toggle-btn .btn-chevron {
+      font-size: 18px; color: #6de6d6;
+      transition: transform 300ms ease; flex-shrink: 0;
+    }
+    .bunker-v4-toggle-btn[aria-expanded="true"] .btn-chevron { transform: rotate(180deg); }
+    .bunker-v4-body {
+      display: none; margin-top: 10px; border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.30);
+      animation: v4FadeIn 280ms ease;
+    }
+    .bunker-v4-body.open { display: block; }
+    @keyframes v4FadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    #bunkerV4Panel { font-family: 'Share Tech Mono', monospace; background: #060c18; padding: 14px; }
+    #bunkerV4Panel h1 { font-family: 'Orbitron', sans-serif; font-size: 14px; letter-spacing: 4px; text-align: center; color: #fff; margin: 0 0 4px; padding: 0; }
+    #bunkerV4Panel .sub { text-align: center; font-size: 9px; color: #3a6a8a; letter-spacing: 2px; margin-bottom: 14px; }
+    #bunkerV4Panel .bv4-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    #bunkerV4Panel .bv4-panel { background: #0a1220; border: 1px solid #1a3050; border-radius: 3px; padding: 10px; }
+    #bunkerV4Panel .bv4-pt { font-family: 'Orbitron', sans-serif; font-size: 8px; letter-spacing: 2px; color: #3a6a8a; margin-bottom: 8px; border-bottom: 1px solid #1a3050; padding-bottom: 5px; }
+    #bunkerV4Panel .bv4-iso { max-width: 100%; margin: 14px 0 0; background: #0a1220; border: 1px solid #1a3050; border-radius: 3px; padding: 10px; }
+    #bunkerV4Panel .bv4-legend-wrap { max-width: 100%; margin: 14px 0 0; background: #0a1220; border: 1px solid #1a3050; border-radius: 3px; padding: 10px 14px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    #bunkerV4Panel .bv4-lt { font-family: 'Orbitron', sans-serif; font-size: 8px; letter-spacing: 2px; color: #3a6a8a; width: 100%; border-bottom: 1px solid #1a3050; padding-bottom: 5px; margin-bottom: 2px; }
+    #bunkerV4Panel .bv4-li { display: flex; align-items: center; gap: 6px; font-size: 9px; color: #7ecfff; }
+    #bunkerV4Panel .bv4-lc { width: 20px; height: 9px; border-radius: 1px; flex-shrink: 0; }
+    #bunkerV4Panel .bv4-footer { text-align: center; margin-top: 10px; font-size: 8px; color: #1a3050; letter-spacing: 2px; padding-bottom: 4px; }
+    @media (max-width: 900px) { #bunkerV4Panel .bv4-grid { grid-template-columns: 1fr; } }
+
+  </style>
 </head>
-
 <body>
+  <div class="site-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="https://www.modulimo.com" target="_blank" rel="noopener noreferrer" aria-label="Modulimo">
+          <span class="brand-logo-wrap">
+            <img class="brand-logo" src="images/modulimo-logo.png" alt="Modulimo" />
+          </span>
+          <span class="brand-meta">
+            <span class="brand-kicker" data-i18n="header.kicker">Deep-tech project</span>
+            <span class="brand-title" data-i18n="header.title">Bunker forestier autosuffisant | Modulimo</span>
+          </span>
+        </a>
 
-<div id="container">
+        <div class="topbar-actions">
+          <div class="lang-switch" role="group" aria-label="Language switcher">
+            <button class="lang-btn active" type="button" data-lang="fr">FR</button>
+            <button class="lang-btn" type="button" data-lang="en">EN</button>
+          </div>
+          <button class="ghost-btn" type="button" id="headerFullscreenBtn" data-i18n="header.fullscreen">
+            Affiche plein écran
+          </button>
+        </div>
+      </div>
+    </header>
 
-<!-- IMAGE -->
-<img src="TON_IMAGE.png">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow" data-i18n="hero.eyebrow">Infographie interactive</div>
+          <h1 class="hero-title" data-i18n="hero.title">Bunker forestier autosuffisant</h1>
+          <p class="hero-subtext" data-i18n="hero.subtext">
+            Explore chaque composante du projet : forêt nourricière, trois escaliers d’accès, noyau sécurisé, agriculture souterraine, recyclage de l’eau, énergie solaire, batterie au sable, compost thermique et ventilation bioclimatique.
+          </p>
+          <div class="hero-cta-row">
+            <button class="pill-btn" type="button" id="heroResetBtn" data-i18n="hero.reset">Réinitialiser l’exploration</button>
+            <button class="pill-btn" type="button" id="heroFocusAccessBtn" data-filter-shortcut="access" data-i18n="hero.focusAccess">Voir les accès</button>
+          </div>
+        </div>
 
-<!-- ZONES INTERACTIVES -->
-<div class="overlay" style="top:35%; left:25%; width:18%; height:12%;" data-text="Zone de vie"></div>
-<div class="overlay" style="top:35%; left:55%; width:18%; height:12%;" data-text="Production + énergie"></div>
-<div class="overlay" style="top:60%; left:40%; width:20%; height:18%;" data-text="Agriculture intérieure"></div>
-<div class="overlay" style="top:48%; left:47%; width:6%; height:25%;" data-text="Tuyau central"></div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="stats.peopleLabel">Capacité</span>
+            <span class="stat-value" data-i18n="stats.peopleValue">30 personnes</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="stats.accessLabel">Entrées</span>
+            <span class="stat-value" data-i18n="stats.accessValue">3 accès visibles</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="stats.levelsLabel">Structure</span>
+            <span class="stat-value" data-i18n="stats.levelsValue">2 niveaux souterrains</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- LIGNES -->
-<div class="line water" style="top:45%; left:30%; width:20%;"></div>
-<div class="line energy" style="top:45%; left:50%; width:20%;"></div>
-<div class="line food" style="top:65%; left:45%; width:15%;"></div>
 
-<!-- TOOLTIP -->
-<div id="tooltip" class="tooltip"></div>
+    <!-- ══ BUNKER V4 ACCORDEON ══ -->
+    <div class="bunker-v4-accordion">
+      <button
+        class="bunker-v4-toggle-btn"
+        type="button"
+        id="bunkerV4Btn"
+        aria-expanded="false"
+        aria-controls="bunkerV4Body"
+      >
+        <span class="btn-label">
+          <span class="btn-icon">&#8853;</span>
+          Plan Technique V4 &mdash; Structure en croix
+        </span>
+        <span class="btn-chevron">&#9660;</span>
+      </button>
+      <div class="bunker-v4-body" id="bunkerV4Body" role="region" aria-labelledby="bunkerV4Btn">
+        <div id="bunkerV4Panel">
+<h1>Bunker Souterrain — Plan Technique V4</h1>
+<div class="sub">STRUCTURE EN CROIX · 4 BRAS 40' · 2 NIVEAUX · 2 COLIMACONS CENTRAUX · 4 ECHELLES AUX EXTREMITES · 5 CONTENEURS 10'</div>
 
-<!-- TOGGLES -->
-<div class="toggle">
-    <div class="btn active" onclick="toggle('water',this)">Eau</div>
-    <div class="btn active" onclick="toggle('energy',this)">Énergie</div>
-    <div class="btn active" onclick="toggle('food',this)">Nourriture</div>
+<div class="bv4-grid">
+<div class="bv4-panel">
+  <div class="bv4-pt">VUE DE DESSUS</div>
+  <svg viewBox="0 0 560 560" width="100%" style="display:block">
+    <defs>
+      <pattern id="g1" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0L0 0 0 16" fill="none" stroke="#0b1e30" stroke-width="0.5"/></pattern>
+      <marker id="ar1" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L0,5 L5,2.5z" fill="#3a6aaa"/></marker>
+      <marker id="ar1l" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto-start-reverse"><path d="M0,0 L0,5 L5,2.5z" fill="#3a6aaa"/></marker>
+    </defs>
+    <rect width="560" height="560" fill="#07101a"/><rect width="560" height="560" fill="url(#g1)"/>
+    <rect x="242" y="72" width="76" height="416" fill="none" stroke="#1a6a3a" stroke-width="1.2" stroke-dasharray="5,4" rx="2"/>
+    <rect x="72" y="242" width="416" height="76" fill="none" stroke="#1a6a3a" stroke-width="1.2" stroke-dasharray="5,4" rx="2"/>
+    <g fill="#0a2015" stroke="#2a9a5a" stroke-width="1.2">
+      <rect x="242" y="72" width="11" height="15" rx="2"/><text x="248" y="83" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="307" y="72" width="11" height="15" rx="2"/><text x="313" y="83" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="242" y="473" width="11" height="15" rx="2"/><text x="248" y="484" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="307" y="473" width="11" height="15" rx="2"/><text x="313" y="484" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="72" y="242" width="15" height="11" rx="2"/><text x="80" y="251" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="72" y="307" width="15" height="11" rx="2"/><text x="80" y="316" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="473" y="242" width="15" height="11" rx="2"/><text x="481" y="251" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+      <rect x="473" y="307" width="15" height="11" rx="2"/><text x="481" y="316" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+    </g>
+    <rect x="248" y="80" width="64" height="400" fill="#0c1c30" stroke="#2a5a8a" stroke-width="1.5"/>
+    <rect x="80" y="248" width="400" height="64" fill="#0c1c30" stroke="#2a5a8a" stroke-width="1.5"/>
+    <rect x="254" y="86" width="52" height="194" fill="#091830" stroke="#aa7a3a" stroke-width="2"/>
+    <text x="280" y="180" font-size="6" fill="#aa7a3a" text-anchor="middle" transform="rotate(90,280,180)">2x 20' EVAC N</text>
+    <rect x="254" y="280" width="52" height="194" fill="#091830" stroke="#aa7a3a" stroke-width="2"/>
+    <text x="280" y="378" font-size="6" fill="#aa7a3a" text-anchor="middle" transform="rotate(90,280,378)">2x 20' EVAC S</text>
+    <rect x="86" y="254" width="194" height="52" fill="#091830" stroke="#4a8acc" stroke-width="2"/>
+    <text x="183" y="283" font-size="7" fill="#4a8acc" text-anchor="middle">40' R1 OUEST</text>
+    <rect x="280" y="254" width="194" height="52" fill="#091830" stroke="#4a8acc" stroke-width="2"/>
+    <text x="377" y="283" font-size="7" fill="#4a8acc" text-anchor="middle">40' R3 EST</text>
+    <rect x="254" y="254" width="52" height="52" fill="#0a1020" stroke="#5a9add" stroke-width="2"/>
+    <circle cx="268" cy="268" r="10" fill="#0d0820" stroke="#cc44ff" stroke-width="2"/>
+    <circle cx="268" cy="268" r="5" fill="none" stroke="#cc44ff" stroke-width="1"/>
+    <circle cx="292" cy="292" r="10" fill="#0d0820" stroke="#cc44ff" stroke-width="2"/>
+    <circle cx="292" cy="292" r="5" fill="none" stroke="#cc44ff" stroke-width="1"/>
+    <text x="280" y="318" font-size="5" fill="#cc44ff" text-anchor="middle">2x COLIMACONS</text>
+    <rect x="248" y="222" width="64" height="28" fill="#081510" stroke="#44cc88" stroke-width="2"/>
+    <rect x="252" y="224" width="56" height="10" fill="#06102a" stroke="#4488cc" stroke-width="0.8"/>
+    <line x1="266" y1="224" x2="266" y2="234" stroke="#4488cc" stroke-width="0.5"/>
+    <line x1="280" y1="224" x2="280" y2="234" stroke="#4488cc" stroke-width="0.5"/>
+    <line x1="294" y1="224" x2="294" y2="234" stroke="#4488cc" stroke-width="0.5"/>
+    <line x1="252" y1="229" x2="308" y2="229" stroke="#4488cc" stroke-width="0.5"/>
+    <text x="280" y="243" font-size="6" fill="#44cc88" text-anchor="middle">10' CENTRAL</text>
+    <line x1="280" y1="250" x2="280" y2="254" stroke="#44cc88" stroke-width="2"/>
+    <rect x="267" y="88" width="26" height="18" fill="#0a0a1a" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="272" y1="88" x2="272" y2="106" stroke="#ffaa00" stroke-width="1"/><line x1="287" y1="88" x2="287" y2="106" stroke="#ffaa00" stroke-width="1"/>
+    <line x1="272" y1="94" x2="287" y2="94" stroke="#ffaa00" stroke-width="0.8"/><line x1="272" y1="100" x2="287" y2="100" stroke="#ffaa00" stroke-width="0.8"/>
+    <rect x="254" y="56" width="52" height="28" fill="#081510" stroke="#44cc88" stroke-width="1.5"/>
+    <rect x="256" y="58" width="48" height="10" fill="#06102a" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="280" y="76" font-size="6" fill="#44cc88" text-anchor="middle">10' N</text>
+    <line x1="280" y1="84" x2="280" y2="88" stroke="#ffaa00" stroke-width="1.5"/>
+    <rect x="267" y="454" width="26" height="18" fill="#0a0a1a" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="272" y1="454" x2="272" y2="472" stroke="#ffaa00" stroke-width="1"/><line x1="287" y1="454" x2="287" y2="472" stroke="#ffaa00" stroke-width="1"/>
+    <line x1="272" y1="460" x2="287" y2="460" stroke="#ffaa00" stroke-width="0.8"/><line x1="272" y1="466" x2="287" y2="466" stroke="#ffaa00" stroke-width="0.8"/>
+    <rect x="254" y="476" width="52" height="28" fill="#081510" stroke="#44cc88" stroke-width="1.5"/>
+    <rect x="256" y="490" width="48" height="10" fill="#06102a" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="280" y="488" font-size="6" fill="#44cc88" text-anchor="middle">10' S</text>
+    <line x1="280" y1="472" x2="280" y2="476" stroke="#ffaa00" stroke-width="1.5"/>
+    <rect x="88" y="267" width="18" height="26" fill="#0a0a1a" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="88" y1="272" x2="106" y2="272" stroke="#ffaa00" stroke-width="1"/><line x1="88" y1="287" x2="106" y2="287" stroke="#ffaa00" stroke-width="1"/>
+    <line x1="94" y1="272" x2="94" y2="287" stroke="#ffaa00" stroke-width="0.8"/><line x1="100" y1="272" x2="100" y2="287" stroke="#ffaa00" stroke-width="0.8"/>
+    <rect x="56" y="254" width="28" height="52" fill="#081510" stroke="#44cc88" stroke-width="1.5"/>
+    <rect x="58" y="256" width="10" height="48" fill="#06102a" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="74" y="283" font-size="5" fill="#44cc88" text-anchor="middle" transform="rotate(90,74,283)">10' O</text>
+    <line x1="84" y1="280" x2="88" y2="280" stroke="#ffaa00" stroke-width="1.5"/>
+    <rect x="454" y="267" width="18" height="26" fill="#0a0a1a" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="454" y1="272" x2="472" y2="272" stroke="#ffaa00" stroke-width="1"/><line x1="454" y1="287" x2="472" y2="287" stroke="#ffaa00" stroke-width="1"/>
+    <line x1="460" y1="272" x2="460" y2="287" stroke="#ffaa00" stroke-width="0.8"/><line x1="466" y1="272" x2="466" y2="287" stroke="#ffaa00" stroke-width="0.8"/>
+    <rect x="476" y="254" width="28" height="52" fill="#081510" stroke="#44cc88" stroke-width="1.5"/>
+    <rect x="492" y="256" width="10" height="48" fill="#06102a" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="486" y="283" font-size="5" fill="#44cc88" text-anchor="middle" transform="rotate(90,486,283)">10' E</text>
+    <line x1="472" y1="280" x2="476" y2="280" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="86" y1="526" x2="474" y2="526" stroke="#3a6aaa" stroke-width="0.8" marker-start="url(#ar1l)" marker-end="url(#ar1)"/>
+    <text x="280" y="538" font-size="6" fill="#3a6aaa" text-anchor="middle">40' + 8' + 40' = 88' (26.8m)</text>
+    <line x1="526" y1="86" x2="526" y2="474" stroke="#3a6aaa" stroke-width="0.8" marker-start="url(#ar1l)" marker-end="url(#ar1)"/>
+    <text x="540" y="280" font-size="6" fill="#3a6aaa" text-anchor="middle" transform="rotate(90,540,280)">40' + 8' + 40' = 88'</text>
+    <text x="516" y="26" font-size="14" fill="#3a6aaa">&#8593;</text>
+    <text x="518" y="38" font-size="7" fill="#3a6aaa">N</text>
+  </svg>
 </div>
 
+<div class="bv4-panel">
+  <div class="bv4-pt">COUPE A-A' -- VUE LATERALE</div>
+  <svg viewBox="0 0 560 560" width="100%" style="display:block">
+    <defs>
+      <pattern id="g2" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0L0 0 0 16" fill="none" stroke="#0b1e30" stroke-width="0.5"/></pattern>
+      <pattern id="terre" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#2a1a08" stroke-width="2"/></pattern>
+      <pattern id="grav" width="7" height="7" patternUnits="userSpaceOnUse"><ellipse cx="2" cy="2" rx="1.5" ry="1" fill="#1a2a1a"/><ellipse cx="5" cy="5" rx="1.2" ry="0.8" fill="#1a2a1a"/></pattern>
+      <marker id="ar2" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L0,5 L5,2.5z" fill="#3a6aaa"/></marker>
+      <marker id="ar2l" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto-start-reverse"><path d="M0,0 L0,5 L5,2.5z" fill="#3a6aaa"/></marker>
+    </defs>
+    <rect width="560" height="560" fill="#07101a"/><rect width="560" height="560" fill="url(#g2)"/>
+    <line x1="10" y1="165" x2="550" y2="165" stroke="#3a6aaa" stroke-width="1" stroke-dasharray="6,4"/>
+    <text x="12" y="160" font-size="7" fill="#3a6aaa">SOL +/-0</text>
+    <rect x="216" y="94" width="128" height="70" fill="#07130d" stroke="#44cc88" stroke-width="2"/>
+    <rect x="220" y="96" width="120" height="16" fill="#06102a" stroke="#4488cc" stroke-width="1" transform="rotate(-4,280,104)"/>
+    <line x1="248" y1="95" x2="246" y2="110" stroke="#4488cc" stroke-width="0.7"/>
+    <line x1="270" y1="93" x2="268" y2="108" stroke="#4488cc" stroke-width="0.7"/>
+    <line x1="292" y1="93" x2="290" y2="108" stroke="#4488cc" stroke-width="0.7"/>
+    <line x1="314" y1="95" x2="312" y2="110" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="280" y="140" font-size="7" fill="#44cc88" text-anchor="middle">CONTENEUR 10' CENTRAL</text>
+    <text x="280" y="152" font-size="6" fill="#2a8a55" text-anchor="middle">PANNEAUX SOLAIRES</text>
+    <rect x="18" y="110" width="54" height="54" fill="#07130d" stroke="#44cc88" stroke-width="1.5"/>
+    <rect x="20" y="112" width="50" height="12" fill="#06102a" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="45" y="140" font-size="6" fill="#44cc88" text-anchor="middle">10' O</text>
+    <rect x="488" y="110" width="54" height="54" fill="#07130d" stroke="#44cc88" stroke-width="1.5"/>
+    <rect x="490" y="112" width="50" height="12" fill="#06102a" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="515" y="140" font-size="6" fill="#44cc88" text-anchor="middle">10' E</text>
+    <rect x="36" y="45" width="488" height="120" fill="url(#terre)" opacity="0.55"/>
+    <rect x="36" y="45" width="488" height="120" fill="#150e05" opacity="0.4"/>
+    <text x="12" y="90" font-size="6" fill="#8a6a2a">TERRE</text><text x="12" y="98" font-size="6" fill="#8a6a2a">4 PI.</text>
+    <rect x="30" y="159" width="500" height="7" fill="#111"/>
+    <rect x="30" y="159" width="7" height="212" fill="#111"/>
+    <rect x="523" y="159" width="7" height="212" fill="#111"/>
+    <rect x="30" y="364" width="500" height="7" fill="#111"/>
+    <text x="16" y="268" font-size="5" fill="#555" text-anchor="middle" transform="rotate(-90,16,268)">MEM BITU</text>
+    <rect x="36" y="165" width="488" height="12" fill="#0e1e32" stroke="#2a5080" stroke-width="1.5"/>
+    <rect x="36" y="165" width="12" height="200" fill="#0e1e32" stroke="#2a5080" stroke-width="1.5"/>
+    <rect x="512" y="165" width="12" height="200" fill="#0e1e32" stroke="#2a5080" stroke-width="1.5"/>
+    <rect x="36" y="353" width="488" height="12" fill="#0e1e32" stroke="#2a5080" stroke-width="1.5"/>
+    <text x="12" y="174" font-size="5" fill="#2a5080">BETON 8"</text>
+    <rect x="48" y="329" width="464" height="24" fill="url(#grav)"/>
+    <rect x="48" y="329" width="464" height="24" fill="#08120a" opacity="0.5"/>
+    <text x="12" y="344" font-size="5" fill="#2a9a5a">GRAV 12"</text>
+    <rect x="48" y="177" width="188" height="76" fill="#08182e" stroke="#4a88cc" stroke-width="2"/>
+    <text x="142" y="212" font-size="7" fill="#4a88cc" text-anchor="middle">R1 HAUT 40'</text>
+    <rect x="48" y="253" width="188" height="76" fill="#071528" stroke="#3a78bc" stroke-width="2"/>
+    <text x="142" y="288" font-size="7" fill="#3a78bc" text-anchor="middle">R1 BAS 40'</text>
+    <rect x="324" y="177" width="188" height="76" fill="#08182e" stroke="#4a88cc" stroke-width="2"/>
+    <text x="418" y="212" font-size="7" fill="#4a88cc" text-anchor="middle">R3 HAUT 40'</text>
+    <rect x="324" y="253" width="188" height="76" fill="#071528" stroke="#3a78bc" stroke-width="2"/>
+    <text x="418" y="288" font-size="7" fill="#3a78bc" text-anchor="middle">R3 BAS 40'</text>
+    <text x="12" y="218" font-size="5" fill="#4a88cc">NIV SUP</text><text x="12" y="294" font-size="5" fill="#3a78bc">NIV INF</text>
+    <rect x="236" y="165" width="88" height="164" fill="#0a1020" stroke="#5a9add" stroke-width="2"/>
+    <g stroke="#5a9add" stroke-width="0.6" opacity="0.5">
+      <line x1="248" y1="165" x2="248" y2="329"/><line x1="260" y1="165" x2="260" y2="329"/>
+      <line x1="272" y1="165" x2="272" y2="329"/><line x1="284" y1="165" x2="284" y2="329"/>
+      <line x1="296" y1="165" x2="296" y2="329"/><line x1="308" y1="165" x2="308" y2="329"/>
+      <line x1="320" y1="165" x2="320" y2="329"/>
+      <line x1="236" y1="177" x2="324" y2="177"/><line x1="236" y1="215" x2="324" y2="215"/>
+      <line x1="236" y1="253" x2="324" y2="253"/><line x1="236" y1="291" x2="324" y2="291"/>
+    </g>
+    <ellipse cx="258" cy="208" rx="13" ry="13" fill="#0d0820" stroke="#cc44ff" stroke-width="2"/>
+    <ellipse cx="258" cy="208" rx="6" ry="6" fill="none" stroke="#cc44ff" stroke-width="1"/>
+    <ellipse cx="302" cy="290" rx="13" ry="13" fill="#0d0820" stroke="#cc44ff" stroke-width="2"/>
+    <ellipse cx="302" cy="290" rx="6" ry="6" fill="none" stroke="#cc44ff" stroke-width="1"/>
+    <text x="280" y="346" font-size="6" fill="#cc44ff" text-anchor="middle">2x COLIMACONS</text>
+    <rect x="264" y="94" width="32" height="71" fill="#0c0820" stroke="#cc44ff" stroke-width="1" stroke-dasharray="3,2" opacity="0.8"/>
+    <line x1="264" y1="94" x2="264" y2="165" stroke="#cc44ff" stroke-width="1"/>
+    <line x1="296" y1="94" x2="296" y2="165" stroke="#cc44ff" stroke-width="1"/>
+    <rect x="38" y="165" width="12" height="164" fill="#0a0a18" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="41" y1="165" x2="41" y2="329" stroke="#ffaa00" stroke-width="1"/><line x1="47" y1="165" x2="47" y2="329" stroke="#ffaa00" stroke-width="1"/>
+    <g stroke="#ffaa00" stroke-width="0.8">
+      <line x1="41" y1="177" x2="47" y2="177"/><line x1="41" y1="189" x2="47" y2="189"/><line x1="41" y1="201" x2="47" y2="201"/>
+      <line x1="41" y1="213" x2="47" y2="213"/><line x1="41" y1="225" x2="47" y2="225"/><line x1="41" y1="237" x2="47" y2="237"/>
+      <line x1="41" y1="249" x2="47" y2="249"/><line x1="41" y1="261" x2="47" y2="261"/><line x1="41" y1="273" x2="47" y2="273"/>
+      <line x1="41" y1="285" x2="47" y2="285"/><line x1="41" y1="297" x2="47" y2="297"/><line x1="41" y1="309" x2="47" y2="309"/><line x1="41" y1="321" x2="47" y2="321"/>
+    </g>
+    <rect x="38" y="110" width="12" height="55" fill="#0a0a18" stroke="#ffaa00" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="44" y="106" font-size="5" fill="#ffaa00" text-anchor="middle">ECH O</text>
+    <rect x="510" y="165" width="12" height="164" fill="#0a0a18" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="513" y1="165" x2="513" y2="329" stroke="#ffaa00" stroke-width="1"/><line x1="519" y1="165" x2="519" y2="329" stroke="#ffaa00" stroke-width="1"/>
+    <g stroke="#ffaa00" stroke-width="0.8">
+      <line x1="513" y1="177" x2="519" y2="177"/><line x1="513" y1="189" x2="519" y2="189"/><line x1="513" y1="201" x2="519" y2="201"/>
+      <line x1="513" y1="213" x2="519" y2="213"/><line x1="513" y1="225" x2="519" y2="225"/><line x1="513" y1="237" x2="519" y2="237"/>
+      <line x1="513" y1="249" x2="519" y2="249"/><line x1="513" y1="261" x2="519" y2="261"/><line x1="513" y1="273" x2="519" y2="273"/>
+      <line x1="513" y1="285" x2="519" y2="285"/><line x1="513" y1="297" x2="519" y2="297"/><line x1="513" y1="309" x2="519" y2="309"/><line x1="513" y1="321" x2="519" y2="321"/>
+    </g>
+    <rect x="510" y="110" width="12" height="55" fill="#0a0a18" stroke="#ffaa00" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="516" y="106" font-size="5" fill="#ffaa00" text-anchor="middle">ECH E</text>
+    <circle cx="36" cy="367" r="7" fill="none" stroke="#2a9a5a" stroke-width="1.5"/>
+    <circle cx="524" cy="367" r="7" fill="none" stroke="#2a9a5a" stroke-width="1.5"/>
+    <line x1="43" y1="367" x2="517" y2="367" stroke="#2a9a5a" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="280" y="381" font-size="6" fill="#2a9a5a" text-anchor="middle">DRAIN FRANCAIS PERFORE</text>
+    <rect x="16" y="357" width="14" height="20" fill="#0a2015" stroke="#2a9a5a" stroke-width="1.5" rx="2"/>
+    <text x="23" y="370" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+    <rect x="530" y="357" width="14" height="20" fill="#0a2015" stroke="#2a9a5a" stroke-width="1.5" rx="2"/>
+    <text x="537" y="370" font-size="5" fill="#2a9a5a" text-anchor="middle">45G</text>
+    <line x1="546" y1="45" x2="546" y2="165" stroke="#3a6aaa" stroke-width="0.8" marker-start="url(#ar2l)" marker-end="url(#ar2)"/>
+    <text x="556" y="108" font-size="6" fill="#3a6aaa" transform="rotate(90,556,108)">4 PI (1.2m)</text>
+    <line x1="530" y1="177" x2="530" y2="329" stroke="#3a78bc" stroke-width="0.8" marker-start="url(#ar2l)" marker-end="url(#ar2)"/>
+    <text x="540" y="253" font-size="6" fill="#3a78bc" transform="rotate(90,540,253)">2x9'6"=5.8m</text>
+    <line x1="48" y1="415" x2="512" y2="415" stroke="#3a6aaa" stroke-width="0.8" marker-start="url(#ar2l)" marker-end="url(#ar2)"/>
+    <text x="280" y="427" font-size="6" fill="#3a6aaa" text-anchor="middle">R1(40') + CENTRE(8') + R3(40') = 88' (26.8m)</text>
+    <text x="10" y="28" font-size="9" fill="#fff" font-weight="bold">A</text>
+    <text x="546" y="28" font-size="9" fill="#fff" font-weight="bold">A'</text>
+  </svg>
+</div>
 </div>
 
-<script>
-const tooltip = document.getElementById("tooltip");
+<div class="bv4-iso">
+  <div class="bv4-pt">VUE ISOMETRIQUE -- STRUCTURE EN CROIX (4 PIEDS DE TERRE VISIBLES)</div>
+  <svg viewBox="0 0 900 420" width="100%" style="display:block">
+    <defs><pattern id="g3" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0L0 0 0 16" fill="none" stroke="#0b1e30" stroke-width="0.5"/></pattern></defs>
+    <rect width="900" height="420" fill="#07101a"/><rect width="900" height="420" fill="url(#g3)"/>
+    <polygon points="130,300 370,175 370,275 130,400" fill="#071528" stroke="#3a78bc" stroke-width="1.5"/>
+    <polygon points="130,200 370,75 370,175 130,300" fill="#08182e" stroke="#4a88cc" stroke-width="1.5"/>
+    <polygon points="130,200 370,75 390,65 150,190" fill="#0d2040" stroke="#4a88cc" stroke-width="1.5"/>
+    <polygon points="130,172 370,47 390,37 150,162" fill="#2a1808" stroke="#3a2010" stroke-width="1" opacity="0.9"/>
+    <text x="230" y="140" font-size="8" fill="#8a6a2a" transform="rotate(-27,230,140)">4 PI. TERRE</text>
+    <polygon points="530,175 770,300 770,400 530,275" fill="#071528" stroke="#3a78bc" stroke-width="1.5"/>
+    <polygon points="530,75 770,200 770,300 530,175" fill="#08182e" stroke="#4a88cc" stroke-width="1.5"/>
+    <polygon points="530,75 770,200 790,190 550,65" fill="#0d2040" stroke="#4a88cc" stroke-width="1.5"/>
+    <polygon points="530,47 770,172 790,162 550,37" fill="#2a1808" stroke="#3a2010" stroke-width="1" opacity="0.9"/>
+    <polygon points="370,75 450,35 450,135 370,175" fill="#0a1525" stroke="#aa7a3a" stroke-width="1.5"/>
+    <polygon points="370,75 450,35 470,25 390,65" fill="#0e1e30" stroke="#aa7a3a" stroke-width="1.5"/>
+    <polygon points="370,47 450,7 470,-3 390,37" fill="#2a1808" stroke="#3a2010" stroke-width="1" opacity="0.9"/>
+    <polygon points="450,235 530,275 530,375 450,335" fill="#0a1525" stroke="#aa7a3a" stroke-width="1.5"/>
+    <polygon points="450,135 530,175 530,275 450,235" fill="#091422" stroke="#aa7a3a" stroke-width="1.5"/>
+    <polygon points="450,135 530,175 550,165 470,125" fill="#0e1e30" stroke="#aa7a3a" stroke-width="1.5"/>
+    <polygon points="450,107 530,147 550,137 470,97" fill="#2a1808" stroke="#3a2010" stroke-width="1" opacity="0.9"/>
+    <polygon points="370,75 450,35 530,75 450,115" fill="#0a1020" stroke="#5a9add" stroke-width="2"/>
+    <polygon points="370,75 370,175 450,135 450,35" fill="#0b1428" stroke="#5a9add" stroke-width="1.5"/>
+    <polygon points="370,47 450,7 530,47 450,87" fill="#2a1808" stroke="#3a2010" stroke-width="1.5" opacity="0.95"/>
+    <polygon points="400,0 450,-24 500,0 450,24" fill="#081510" stroke="#44cc88" stroke-width="2"/>
+    <polygon points="400,0 400,36 450,60 450,24" fill="#071210" stroke="#44cc88" stroke-width="1.5"/>
+    <polygon points="450,24 500,0 500,36 450,60" fill="#060f0d" stroke="#44cc88" stroke-width="1.5"/>
+    <polygon points="402,-3 450,-26 498,-3 450,20" fill="#06102a" stroke="#4488cc" stroke-width="1.2"/>
+    <line x1="426" y1="-15" x2="424" y2="8" stroke="#4488cc" stroke-width="0.7"/>
+    <line x1="450" y1="-26" x2="448" y2="-3" stroke="#4488cc" stroke-width="0.7"/>
+    <line x1="474" y1="-15" x2="472" y2="8" stroke="#4488cc" stroke-width="0.7"/>
+    <line x1="402" y1="-3" x2="498" y2="-3" stroke="#4488cc" stroke-width="0.7"/>
+    <text x="450" y="74" font-size="7" fill="#44cc88" text-anchor="middle">10' CENTRAL</text>
+    <ellipse cx="400" cy="105" rx="12" ry="8" fill="#0d0820" stroke="#cc44ff" stroke-width="2"/>
+    <ellipse cx="400" cy="105" rx="6" ry="4" fill="none" stroke="#cc44ff" stroke-width="1"/>
+    <ellipse cx="428" cy="120" rx="12" ry="8" fill="#0d0820" stroke="#cc44ff" stroke-width="2"/>
+    <ellipse cx="428" cy="120" rx="6" ry="4" fill="none" stroke="#cc44ff" stroke-width="1"/>
+    <text x="414" y="140" font-size="6" fill="#cc44ff">2x COLIMACONS</text>
+    <rect x="132" y="280" width="10" height="60" fill="#0a0a18" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="135" y1="280" x2="135" y2="340" stroke="#ffaa00" stroke-width="0.9"/><line x1="139" y1="280" x2="139" y2="340" stroke="#ffaa00" stroke-width="0.9"/>
+    <line x1="135" y1="292" x2="139" y2="292" stroke="#ffaa00" stroke-width="0.7"/><line x1="135" y1="304" x2="139" y2="304" stroke="#ffaa00" stroke-width="0.7"/>
+    <line x1="135" y1="316" x2="139" y2="316" stroke="#ffaa00" stroke-width="0.7"/><line x1="135" y1="328" x2="139" y2="328" stroke="#ffaa00" stroke-width="0.7"/>
+    <text x="137" y="268" font-size="6" fill="#ffaa00" text-anchor="middle">ECH O</text>
+    <rect x="758" y="280" width="10" height="60" fill="#0a0a18" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="761" y1="280" x2="761" y2="340" stroke="#ffaa00" stroke-width="0.9"/><line x1="765" y1="280" x2="765" y2="340" stroke="#ffaa00" stroke-width="0.9"/>
+    <line x1="761" y1="292" x2="765" y2="292" stroke="#ffaa00" stroke-width="0.7"/><line x1="761" y1="304" x2="765" y2="304" stroke="#ffaa00" stroke-width="0.7"/>
+    <line x1="761" y1="316" x2="765" y2="316" stroke="#ffaa00" stroke-width="0.7"/><line x1="761" y1="328" x2="765" y2="328" stroke="#ffaa00" stroke-width="0.7"/>
+    <text x="763" y="268" font-size="6" fill="#ffaa00" text-anchor="middle">ECH E</text>
+    <rect x="440" y="24" width="10" height="46" fill="#0a0a18" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="443" y1="24" x2="443" y2="70" stroke="#ffaa00" stroke-width="0.9"/><line x1="447" y1="24" x2="447" y2="70" stroke="#ffaa00" stroke-width="0.9"/>
+    <line x1="443" y1="36" x2="447" y2="36" stroke="#ffaa00" stroke-width="0.7"/><line x1="443" y1="48" x2="447" y2="48" stroke="#ffaa00" stroke-width="0.7"/><line x1="443" y1="60" x2="447" y2="60" stroke="#ffaa00" stroke-width="0.7"/>
+    <text x="445" y="15" font-size="6" fill="#ffaa00" text-anchor="middle">ECH N</text>
+    <rect x="440" y="320" width="10" height="46" fill="#0a0a18" stroke="#ffaa00" stroke-width="1.5"/>
+    <line x1="443" y1="320" x2="443" y2="366" stroke="#ffaa00" stroke-width="0.9"/><line x1="447" y1="320" x2="447" y2="366" stroke="#ffaa00" stroke-width="0.9"/>
+    <line x1="443" y1="332" x2="447" y2="332" stroke="#ffaa00" stroke-width="0.7"/><line x1="443" y1="344" x2="447" y2="344" stroke="#ffaa00" stroke-width="0.7"/><line x1="443" y1="356" x2="447" y2="356" stroke="#ffaa00" stroke-width="0.7"/>
+    <text x="445" y="382" font-size="6" fill="#ffaa00" text-anchor="middle">ECH S</text>
+    <text x="220" y="345" font-size="8" fill="#4a88cc">R1 OUEST 40'</text>
+    <text x="600" y="345" font-size="8" fill="#4a88cc">R3 EST 40'</text>
+    <text x="380" y="36" font-size="7" fill="#aa7a3a">EVAC N</text>
+    <text x="540" y="220" font-size="7" fill="#aa7a3a">EVAC S</text>
+    <text x="840" y="40" font-size="8" fill="#3a6aaa">ISO 30</text>
+    <line x1="840" y1="50" x2="865" y2="63" stroke="#3a6aaa" stroke-width="1"/>
+    <line x1="840" y1="50" x2="840" y2="80" stroke="#3a6aaa" stroke-width="1"/>
+    <line x1="840" y1="50" x2="815" y2="63" stroke="#3a6aaa" stroke-width="1"/>
+  </svg>
+</div>
 
-document.querySelectorAll(".overlay").forEach(el=>{
-    el.addEventListener("mousemove", e=>{
-        tooltip.style.opacity=1;
-        tooltip.innerText=el.dataset.text;
-        tooltip.style.left=e.pageX+10+"px";
-        tooltip.style.top=e.pageY+10+"px";
-    });
-    el.addEventListener("mouseleave", ()=>{
-        tooltip.style.opacity=0;
-    });
-});
+<div class="bv4-legend-wrap">
+  <div class="bv4-lt">LEGENDE</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#091830;border:2px solid #4a8acc"></div>Conteneurs 40' R1/R3</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#0a1525;border:2px solid #aa7a3a"></div>Conteneurs 20' evacuation N/S</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#0e1e32;border:2px solid #2a5080"></div>Beton arme 8 po (200mm)</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#111;border:1px solid #444"></div>Membrane bitumineuse</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#2a1808;border:1px solid #3a2010"></div>Terre compactee 4 pieds</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#08120a;border:1px dashed #2a9a5a"></div>Gravier 0-3/4 (12 po)</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#07130d;border:2px solid #44cc88"></div>Conteneur 10' surface + panneaux solaires</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#0d0820;border:2px solid #cc44ff"></div>Colimacon (acces central)</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#0a0a18;border:2px solid #ffaa00"></div>Echelle verticale (extremite)</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#0a2015;border:2px solid #2a9a5a"></div>Drain francais + barils 45 gallons</div>
+  <div class="bv4-li"><div class="bv4-lc" style="background:#0a1020;border:2px solid #5a9add"></div>Cage centrale (intersection)</div>
+</div>
 
-function toggle(type,btn){
-    document.querySelectorAll("." + type).forEach(el=>{
-        el.style.display = el.style.display === "none" ? "block" : "none";
-    });
-    btn.classList.toggle("active");
-}
-</script>
+<div class="bv4-footer">PLAN NON CONTRACTUEL -- REFERENCE VISUELLE SEULEMENT -- V4 2026</div>
+        </div>
+      </div>
+    </div>
+    <!-- ══ FIN BUNKER V4 ══ -->
 
+    <main class="main-layout">
+      <section class="poster-column">
+        <div class="poster-card">
+          <div class="poster-toolbar">
+            <div class="poster-toolbar-left">
+              <span class="kicker-chip" data-i18n="poster.kicker">Affiche interactive</span>
+              <button class="list-reset-btn" type="button" id="resetBtn" data-i18n="poster.reset">Réinitialiser</button>
+            </div>
+
+            <div class="poster-toolbar-right">
+              <button class="icon-btn" type="button" id="zoomOutBtn" aria-label="Zoom out">−</button>
+              <button class="icon-btn" type="button" id="zoomInBtn" aria-label="Zoom in">+</button>
+              <button class="pill-btn" type="button" id="posterFullscreenBtn" data-i18n="poster.fullscreen">
+                Plein écran
+              </button>
+            </div>
+          </div>
+
+          <div class="poster-stage" id="posterStage">
+            <div class="poster-inner">
+              <div class="poster-viewport" id="posterViewport">
+                <div class="poster-media" id="posterMedia">
+                  <img
+                    class="poster-image"
+                    src="images/plan/bunker.png"
+                    alt="Diagramme interactif du bunker forestier autosuffisant"
+                    id="posterImage"
+                  />
+                  <div class="poster-grid-hint"></div>
+                  <div class="hotspot-layer" id="hotspotLayer"></div>
+                  <div class="poster-overlay"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="poster-caption">
+            <div class="poster-caption-main">
+              <h2 class="poster-caption-title" data-i18n="poster.captionTitle">Lecture du système</h2>
+              <p class="poster-caption-text" data-i18n="poster.captionText">
+                Cliquez sur un point du schéma ou sur une composante du catalogue pour afficher sa fiche détaillée.
+              </p>
+            </div>
+
+            <div class="poster-legend">
+              <span><span class="legend-dot standard"></span><span data-i18n="poster.legendStandard">Composantes</span></span>
+              <span><span class="legend-dot stair"></span><span data-i18n="poster.legendStairs">Escaliers A / B / C</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side-column">
+        <section class="panel-card">
+          <div class="panel-header">
+            <div>
+              <div class="panel-kicker" data-i18n="detail.kicker">Fiche de composante</div>
+              <h2 class="component-title" id="componentTitle">Escalier A – accès principal</h2>
+            </div>
+            <div class="component-id-badge" id="componentBadge">01</div>
+          </div>
+
+          <p class="component-short" id="componentShort"></p>
+
+          <div class="meta-grid">
+            <div class="meta-card">
+              <span class="meta-label" data-i18n="detail.category">Catégorie</span>
+              <div class="meta-value" id="componentCategory"></div>
+            </div>
+            <div class="meta-card">
+              <span class="meta-label" data-i18n="detail.role">Rôle</span>
+              <div class="meta-value" id="componentRole"></div>
+            </div>
+          </div>
+
+          <div class="summary-blocks">
+            <div class="summary-card">
+              <h3 class="summary-title" data-i18n="detail.benefits">Bénéfices</h3>
+              <p class="summary-text" id="componentBenefits"></p>
+            </div>
+
+            <div class="summary-card">
+              <h3 class="summary-title" data-i18n="detail.summary">Résumé</h3>
+              <p class="summary-text" id="componentDetails"></p>
+            </div>
+
+            <div class="summary-card">
+              <h3 class="summary-title" data-i18n="detail.features">Caractéristiques</h3>
+              <ul class="feature-list" id="componentFeatures"></ul>
+            </div>
+
+            <div class="summary-card">
+              <h3 class="summary-title" data-i18n="detail.tech">Résumé technique</h3>
+              <p class="summary-text" id="componentTechnical"></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel-card">
+          <div class="panel-header">
+            <div>
+              <div class="panel-kicker" data-i18n="catalog.kicker">Catalogue interactif</div>
+              <h2 class="component-title" style="font-size:1.26rem;" data-i18n="catalog.title">Catalogue interactif</h2>
+            </div>
+          </div>
+
+          <div class="catalog-tools">
+            <div class="catalog-topline">
+              <div class="catalog-count">
+                <span data-i18n="catalog.countLabel">Éléments affichés</span>
+                <strong id="catalogCount">17</strong>
+              </div>
+              <button class="list-reset-btn" type="button" id="catalogResetBtn" data-i18n="catalog.reset">
+                Réinitialiser
+              </button>
+            </div>
+
+            <div class="search-wrap">
+              <label class="sr-only" for="searchInput">Recherche</label>
+              <input class="search-input" id="searchInput" type="search" autocomplete="off" />
+            </div>
+
+            <div class="filter-row" id="filterRow"></div>
+          </div>
+
+          <div class="catalog-list" id="catalogList"></div>
+          <div class="empty-state" id="emptyState" data-i18n="catalog.empty">
+            Aucune composante ne correspond à la recherche ou au filtre sélectionné.
+          </div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <div class="fullscreen-modal" id="fullscreenModal" aria-hidden="true">
+    <div class="fullscreen-inner">
+      <div class="fullscreen-topbar">
+        <div class="poster-toolbar-left">
+          <span class="kicker-chip" data-i18n="fullscreen.kicker">Mode plein écran</span>
+        </div>
+        <div class="poster-toolbar-right">
+          <button class="icon-btn" type="button" id="fullscreenZoomOut" aria-label="Zoom out">−</button>
+          <button class="icon-btn" type="button" id="fullscreenZoomIn" aria-label="Zoom in">+</button>
+          <button class="pill-btn" type="button" id="closeFullscreenBtn" data-i18n="fullscreen.close">Fermer</button>
+        </div>
+      </div>
+
+      <div class="fullscreen-stage">
+        <div class="poster-inner">
+          <div class="poster-viewport" id="fullscreenViewport">
+            <div class="poster-media" id="fullscreenMedia">
+              <img
+                class="poster-image"
+                src="images/plan/bunker.png"
+                alt="Diagramme interactif plein écran du bunker forestier autosuffisant"
+              />
+              <div class="poster-grid-hint"></div>
+              <div class="hotspot-layer" id="fullscreenHotspotLayer"></div>
+              <div class="poster-overlay"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const translations = {
+      fr: {
+        header: {
+          kicker: "Infographie premium",
+          title: "Bunker forestier autosuffisant | Modulimo",
+          fullscreen: "Affiche plein écran"
+        },
+        hero: {
+          eyebrow: "Infographie interactive",
+          title: "Bunker forestier autosuffisant",
+          subtext: "Explore chaque composante du projet : forêt nourricière, trois escaliers d’accès, noyau sécurisé, agriculture souterraine, recyclage de l’eau, énergie solaire, batterie au sable, compost thermique et ventilation bioclimatique.",
+          reset: "Réinitialiser l’exploration",
+          focusAccess: "Voir les accès"
+        },
+        stats: {
+          peopleLabel: "Capacité",
+          peopleValue: "30 personnes",
+          accessLabel: "Entrées",
+          accessValue: "3 accès visibles",
+          levelsLabel: "Structure",
+          levelsValue: "2 niveaux souterrains"
+        },
+        poster: {
+          kicker: "Affiche interactive",
+          reset: "Réinitialiser",
+          fullscreen: "Plein écran",
+          captionTitle: "Lecture du système",
+          captionText: "Cliquez sur un point du schéma ou sur une composante du catalogue pour afficher sa fiche détaillée.",
+          legendStandard: "Composantes",
+          legendStairs: "Escaliers A / B / C"
+        },
+        detail: {
+          kicker: "Fiche de composante",
+          category: "Catégorie",
+          role: "Rôle",
+          benefits: "Bénéfices",
+          summary: "Résumé",
+          features: "Caractéristiques",
+          tech: "Résumé technique"
+        },
+        catalog: {
+          kicker: "Catalogue interactif",
+          title: "Catalogue interactif",
+          countLabel: "Éléments affichés",
+          reset: "Réinitialiser",
+          searchPlaceholder: "Rechercher une composante, un usage ou un mot-clé…",
+          empty: "Aucune composante ne correspond à la recherche ou au filtre sélectionné."
+        },
+        fullscreen: {
+          kicker: "Mode plein écran",
+          close: "Fermer"
+        },
+        categories: {
+          all: "Toutes",
+          access: "Accès",
+          surface: "Surface",
+          living: "Vie",
+          agriculture: "Agriculture",
+          resources: "Ressources"
+        }
+      },
+      en: {
+        header: {
+          kicker: "Premium infographic",
+          title: "Self-sufficient forest bunker | Modulimo",
+          fullscreen: "Fullscreen poster"
+        },
+        hero: {
+          eyebrow: "Interactive infographic",
+          title: "Self-sufficient forest bunker",
+          subtext: "Explore each project subsystem: food forest, three visible access stairs, secure core, underground farming, water recycling, solar energy, sand battery, thermal composting and bioclimatic ventilation.",
+          reset: "Reset exploration",
+          focusAccess: "Show access points"
+        },
+        stats: {
+          peopleLabel: "Capacity",
+          peopleValue: "30 people",
+          accessLabel: "Entries",
+          accessValue: "3 visible accesses",
+          levelsLabel: "Structure",
+          levelsValue: "2 underground levels"
+        },
+        poster: {
+          kicker: "Interactive poster",
+          reset: "Reset",
+          fullscreen: "Fullscreen",
+          captionTitle: "System reading",
+          captionText: "Click a point on the diagram or a component in the catalog to display its detailed card.",
+          legendStandard: "Components",
+          legendStairs: "Stairs A / B / C"
+        },
+        detail: {
+          kicker: "Component card",
+          category: "Category",
+          role: "Role",
+          benefits: "Benefits",
+          summary: "Summary",
+          features: "Features",
+          tech: "Technical summary"
+        },
+        catalog: {
+          kicker: "Interactive catalog",
+          title: "Interactive catalog",
+          countLabel: "Displayed items",
+          reset: "Reset",
+          searchPlaceholder: "Search a component, use case or keyword…",
+          empty: "No component matches the current search or selected filter."
+        },
+        fullscreen: {
+          kicker: "Fullscreen mode",
+          close: "Close"
+        },
+        categories: {
+          all: "All",
+          access: "Access",
+          surface: "Surface",
+          living: "Living",
+          agriculture: "Agriculture",
+          resources: "Resources"
+        }
+      }
+    };
+
+    const baseComponents = [
+      {
+        id: "stair-left",
+        number: 1,
+        x: 19.7,
+        y: 44.5,
+        category: "access",
+        fr: {
+          title: "Escalier A – accès principal",
+          short: "Escalier colimaçon visible dans un puits dédié à gauche. Elle descend dans un tunnel en chicane, l’espace au sol et l’espace en dessous sont séparés par une couche de terre suffisante pour protéger de la radiation.",
+          role: "Entrée principale sécurisée dans un conteneur de 10 pieds orienté vers le sud avec des panneaux solaires sur le toit sur une structure pour les disposer à 55 degré vers le soleil.",
+          benefits: "Redondance, orientation simple, accès familles.",
+          details: "Premier des trois accès. Le puits descend depuis un conteneur discret en surface et mène à un couloir en chicane vers le noyau central. Il est volontairement très visible dans cette version pour la lecture pédagogique.",
+          features: [
+            "Escalier colimaçon dans un puits vertical distinct",
+            "Tunnel traversant une couche de terre en chicane avant le noyau central",
+            "Puit de lumière un tube apporte la lumière en bas.",
+            "Positionné dans le triangle des trois accès"
+          ]
+        },
+        en: {
+          title: "Stair A – main access",
+          short: "Visible spiral stair shaft on the left side.",
+          role: "Primary secure entry.",
+          benefits: "Redundancy, easy orientation, family access.",
+          details: "First of the three access shafts. The shaft drops from a discreet surface container and connects to the secure core through a zigzag corridor.",
+          features: [
+            "Dedicated spiral stair shaft",
+            "Zigzag corridor before the secure core",
+            "Part of the three-access triangle"
+          ]
+        }
+      },
+      {
+        id: "stair-center",
+        number: 2,
+        x: 49.5,
+        y: 47.5,
+        category: "access",
+        fr: {
+          title: "Escalier B – accès central sous la tour",
+          short: "Puits central lisible sous la tour bioclimatique végétalisée.",
+          role: "Accès central et circulation verticale.",
+          benefits: "Lien direct avec la tour, lumière, ventilation.",
+          details: "Accès central placé sous la tour bioclimatique. Il peut cumuler les fonctions de circulation, d’éclairage indirect et de distribution d’air.",
+          features: [
+            "Sous la tour végétalisée",
+            "Puit de lumière un tube apporte la lumière en bas.",
+            "Fonction mixte : circulation, lumière et ventilation",
+            "Dessert les deux niveaux du bunker"
+          ]
+        },
+        en: {
+          title: "Stair B – central access under the tower",
+          short: "Central shaft clearly visible beneath the vegetated tower.",
+          role: "Central access and vertical circulation.",
+          benefits: "Linked to tower, light and ventilation.",
+          details: "Central access located under the bioclimatic tower. It can combine circulation, indirect light and air distribution.",
+          features: [
+            "Located below the tower",
+            "Mixed role: circulation, light and ventilation",
+            "Connects both underground levels"
+          ]
+        }
+      },
+      {
+        id: "stair-right",
+        number: 3,
+        x: 82.0,
+        y: 44.8,
+        category: "access",
+        fr: {
+          title: "Escalier C – accès secours",
+          short: "Troisième accès, indépendant, à droite du bunker. Elle descend dans un tunnel en chicane, l’espace au sol et l’espace en dessous sont séparés par une couche de terre suffisante pour protéger de la radiation.",
+          role: "Sortie de secours et accès technique.",
+          benefits: "Résilience, évacuation, maintenance.",
+          details: "Troisième puits d’escalier, physiquement séparé des deux autres. Il augmente fortement la robustesse globale. Sécurisée dans un conteneur de 10 pieds orienté vers le sud avec des panneaux solaires sur le toit sur une structure pour les disposer à 55 degré vers le soleil.",
+          features: [
+            "Séparé des deux autres accès",
+            "Connecté au noyau sécurisé par un couloir",
+            "Puit de lumière un tube apporte la lumière en bas.",
+            "Peut aussi servir à la maintenance"
+          ]
+        },
+        en: {
+          title: "Stair C – emergency access",
+          short: "Third independent stair shaft on the right.",
+          role: "Emergency exit and technical access.",
+          benefits: "Resilience, evacuation, maintenance.",
+          details: "Third stair shaft, physically separated from the others. It strongly improves overall robustness.",
+          features: [
+            "Separated from the other two accesses",
+            "Connected to the secure core",
+            "Can also serve maintenance tasks"
+          ]
+        }
+      },
+      {
+        id: "tower",
+        number: 4,
+        x: 49.5,
+        y: 20.2,
+        category: "surface",
+        fr: {
+          title: "Tour bioclimatique végétalisée",
+          short: "Émergence de surface assurant lecture du site, ventilation contrôlée et présence végétale.",
+          role: "Interface climatique entre la surface et le bunker.",
+          benefits: "Ventilation passive, lumière indirecte, signature discrète.",
+          details: "La tour centralise plusieurs fonctions visibles : entrée de lumière, extraction d’air, repère spatial et tampon thermique. Son enveloppe végétalisée améliore l’intégration paysagère et réduit les contrastes thermiques.",
+          features: [
+            "Volume vertical au-dessus du noyau central",
+            "Habillage végétalisé et lecture pédagogique du système",
+            "Peut accueillir prises d’air, extraction et contrôle solaire",
+            "Repère central visible depuis les trois accès"
+          ]
+        },
+        en: {
+          title: "Vegetated bioclimatic tower",
+          short: "Surface emergence providing site legibility, controlled ventilation and planted presence.",
+          role: "Climatic interface between the surface and the bunker.",
+          benefits: "Passive ventilation, indirect light, discreet signature.",
+          details: "The tower combines several visible functions: light intake, air exhaust, spatial landmark and thermal buffer. Its planted envelope improves landscape integration and reduces thermal contrasts.",
+          features: [
+            "Vertical volume above the central core",
+            "Vegetated skin with didactic system readability",
+            "Can host air intake, exhaust and solar control",
+            "Central landmark visible from the three accesses"
+          ]
+        }
+      },
+      {
+        id: "orchard-left",
+        number: 5,
+        x: 22.2,
+        y: 27.7,
+        category: "surface",
+        fr: {
+          title: "Forêt nourricière – secteur ouest",
+          short: "Zone de production alimentaire de surface intégrée au couvert forestier.",
+          role: "Apport vivrier complémentaire et camouflage écologique.",
+          benefits: "Résilience alimentaire, biodiversité, discrétion visuelle.",
+          details: "Cette première zone de forêt nourricière combine arbres fruitiers, arbustes, plantes vivaces et couverture du sol. Elle augmente l’autonomie saisonnière tout en rendant la surface cohérente avec un paysage naturel.",
+          features: [
+            "Plantation en strates inspirée des écosystèmes forestiers",
+            "Production répartie et moins vulnérable à une seule culture",
+            "Renforce le microclimat autour du site",
+            "Compatible avec récupération organique locale"
+          ]
+        },
+        en: {
+          title: "Food forest – west sector",
+          short: "Surface food-production zone integrated into the forest cover.",
+          role: "Supplementary food source and ecological camouflage.",
+          benefits: "Food resilience, biodiversity, visual discretion.",
+          details: "This first food-forest area combines fruit trees, shrubs, perennials and ground cover. It improves seasonal autonomy while keeping the surface coherent with a natural landscape.",
+          features: [
+            "Layered planting inspired by forest ecosystems",
+            "Distributed production less vulnerable than single-crop layouts",
+            "Strengthens the local microclimate",
+            "Compatible with local organic-loop recovery"
+          ]
+        }
+      },
+      {
+        id: "orchard-right",
+        number: 6,
+        x: 80.1,
+        y: 22.9,
+        category: "surface",
+        fr: {
+          title: "Forêt nourricière – secteur est",
+          short: "Deuxième pôle de culture extérieure pour équilibrer la production et l’entretien.",
+          role: "Redondance agricole de surface et diversification des récoltes.",
+          benefits: "Répartition des risques, rendements variés, flexibilité d’usage.",
+          details: "Le secteur est complète la zone ouest avec une autre implantation nourricière. La séparation spatiale limite les pertes simultanées et facilite la gestion par zones selon l’ensoleillement, le vent et les cycles de récolte.",
+          features: [
+            "Deuxième massif nourricier distinct",
+            "Répartition stratégique des espèces selon exposition",
+            "Favorise pollinisation et résilience de l’ensemble",
+            "Peut intégrer petits fruits, herbacées et plantes médicinales"
+          ]
+        },
+        en: {
+          title: "Food forest – east sector",
+          short: "Second outdoor cultivation pole balancing production and maintenance.",
+          role: "Surface agriculture redundancy and harvest diversification.",
+          benefits: "Risk distribution, varied yields, flexible use.",
+          details: "The east sector complements the west zone with another food-oriented planting area. Spatial separation limits simultaneous losses and supports zone-based management depending on sun, wind and harvest cycles.",
+          features: [
+            "Second distinct food-forest mass",
+            "Strategic species placement by exposure",
+            "Supports pollination and overall resilience",
+            "Can integrate berries, herbs and medicinal plants"
+          ]
+        }
+      },
+      {
+        id: "containers",
+        number: 7,
+        x: 84.4,
+        y: 36.9,
+        category: "surface",
+        fr: {
+          title: "Conteneurs techniques de surface",
+          short: "Volumes compacts servant d’abris d’accès, de stockage et de support énergétique.",
+          role: "Enveloppes discrètes pour accès, équipements et logistique.",
+          benefits: "Modularité, robustesse, déploiement rapide.",
+          details: "Les conteneurs de 10 pieds visibles en surface servent de têtes d’accès, de points techniques et de supports pour les panneaux solaires. Leur format standard facilite la fabrication, le transport et la maintenance sur site.",
+          features: [
+            "Format modulaire facile à installer",
+            "Peuvent héberger accès, stockage et équipements",
+            "Toiture exploitable pour panneaux solaires inclinés",
+            "Lecture claire entre infrastructure visible et noyau enterré"
+          ]
+        },
+        en: {
+          title: "Surface technical containers",
+          short: "Compact volumes used as access shelters, storage nodes and energy supports.",
+          role: "Discreet envelopes for access, equipment and logistics.",
+          benefits: "Modularity, robustness, rapid deployment.",
+          details: "The 10-foot containers visible on the surface act as access heads, technical points and support structures for solar panels. Their standard format simplifies fabrication, transport and site maintenance.",
+          features: [
+            "Modular format that is easy to install",
+            "Can host access, storage and equipment",
+            "Usable roof area for tilted solar panels",
+            "Clear reading between visible infrastructure and buried core"
+          ]
+        }
+      },
+      {
+        id: "living",
+        number: 8,
+        x: 29.6,
+        y: 47.6,
+        category: "living",
+        fr: {
+          title: "Zone de vie – 5 familles de 5 personnes",
+          short: "Espace d’habitation principal dimensionné pour environ 25 occupants permanents.",
+          role: "Assurer vie quotidienne, repos, intimité et routines collectives.",
+          benefits: "Organisation familiale, confort minimal, stabilité psychologique.",
+          details: "Cette zone regroupe les fonctions de vie essentielles : couchage, rangements, alcôves, petits espaces communs et services associés. L’objectif est de structurer une occupation durable avec séparation lisible entre espaces privés et zones partagées.",
+          features: [
+            "Capacité pensée pour cinq cellules familiales",
+            "Organisation rationnelle des volumes habitables",
+            "Proximité avec le noyau pour sécurité et distribution",
+            "Peut intégrer mobilier modulaire et rangement compact"
+          ]
+        },
+        en: {
+          title: "Living zone – 5 families of 5 people",
+          short: "Main habitation area sized for about 25 permanent occupants.",
+          role: "Support daily life, rest, privacy and collective routines.",
+          benefits: "Family organization, baseline comfort, psychological stability.",
+          details: "This area groups the essential living functions: sleeping, storage, alcoves, small common spaces and related services. The goal is to support long-duration occupancy with a clear separation between private and shared zones.",
+          features: [
+            "Capacity planned for five family cells",
+            "Rational organization of habitable volume",
+            "Close to the core for security and distribution",
+            "Can integrate modular furniture and compact storage"
+          ]
+        }
+      },
+      {
+        id: "core",
+        number: 9,
+        x: 50.1,
+        y: 38.3,
+        category: "access",
+        fr: {
+          title: "Noyau sécurisé central",
+          short: "Cœur structurel et logistique reliant les accès, la vie et la production souterraine.",
+          role: "Distribuer les flux critiques et concentrer les fonctions stratégiques.",
+          benefits: "Robustesse, lisibilité, circulation protégée.",
+          details: "Le noyau central agit comme colonne vertébrale du bunker. Il relie les trois escaliers, les niveaux souterrains et les systèmes vitaux dans une géométrie compacte, facile à défendre, à ventiler et à entretenir.",
+          features: [
+            "Connexion directe avec les trois accès",
+            "Point de distribution des circulations et des réseaux",
+            "Zone logique pour équipements critiques et contrôle",
+            "Permet une lecture claire du plan général"
+          ]
+        },
+        en: {
+          title: "Central secure core",
+          short: "Structural and logistical heart connecting access, living and underground production.",
+          role: "Distribute critical flows and concentrate strategic functions.",
+          benefits: "Robustness, legibility, protected circulation.",
+          details: "The central core acts as the bunker’s backbone. It links the three stairs, the underground levels and the vital systems in a compact geometry that is easier to defend, ventilate and maintain.",
+          features: [
+            "Direct connection to the three accesses",
+            "Distribution point for circulation and networks",
+            "Logical zone for critical equipment and control",
+            "Provides a clear reading of the overall plan"
+          ]
+        }
+      },
+      {
+        id: "sabloponie",
+        number: 10,
+        x: 30.4,
+        y: 64.3,
+        category: "agriculture",
+        fr: {
+          title: "Sabloponie",
+          short: "Culture filtrante sur substrat minéral pour produire avec peu d’eau et une bonne stabilité biologique.",
+          role: "Production végétale sobre en intrants et en énergie.",
+          benefits: "Faible consommation d’eau, résilience, entretien maîtrisable.",
+          details: "La sabloponie repose sur un substrat granulaire jouant à la fois le rôle de support racinaire et de filtre biologique. Elle est pertinente dans une logique d’autonomie parce qu’elle tolère mieux certaines variations qu’un système très finement instrumenté.",
+          features: [
+            "Substrat minéral stable et durable",
+            "Filtration biologique intégrée au système de culture",
+            "Compatible avec circuits d’eau recirculés",
+            "Approche robuste pour production de légumes variés"
+          ]
+        },
+        en: {
+          title: "Sandponics",
+          short: "Mineral-substrate cultivation producing food with limited water use and good biological stability.",
+          role: "Low-input, energy-aware plant production.",
+          benefits: "Low water demand, resilience, manageable maintenance.",
+          details: "Sandponics relies on a granular substrate acting both as root support and biological filter. It fits self-sufficiency logic because it can tolerate certain variations better than very finely tuned systems.",
+          features: [
+            "Stable and durable mineral substrate",
+            "Biological filtration integrated into the growing system",
+            "Compatible with recirculating water loops",
+            "Robust approach for varied vegetable production"
+          ]
+        }
+      },
+      {
+        id: "aquaponie",
+        number: 11,
+        x: 39.5,
+        y: 68.3,
+        category: "agriculture",
+        fr: {
+          title: "Aquaponie",
+          short: "Boucle productive couplant élevage aquatique et culture végétale en recirculation.",
+          role: "Créer une synergie entre protéines, nutriments et végétaux.",
+          benefits: "Valorisation des rejets, production multiple, cycle intégré.",
+          details: "L’aquaponie associe bassins et zones de culture pour transformer les nutriments issus de la vie aquatique en fertilisation végétale. Dans le bunker, elle enrichit la diversité alimentaire tout en donnant une lecture claire d’un écosystème technique fermé.",
+          features: [
+            "Recirculation de l’eau entre bassins et cultures",
+            "Production végétale et aquatique dans une même logique",
+            "Réduction des pertes nutritives",
+            "Peut compléter d’autres modules agricoles souterrains"
+          ]
+        },
+        en: {
+          title: "Aquaponics",
+          short: "Productive loop coupling aquatic rearing and plant cultivation in recirculation.",
+          role: "Create synergy between protein, nutrients and plant growth.",
+          benefits: "Waste valorization, multiple outputs, integrated cycle.",
+          details: "Aquaponics links tanks and grow areas to convert aquatic nutrients into plant fertilization. Inside the bunker, it diversifies food production while clearly expressing a closed technical ecosystem.",
+          features: [
+            "Water recirculation between tanks and crops",
+            "Plant and aquatic production in one logic",
+            "Reduced nutrient losses",
+            "Can complement other underground agriculture modules"
+          ]
+        }
+      },
+      {
+        id: "microgreens",
+        number: 12,
+        x: 54.0,
+        y: 57.6,
+        category: "agriculture",
+        fr: {
+          title: "Micro-pousses",
+          short: "Production rapide, dense et nutritive pour renouveler fréquemment l’apport frais.",
+          role: "Assurer un flux court de verdure et de micronutriments.",
+          benefits: "Cycles rapides, faible empreinte, forte densité nutritionnelle.",
+          details: "Les micro-pousses sont adaptées aux environnements contrôlés car elles exigent peu d’espace et offrent des récoltes fréquentes. Elles jouent un rôle important dans la variété alimentaire, le moral des occupants et l’efficacité surfacique.",
+          features: [
+            "Cycles de production très courts",
+            "Faible volume pour rendement nutritionnel élevé",
+            "Faciles à intégrer près des zones techniques",
+            "Complètent bien légumes, champignons et protéines"
+          ]
+        },
+        en: {
+          title: "Microgreens",
+          short: "Fast, dense and nutritious production renewing fresh intake frequently.",
+          role: "Provide a short-cycle stream of greens and micronutrients.",
+          benefits: "Fast cycles, low footprint, high nutritional density.",
+          details: "Microgreens fit controlled environments well because they need little space and provide frequent harvests. They contribute to food variety, occupant morale and high surface efficiency.",
+          features: [
+            "Very short production cycles",
+            "Low volume for high nutritional output",
+            "Easy to integrate near technical zones",
+            "Pairs well with vegetables, fungi and protein systems"
+          ]
+        }
+      },
+      {
+        id: "fungi",
+        number: 13,
+        x: 62.4,
+        y: 59.2,
+        category: "agriculture",
+        fr: {
+          title: "Champignons",
+          short: "Module fongique exploitant humidité, matière organique et zones peu lumineuses.",
+          role: "Diversifier la production alimentaire avec un système compact.",
+          benefits: "Valorisation de substrats, faible besoin lumineux, rendement utile.",
+          details: "La culture de champignons s’intègre naturellement aux espaces contrôlés du bunker. Elle permet de convertir certaines biomasses en nourriture tout en occupant des volumes où d’autres cultures seraient moins performantes.",
+          features: [
+            "Compatible avec ambiance fraîche et humide",
+            "Utilise des substrats organiques valorisables",
+            "Production complémentaire aux cultures éclairées",
+            "Bon usage des zones souterraines moins sollicitées"
+          ]
+        },
+        en: {
+          title: "Fungi",
+          short: "Fungal module using humidity, organic matter and low-light areas.",
+          role: "Diversify food production with a compact system.",
+          benefits: "Substrate valorization, low light demand, useful yield.",
+          details: "Mushroom cultivation fits naturally in the bunker’s controlled spaces. It can convert certain biomasses into food while occupying volumes where other crops would be less efficient.",
+          features: [
+            "Compatible with cool and humid conditions",
+            "Uses recoverable organic substrates",
+            "Complementary to lit crop systems",
+            "Good use of less-demanded underground zones"
+          ]
+        }
+      },
+      {
+        id: "insects",
+        number: 14,
+        x: 61.2,
+        y: 65.4,
+        category: "agriculture",
+        fr: {
+          title: "Élevage d’insectes",
+          short: "Source protéique compacte et très efficace en conversion de matière.",
+          role: "Produire protéines et valoriser certaines fractions organiques.",
+          benefits: "Rendement surfacique élevé, cycle court, boucle circulaire.",
+          details: "L’élevage d’insectes ajoute une filière protéique robuste avec une faible emprise spatiale. Il s’intègre bien à un écosystème fermé où les flux organiques doivent être transformés efficacement.",
+          features: [
+            "Densité de production importante",
+            "Peut valoriser certains coproduits organiques",
+            "Intérêt pour alimentation animale ou humaine selon scénario",
+            "Module pertinent pour autonomie en protéines"
+          ]
+        },
+        en: {
+          title: "Insect farming",
+          short: "Compact protein source with very efficient matter conversion.",
+          role: "Produce protein and valorize selected organic fractions.",
+          benefits: "High surface yield, short cycles, circular loop.",
+          details: "Insect farming adds a robust protein pathway with very small spatial requirements. It fits closed ecosystems where organic flows must be transformed efficiently.",
+          features: [
+            "High production density",
+            "Can valorize selected organic co-products",
+            "Relevant for animal feed or human food depending on the scenario",
+            "Strong module for protein autonomy"
+          ]
+        }
+      },
+      {
+        id: "chickens",
+        number: 15,
+        x: 59.5,
+        y: 75.5,
+        category: "agriculture",
+        fr: {
+          title: "Poulailler contrôlé",
+          short: "Petit élevage pour œufs, compostage assisté et boucle organique complémentaire.",
+          role: "Ajouter une production animale légère et des flux organiques utiles.",
+          benefits: "Œufs, valorisation organique, diversité de système.",
+          details: "Le module avicole reste volontairement dimensionné à petite échelle. Il contribue à la diversité alimentaire, à la récupération de matière organique et à certains échanges thermiques ou biologiques avec d’autres sous-systèmes.",
+          features: [
+            "Production régulière d’œufs",
+            "Intégrable à une chaîne organique et compostage",
+            "Dimension compacte compatible avec gestion intérieure",
+            "Doit être associé à contrôle d’air et hygiène stricte"
+          ]
+        },
+        en: {
+          title: "Controlled chicken module",
+          short: "Small-scale husbandry for eggs, assisted composting and complementary organic looping.",
+          role: "Add light animal production and useful organic flows.",
+          benefits: "Eggs, organic valorization, system diversity.",
+          details: "The poultry module is intentionally kept small in scale. It contributes to food diversity, organic-matter recovery and selected thermal or biological interactions with other subsystems.",
+          features: [
+            "Regular egg production",
+            "Can connect to an organic loop and composting chain",
+            "Compact scale compatible with indoor management",
+            "Requires air control and strict hygiene"
+          ]
+        }
+      },
+      {
+        id: "sand-battery",
+        number: 16,
+        x: 71.4,
+        y: 62.9,
+        category: "resources",
+        fr: {
+          title: "Batterie au sable chauffée par compost",
+          short: "Stockage thermique massif couplé à une source de chaleur organique lente.",
+          role: "Accumuler et redistribuer l’énergie thermique dans le temps.",
+          benefits: "Inertie, sobriété énergétique, valorisation de chaleur basse température.",
+          details: "Le stockage thermique dans un médium granulaire permet de lisser les apports de chaleur. Couplé à un compost thermique ou à d’autres sources lentes, il soutient les besoins du bunker sans dépendre uniquement d’une énergie instantanée.",
+          features: [
+            "Masse thermique importante pour déphasage",
+            "Compatible avec chaleur issue du compost",
+            "Utile pour stabiliser certains espaces techniques ou agricoles",
+            "Approche de stockage simple et robuste"
+          ]
+        },
+        en: {
+          title: "Sand battery heated by compost",
+          short: "Mass thermal storage coupled with a slow organic heat source.",
+          role: "Accumulate and redistribute thermal energy over time.",
+          benefits: "Thermal inertia, energy sobriety, low-grade heat valorization.",
+          details: "Thermal storage in a granular medium helps smooth heat inputs over time. Coupled with thermal composting or other slow sources, it supports bunker needs without relying only on instantaneous energy.",
+          features: [
+            "High thermal mass for time-shifting heat",
+            "Compatible with compost-derived heat",
+            "Useful to stabilize technical or agricultural spaces",
+            "Simple and robust storage approach"
+          ]
+        }
+      },
+      {
+        id: "water",
+        number: 17,
+        x: 86.3,
+        y: 44.4,
+        category: "resources",
+        fr: {
+          title: "Citernes et gestion de l’eau",
+          short: "Deux citernes visibles : à gauche eau propre. À droite eau grise; au centre en bas : captage du ruissellement.",
+          role: "Sécurisation de la ressource critique.",
+          benefits: "Autonomie, recyclage, lecture claire du système d’eau.",
+          details: "Le visuel doit montrer clairement deux citernes distinctes à proximité du bunker : une pour l’eau propre et une pour l’eau grise. Il doit aussi faire voir le captage de l’eau de ruissellement vers le réseau de gestion hydrique.",
+          features: [
+            "Citerne d’eau propre clairement identifiée",
+            "Citerne d’eau grise séparée",
+            "Captage du ruissellement visible vers le système d’eau"
+          ]
+        },
+        en: {
+          title: "Water tanks and water management",
+          short: "Two visible tanks: clean water, greywater and runoff capture.",
+          role: "Securing the critical resource.",
+          benefits: "Autonomy, recycling, clearer water system reading.",
+          details: "The visual should clearly show two separate tanks near the bunker: one for clean water and one for greywater. It should also show runoff capture feeding the water-management system.",
+          features: [
+            "Clearly identified clean-water tank",
+            "Separate greywater tank",
+            "Visible runoff capture into the water system"
+          ]
+        }
+      }
+    ];
+
+    const state = {
+      lang: "fr",
+      activeId: "stair-left",
+      filter: "all",
+      query: "",
+      zoom: 1,
+      fullscreenZoom: 1
+    };
+
+    const categoryOrder = ["all", "access", "surface", "living", "agriculture", "resources"];
+
+    const els = {
+      langBtns: [...document.querySelectorAll(".lang-btn")],
+      filterRow: document.getElementById("filterRow"),
+      catalogList: document.getElementById("catalogList"),
+      catalogCount: document.getElementById("catalogCount"),
+      searchInput: document.getElementById("searchInput"),
+      emptyState: document.getElementById("emptyState"),
+      hotspotLayer: document.getElementById("hotspotLayer"),
+      fullscreenHotspotLayer: document.getElementById("fullscreenHotspotLayer"),
+      posterStage: document.getElementById("posterStage"),
+      posterViewport: document.getElementById("posterViewport"),
+      posterMedia: document.getElementById("posterMedia"),
+      fullscreenModal: document.getElementById("fullscreenModal"),
+      fullscreenViewport: document.getElementById("fullscreenViewport"),
+      fullscreenMedia: document.getElementById("fullscreenMedia"),
+      componentTitle: document.getElementById("componentTitle"),
+      componentBadge: document.getElementById("componentBadge"),
+      componentShort: document.getElementById("componentShort"),
+      componentCategory: document.getElementById("componentCategory"),
+      componentRole: document.getElementById("componentRole"),
+      componentBenefits: document.getElementById("componentBenefits"),
+      componentDetails: document.getElementById("componentDetails"),
+      componentFeatures: document.getElementById("componentFeatures"),
+      componentTechnical: document.getElementById("componentTechnical"),
+      headerFullscreenBtn: document.getElementById("headerFullscreenBtn"),
+      posterFullscreenBtn: document.getElementById("posterFullscreenBtn"),
+      closeFullscreenBtn: document.getElementById("closeFullscreenBtn"),
+      zoomInBtn: document.getElementById("zoomInBtn"),
+      zoomOutBtn: document.getElementById("zoomOutBtn"),
+      fullscreenZoomIn: document.getElementById("fullscreenZoomIn"),
+      fullscreenZoomOut: document.getElementById("fullscreenZoomOut"),
+      resetBtn: document.getElementById("resetBtn"),
+      heroResetBtn: document.getElementById("heroResetBtn"),
+      heroFocusAccessBtn: document.getElementById("heroFocusAccessBtn"),
+      catalogResetBtn: document.getElementById("catalogResetBtn")
+    };
+
+    function getComponent(id) {
+      return baseComponents.find(item => item.id === id) || baseComponents[0];
+    }
+
+    function getLocalized(comp) {
+      return comp[state.lang];
+    }
+
+    function categoryLabel(key) {
+      return translations[state.lang].categories[key] || key;
+    }
+
+    function makeTechnicalSummary(comp) {
+      const local = getLocalized(comp);
+      if (state.lang === "fr") {
+        return `Élément n°${comp.number.toString().padStart(2, "0")} situé à ${comp.x.toFixed(1)}% / ${comp.y.toFixed(1)}% dans le diagramme. Catégorie : ${categoryLabel(comp.category)}. Ce sous-système relie la logique d’autonomie du bunker à une lecture claire du projet et participe à la redondance fonctionnelle de l’ensemble.`;
+      }
+      return `Component #${comp.number.toString().padStart(2, "0")} located at ${comp.x.toFixed(1)}% / ${comp.y.toFixed(1)}% in the diagram. Category: ${categoryLabel(comp.category)}. This subsystem supports the bunker’s self-sufficiency logic while keeping the project legible and functionally redundant.`;
+    }
+
+    function applyI18n() {
+      document.documentElement.lang = state.lang;
+
+      document.querySelectorAll("[data-i18n]").forEach(node => {
+        const path = node.dataset.i18n.split(".");
+        let value = translations[state.lang];
+        path.forEach(key => value = value?.[key]);
+        if (typeof value === "string") {
+          node.textContent = value;
+        }
+      });
+
+      els.searchInput.placeholder = translations[state.lang].catalog.searchPlaceholder;
+      renderFilters();
+      renderCatalog();
+      renderHotspots();
+      updateDetailCard();
+    }
+
+    function renderFilters() {
+      els.filterRow.innerHTML = "";
+      categoryOrder.forEach(category => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "filter-btn" + (state.filter === category ? " active" : "");
+        button.textContent = categoryLabel(category);
+        button.dataset.category = category;
+        button.addEventListener("click", () => {
+          state.filter = category;
+          renderFilters();
+          renderCatalog();
+          renderHotspots();
+          ensureActiveVisible();
+        });
+        els.filterRow.appendChild(button);
+      });
+    }
+
+    function matchesSearch(comp) {
+      if (!state.query.trim()) return true;
+      const q = state.query.trim().toLowerCase();
+      const local = getLocalized(comp);
+      const haystack = [
+        comp.id,
+        String(comp.number),
+        local.title,
+        local.short,
+        local.role,
+        local.benefits,
+        local.details,
+        ...local.features,
+        categoryLabel(comp.category)
+      ].join(" ").toLowerCase();
+
+      return haystack.includes(q);
+    }
+
+    function matchesFilter(comp) {
+      return state.filter === "all" || comp.category === state.filter;
+    }
+
+    function getVisibleComponents() {
+      return baseComponents.filter(comp => matchesFilter(comp) && matchesSearch(comp));
+    }
+
+    function renderCatalog() {
+      const visible = getVisibleComponents();
+      els.catalogList.innerHTML = "";
+
+      visible.forEach(comp => {
+        const local = getLocalized(comp);
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "catalog-item" + (state.activeId === comp.id ? " active" : "");
+        item.dataset.id = comp.id;
+        item.innerHTML = `
+          <span class="catalog-number">${String(comp.number).padStart(2, "0")}</span>
+          <span class="catalog-copy">
+            <p class="catalog-title">${escapeHtml(local.title)}</p>
+            <p class="catalog-short">${escapeHtml(local.short)}</p>
+          </span>
+          <span class="catalog-tag">${escapeHtml(categoryLabel(comp.category))}</span>
+        `;
+        item.addEventListener("click", () => setActiveComponent(comp.id, true));
+        els.catalogList.appendChild(item);
+      });
+
+      els.catalogCount.textContent = visible.length;
+      els.emptyState.classList.toggle("show", visible.length === 0);
+    }
+
+    function renderHotspots() {
+      els.hotspotLayer.innerHTML = "";
+      els.fullscreenHotspotLayer.innerHTML = "";
+
+      const visibleIds = new Set(getVisibleComponents().map(item => item.id));
+
+      baseComponents.forEach(comp => {
+        const hotspot = buildHotspot(comp, visibleIds.has(comp.id));
+        els.hotspotLayer.appendChild(hotspot);
+
+        const hotspotFullscreen = buildHotspot(comp, visibleIds.has(comp.id), true);
+        els.fullscreenHotspotLayer.appendChild(hotspotFullscreen);
+      });
+    }
+
+    function buildHotspot(comp, visible, isFullscreen = false) {
+      const local = getLocalized(comp);
+      const btn = document.createElement("button");
+      btn.type = "button";
+      const isStair = ["stair-left", "stair-center", "stair-right"].includes(comp.id);
+      btn.className = "hotspot" + (isStair ? " stair" : "") + (state.activeId === comp.id ? " active" : "");
+      btn.id = isFullscreen ? `${comp.id}-fs` : comp.id;
+      btn.style.setProperty("--x", `${comp.x}%`);
+      btn.style.setProperty("--y", `${comp.y}%`);
+      btn.dataset.id = comp.id;
+      btn.dataset.number = comp.number;
+      btn.setAttribute("aria-label", local.title);
+      btn.title = local.title;
+      btn.style.display = visible ? "block" : "none";
+      btn.addEventListener("click", () => setActiveComponent(comp.id, true));
+      return btn;
+    }
+
+    function updateDetailCard() {
+      const comp = getComponent(state.activeId);
+      const local = getLocalized(comp);
+
+      els.componentTitle.textContent = local.title;
+      els.componentBadge.textContent = String(comp.number).padStart(2, "0");
+      els.componentShort.textContent = local.short;
+      els.componentCategory.textContent = categoryLabel(comp.category);
+      els.componentRole.textContent = local.role;
+      els.componentBenefits.textContent = local.benefits;
+      els.componentDetails.textContent = local.details;
+      els.componentTechnical.textContent = makeTechnicalSummary(comp);
+
+      els.componentFeatures.innerHTML = "";
+      local.features.forEach(feature => {
+        const li = document.createElement("li");
+        li.textContent = feature;
+        els.componentFeatures.appendChild(li);
+      });
+
+      document.querySelectorAll(".catalog-item").forEach(item => {
+        item.classList.toggle("active", item.dataset.id === state.activeId);
+      });
+
+      document.querySelectorAll(".hotspot").forEach(item => {
+        const rawId = item.dataset.id;
+        item.classList.toggle("active", rawId === state.activeId);
+      });
+    }
+
+    function setActiveComponent(id, scrollIntoView = false) {
+      state.activeId = id;
+      updateDetailCard();
+
+      const comp = getComponent(id);
+      const catalogItem = [...document.querySelectorAll(".catalog-item")].find(item => item.dataset.id === id);
+      if (scrollIntoView && catalogItem) {
+        catalogItem.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+
+      const hotspot = document.querySelector(`.hotspot[data-id="${id}"]`);
+      if (scrollIntoView && hotspot && !els.fullscreenModal.classList.contains("show")) {
+        hotspot.animate(
+          [
+            { transform: hotspot.classList.contains("stair") ? "translate(-50%, -50%) scale(1)" : "translate(-50%, -50%) scale(1)" },
+            { transform: hotspot.classList.contains("stair") ? "translate(-50%, -50%) scale(1.16)" : "translate(-50%, -50%) scale(1.14)" },
+            { transform: hotspot.classList.contains("stair") ? "translate(-50%, -50%) scale(1.08)" : "translate(-50%, -50%) scale(1.1)" }
+          ],
+          { duration: 520, easing: "ease-out" }
+        );
+      }
+    }
+
+    function ensureActiveVisible() {
+      const visible = getVisibleComponents();
+      if (!visible.some(item => item.id === state.activeId)) {
+        state.activeId = visible[0]?.id || baseComponents[0].id;
+      }
+      renderCatalog();
+      renderHotspots();
+      updateDetailCard();
+    }
+
+    function resetExplorer() {
+      state.query = "";
+      state.filter = "all";
+      state.activeId = "stair-left";
+      els.searchInput.value = "";
+      renderFilters();
+      renderCatalog();
+      renderHotspots();
+      updateDetailCard();
+      setZoom(1);
+      setFullscreenZoom(1);
+    }
+
+    function setZoom(value) {
+      state.zoom = Math.max(0.8, Math.min(2.4, value));
+      document.documentElement.style.setProperty("--poster-scale", state.zoom.toFixed(2));
+    }
+
+    function setFullscreenZoom(value) {
+      state.fullscreenZoom = Math.max(0.8, Math.min(2.6, value));
+      els.fullscreenMedia.style.transform = `scale(${state.fullscreenZoom.toFixed(2)})`;
+    }
+
+    function openFullscreen() {
+      els.fullscreenModal.classList.add("show");
+      els.fullscreenModal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      setFullscreenZoom(state.zoom);
+      updateDetailCard();
+    }
+
+    function closeFullscreen() {
+      els.fullscreenModal.classList.remove("show");
+      els.fullscreenModal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function bindEvents() {
+      els.langBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.lang = btn.dataset.lang;
+          els.langBtns.forEach(other => other.classList.toggle("active", other === btn));
+          applyI18n();
+        });
+      });
+
+      els.searchInput.addEventListener("input", event => {
+        state.query = event.target.value;
+        renderCatalog();
+        renderHotspots();
+        ensureActiveVisible();
+      });
+
+      els.zoomInBtn.addEventListener("click", () => setZoom(state.zoom + 0.12));
+      els.zoomOutBtn.addEventListener("click", () => setZoom(state.zoom - 0.12));
+      els.fullscreenZoomIn.addEventListener("click", () => setFullscreenZoom(state.fullscreenZoom + 0.12));
+      els.fullscreenZoomOut.addEventListener("click", () => setFullscreenZoom(state.fullscreenZoom - 0.12));
+
+      els.headerFullscreenBtn.addEventListener("click", openFullscreen);
+      els.posterFullscreenBtn.addEventListener("click", openFullscreen);
+      els.closeFullscreenBtn.addEventListener("click", closeFullscreen);
+
+      els.resetBtn.addEventListener("click", resetExplorer);
+      els.heroResetBtn.addEventListener("click", resetExplorer);
+      els.catalogResetBtn.addEventListener("click", resetExplorer);
+
+      els.heroFocusAccessBtn.addEventListener("click", () => {
+        state.filter = "access";
+        renderFilters();
+        renderCatalog();
+        renderHotspots();
+        ensureActiveVisible();
+      });
+
+      els.fullscreenModal.addEventListener("click", (event) => {
+        if (event.target === els.fullscreenModal) closeFullscreen();
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && els.fullscreenModal.classList.contains("show")) {
+          closeFullscreen();
+        }
+      });
+
+      addParallax(els.posterViewport, false);
+      addParallax(els.fullscreenViewport, true);
+    }
+
+    function addParallax(viewport, fullscreen = false) {
+      const strength = fullscreen ? 16 : 10;
+      viewport.addEventListener("mousemove", (event) => {
+        const rect = viewport.getBoundingClientRect();
+        const px = (event.clientX - rect.left) / rect.width;
+        const py = (event.clientY - rect.top) / rect.height;
+        const tx = (px - 0.5) * strength;
+        const ty = (py - 0.5) * strength;
+
+        if (fullscreen) {
+          els.fullscreenMedia.style.transform = `translate(${tx}px, ${ty}px) scale(${state.fullscreenZoom.toFixed(2)})`;
+        } else {
+          document.documentElement.style.setProperty("--poster-x", `${tx}px`);
+          document.documentElement.style.setProperty("--poster-y", `${ty}px`);
+        }
+      });
+
+      viewport.addEventListener("mouseleave", () => {
+        if (fullscreen) {
+          els.fullscreenMedia.style.transform = `translate(0px, 0px) scale(${state.fullscreenZoom.toFixed(2)})`;
+        } else {
+          document.documentElement.style.setProperty("--poster-x", "0px");
+          document.documentElement.style.setProperty("--poster-y", "0px");
+        }
+      });
+    }
+
+
+    // Bunker V4 accordion toggle
+    (function() {
+      var btn = document.getElementById('bunkerV4Btn');
+      var body = document.getElementById('bunkerV4Body');
+      if (!btn || !body) return;
+      btn.addEventListener('click', function() {
+        var isOpen = body.classList.contains('open');
+        body.classList.toggle('open', !isOpen);
+        btn.setAttribute('aria-expanded', String(!isOpen));
+      });
+    })();
+
+    bindEvents();
+    applyI18n();
+    setZoom(1);
+    setFullscreenZoom(1);
+    setActiveComponent(state.activeId);
+  </script>
 </body>
 </html>
