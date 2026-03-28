@@ -539,6 +539,7 @@
       z-index: 4;
     }
 
+    .hotspot::after-touch {}
     .hotspot::before {
       content: "";
       position: absolute;
@@ -1145,6 +1146,8 @@
     }
 
     @media (max-width: 760px) {
+      .hotspot { width: 36px; height: 36px; }
+      .hotspot.stair { width: 50px; height: 50px; }
       :root {
         --header-h: 88px;
       }
@@ -1685,7 +1688,7 @@
       </section>
 
       <aside class="side-column">
-        <section class="panel-card">
+        <section class="panel-card" id="detailPanel" style="display:none;">
           <div class="panel-header">
             <div>
               <div class="panel-kicker" data-i18n="detail.kicker">Fiche de composante</div>
@@ -2676,6 +2679,8 @@
     function updateDetailCard() {
       const comp = getComponent(state.activeId);
       const local = getLocalized(comp);
+      const detailPanel = document.getElementById("detailPanel");
+      if (detailPanel) detailPanel.style.display = "";
 
       els.componentTitle.textContent = local.title;
       els.componentBadge.textContent = String(comp.number).padStart(2, "0");
@@ -2877,6 +2882,9 @@
     applyI18n();
     setZoom(1);
     setFullscreenZoom(1);
+    renderFilters();
+    renderCatalog();
+    renderHotspots();
     setActiveComponent(state.activeId);
   </script>
 </body>
