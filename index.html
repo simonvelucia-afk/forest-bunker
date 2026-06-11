@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bunker forestier autosuffisant | Modulimo</title>
+  <title>Bunker forestier résidentiel — Modulimo V5.1</title>
   <style>
     :root {
       --bg: #071018;
@@ -1272,6 +1272,54 @@
     #bunkerV4Panel .bv4-footer { text-align: center; margin-top: 10px; font-size: 8px; color: #1a3050; letter-spacing: 2px; padding-bottom: 4px; }
     @media (max-width: 900px) { #bunkerV4Panel .bv4-grid { grid-template-columns: 1fr; } }
 
+    /* ── Modulimo V5.1 section ── */
+    .v5-section {
+      width: min(1500px, calc(100% - 32px));
+      margin: 0 auto 28px;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+    .v5-header { margin-bottom: 22px; }
+    .v5-title { margin: 6px 0 10px; font-size: clamp(1.5rem, 2.6vw, 2.1rem); }
+    .v5-intro { color: var(--muted); max-width: 880px; margin: 0; line-height: 1.6; }
+    .v5-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .v5-card {
+      background: var(--panel-2);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+    }
+    .v5-card h3 {
+      margin: 0 0 10px;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .v5-card ul { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.55; font-size: 0.92rem; }
+    .v5-card li { margin-bottom: 5px; }
+    .v5-card p { color: var(--muted); font-size: 0.92rem; line-height: 1.55; margin: 0 0 10px; }
+    .v5-note { margin: -6px 0 10px; font-size: 0.8rem; color: var(--soft); font-style: italic; }
+    .v5-card.v5-critical { border-color: rgba(255, 82, 97, 0.35); background: rgba(255, 82, 97, 0.06); }
+    .v5-card.v5-critical h3 { color: var(--red); }
+    .v5-systems { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .v5-chip {
+      background: var(--chip);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .v5-usage { margin: 16px 0 0; color: var(--soft); font-size: 0.88rem; line-height: 1.55; }
+
   </style>
 </head>
 <body>
@@ -1284,7 +1332,7 @@
           </span>
           <span class="brand-meta">
             <span class="brand-kicker" data-i18n="header.kicker">Deep-tech project</span>
-            <span class="brand-title" data-i18n="header.title">Bunker forestier autosuffisant | Modulimo</span>
+            <span class="brand-title" data-i18n="header.title">Bunker forestier résidentiel | Modulimo V5.1</span>
           </span>
         </a>
 
@@ -1303,10 +1351,10 @@
     <section class="hero">
       <div class="hero-grid">
         <div>
-          <div class="eyebrow" data-i18n="hero.eyebrow">Infographie interactive</div>
-          <h1 class="hero-title" data-i18n="hero.title">Bunker forestier autosuffisant</h1>
+          <div class="eyebrow" data-i18n="hero.eyebrow">Infographie interactive — Modulimo V5.1</div>
+          <h1 class="hero-title" data-i18n="hero.title">Bunker forestier résidentiel</h1>
           <p class="hero-subtext" data-i18n="hero.subtext">
-            Explore chaque composante du projet : forêt nourricière, trois escaliers d’accès, noyau sécurisé, agriculture souterraine, recyclage de l’eau, énergie solaire, batterie au sable, compost thermique et ventilation bioclimatique.
+            Habitation souterraine en conteneurs maritimes pour 12 à 15 personnes, autosuffisante et résiliente. Explore chaque composante du projet : étages de vie et de production, aquaponie, culture sabloponique, vélomobiles, énergie solaire, refuge sécurisé et mode situation critique.
           </p>
           <div class="hero-cta-row">
             <button class="pill-btn" type="button" id="heroResetBtn" data-i18n="hero.reset">Réinitialiser l’exploration</button>
@@ -1317,20 +1365,146 @@
         <div class="hero-stats">
           <div class="stat-card">
             <span class="stat-label" data-i18n="stats.peopleLabel">Capacité</span>
-            <span class="stat-value" data-i18n="stats.peopleValue">30 personnes</span>
+            <span class="stat-value" data-i18n="stats.peopleValue">12 à 15 personnes</span>
           </div>
           <div class="stat-card">
-            <span class="stat-label" data-i18n="stats.accessLabel">Entrées</span>
-            <span class="stat-value" data-i18n="stats.accessValue">3 accès visibles</span>
+            <span class="stat-label" data-i18n="stats.accessLabel">Surface habitable</span>
+            <span class="stat-value" data-i18n="stats.accessValue">± 420 m²</span>
           </div>
           <div class="stat-card">
-            <span class="stat-label" data-i18n="stats.levelsLabel">Structure</span>
-            <span class="stat-value" data-i18n="stats.levelsValue">2 niveaux souterrains</span>
+            <span class="stat-label" data-i18n="stats.levelsLabel">Autonomie ciblée</span>
+            <span class="stat-value" data-i18n="stats.levelsValue">3 à 6 mois</span>
           </div>
         </div>
       </div>
     </section>
 
+
+    <!-- ══ MODULIMO V5.1 — SPECIFICATIONS ══ -->
+    <section class="v5-section" id="v5Section">
+      <div class="v5-header">
+        <div class="eyebrow" data-i18n="v5.eyebrow">Modulimo V5.1 — Autosuffisant &amp; résilient</div>
+        <h2 class="v5-title" data-i18n="v5.title">Bunker forestier résidentiel</h2>
+        <p class="v5-intro" data-i18n="v5.intro">
+          Habitation souterraine en conteneurs maritimes pour 12 à 15 personnes. Quatre niveaux superposés combinent espaces de vie, production alimentaire, systèmes techniques et refuge sécurisé, sous un toit de terre végétale qui camoufle l’ensemble dans la forêt.
+        </p>
+      </div>
+
+      <div class="v5-grid">
+        <div class="v5-card">
+          <h3 data-i18n="v5.specsTitle">Spécifications principales</h3>
+          <ul>
+            <li data-i18n="v5.spec1">Conteneurs maritimes : 12 unités (40 pieds)</li>
+            <li data-i18n="v5.spec2">Occupants : 12 à 15 personnes</li>
+            <li data-i18n="v5.spec3">Niveaux : 3 (2 habitables + 1 refuge)</li>
+            <li data-i18n="v5.spec4">Surface habitable : ± 420 m²</li>
+            <li data-i18n="v5.spec5">Autonomie ciblée : 3 à 6 mois (prolongeable)</li>
+            <li data-i18n="v5.spec6">Hauteur sous plafond : 2,4 m</li>
+            <li data-i18n="v5.spec7">Profondeur d’enfouissement : 2,5 à 3,5 m</li>
+            <li data-i18n="v5.spec8">Structure : conteneurs acier Corten + béton</li>
+            <li data-i18n="v5.spec9">Toit : 30 à 60 cm de terre végétale (camouflage)</li>
+            <li data-i18n="v5.spec10">Entrées en chicane, portes étanches</li>
+            <li data-i18n="v5.spec11">Emprise au sol : 36 m × 28 m (vue de dessus)</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.e3t">Étage 3 — Garage &amp; tampon</h3>
+          <p class="v5-note" data-i18n="v5.e3n">(non habité en cas de radiation)</p>
+          <ul>
+            <li data-i18n="v5.e3i1">Garage vélomobiles (4 à 5 unités)</li>
+            <li data-i18n="v5.e3i2">Atelier, outils, pièces, vélos</li>
+            <li data-i18n="v5.e3i3">Zone tampon, stockage matériel</li>
+            <li data-i18n="v5.e3i4">Accès sécurisé, ventilation filtrée</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.e2t">Étage 2 — Espaces de vie</h3>
+          <ul>
+            <li data-i18n="v5.e2i1">Cuisine entièrement équipée</li>
+            <li data-i18n="v5.e2i2">Salle à manger</li>
+            <li data-i18n="v5.e2i3">Salon / salle familiale</li>
+            <li data-i18n="v5.e2i4">2 chambres</li>
+            <li data-i18n="v5.e2i5">Salle de bain</li>
+            <li data-i18n="v5.e2i6">Buanderie</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.e1t">Étage 1 — Production &amp; provisions</h3>
+          <ul>
+            <li data-i18n="v5.e1i1">Culture sabloponique (légumes, fines herbes, fruits)</li>
+            <li data-i18n="v5.e1i2">Système aquaponique (poissons en contenants 1000 L)</li>
+            <li data-i18n="v5.e1i3">Réserve alimentaire</li>
+            <li data-i18n="v5.e1i4">Transformation alimentaire</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.n1t">Niveau -1 — Technique &amp; sécurité</h3>
+          <ul>
+            <li data-i18n="v5.n1i1">Réserve d’eau (citernes)</li>
+            <li data-i18n="v5.n1i2">Système de filtration &amp; traitement</li>
+            <li data-i18n="v5.n1i3">Batteries &amp; système électrique</li>
+            <li data-i18n="v5.n1i4">Ventilation, pompes, contrôle</li>
+            <li data-i18n="v5.n1i5">Refuge sécurisé (zone la plus protégée)</li>
+          </ul>
+        </div>
+
+        <div class="v5-card v5-critical">
+          <h3 data-i18n="v5.critT">Mode situation critique — Étage 3 isolé</h3>
+          <p data-i18n="v5.critIntro">En cas d’alerte (radiation, tempête, etc.), l’étage 3 est condamné et l’accès scellé.</p>
+          <ul>
+            <li data-i18n="v5.crit1">Accès scellés et ventilations fermées</li>
+            <li data-i18n="v5.crit2">Déplacement vers les niveaux inférieurs</li>
+            <li data-i18n="v5.crit3">Niveau -1 : zone la plus protégée (terre + structure)</li>
+            <li data-i18n="v5.crit4">Systèmes autonomes en fonctionnement</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.veloT">Vélomobiles sur le site</h3>
+          <ul>
+            <li data-i18n="v5.velo1">Vélomobiles électriques pour transport quotidien silencieux et autonome</li>
+            <li data-i18n="v5.velo2">Autonomie : 60 à 100 km selon modèle</li>
+            <li data-i18n="v5.velo3">Recharge solaire intégrée au site</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.aquaT">Aquaponie — Contenants 1000 L alimentaires</h3>
+          <ul>
+            <li data-i18n="v5.aqua1">Chaque contenant : 42 × 48 × 48 pouces (1000 litres)</li>
+            <li data-i18n="v5.aqua2">Poissons élevés dans des contenants alimentaires 1000 L</li>
+            <li data-i18n="v5.aqua3">Alimentation naturelle et équilibrée</li>
+            <li data-i18n="v5.aqua4">Eau filtrée par les plantes</li>
+            <li data-i18n="v5.aqua5">Système modulaire, facile à entretenir</li>
+            <li data-i18n="v5.aqua6">Production continue de protéines fraîches</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.chicT">Entrées en chicane</h3>
+          <p data-i18n="v5.chicText">Accès avec virages pour limiter les ondes de souffle et les infiltrations. Portes étanches à chaque entrée.</p>
+        </div>
+      </div>
+
+      <div class="v5-systems">
+        <span class="v5-chip" data-i18n="v5.sys1">Énergie solaire + batteries</span>
+        <span class="v5-chip" data-i18n="v5.sys2">Eau de pluie récupérée &amp; filtrée</span>
+        <span class="v5-chip" data-i18n="v5.sys3">Alimentation produite sur place</span>
+        <span class="v5-chip" data-i18n="v5.sys4">Déchets organiques compostés</span>
+        <span class="v5-chip" data-i18n="v5.sys5">Air filtré renouvelé</span>
+        <span class="v5-chip" data-i18n="v5.sys6">Connectivité internet satellite</span>
+        <span class="v5-chip" data-i18n="v5.sys7">Sécurité : caméras &amp; alarmes</span>
+      </div>
+
+      <p class="v5-usage" data-i18n="v5.usage">
+        Utilisation en temps normal — vacances en famille : arrivée en famille, confort &amp; détente, cuisine &amp; repas, activités &amp; loisirs, production maison.
+      </p>
+    </section>
+    <!-- ══ FIN MODULIMO V5.1 ══ -->
 
     <!-- ══ BUNKER V4 ACCORDEON ══ -->
     <div class="bunker-v4-accordion">
@@ -1343,7 +1517,7 @@
       >
         <span class="btn-label">
           <span class="btn-icon">&#8853;</span>
-          Plan Technique V4 &mdash; Structure en croix
+          Plan Technique V4 &mdash; Structure en croix (version précédente)
         </span>
         <span class="btn-chevron">&#9660;</span>
       </button>
@@ -1803,23 +1977,91 @@
       fr: {
         header: {
           kicker: "Infographie premium",
-          title: "Bunker forestier autosuffisant | Modulimo",
+          title: "Bunker forestier résidentiel | Modulimo V5.1",
           fullscreen: "Affiche plein écran"
         },
         hero: {
-          eyebrow: "Infographie interactive",
-          title: "Bunker forestier autosuffisant",
-          subtext: "Explore chaque composante du projet : forêt nourricière, trois escaliers d’accès, noyau sécurisé, agriculture souterraine, recyclage de l’eau, énergie solaire, batterie au sable, compost thermique et ventilation bioclimatique.",
+          eyebrow: "Infographie interactive — Modulimo V5.1",
+          title: "Bunker forestier résidentiel",
+          subtext: "Habitation souterraine en conteneurs maritimes pour 12 à 15 personnes, autosuffisante et résiliente. Explore chaque composante du projet : étages de vie et de production, aquaponie, culture sabloponique, vélomobiles, énergie solaire, refuge sécurisé et mode situation critique.",
           reset: "Réinitialiser l’exploration",
           focusAccess: "Voir les accès"
         },
         stats: {
           peopleLabel: "Capacité",
-          peopleValue: "30 personnes",
-          accessLabel: "Entrées",
-          accessValue: "3 accès visibles",
-          levelsLabel: "Structure",
-          levelsValue: "2 niveaux souterrains"
+          peopleValue: "12 à 15 personnes",
+          accessLabel: "Surface habitable",
+          accessValue: "± 420 m²",
+          levelsLabel: "Autonomie ciblée",
+          levelsValue: "3 à 6 mois"
+        },
+        v5: {
+          eyebrow: "Modulimo V5.1 — Autosuffisant & résilient",
+          title: "Bunker forestier résidentiel",
+          intro: "Habitation souterraine en conteneurs maritimes pour 12 à 15 personnes. Quatre niveaux superposés combinent espaces de vie, production alimentaire, systèmes techniques et refuge sécurisé, sous un toit de terre végétale qui camoufle l’ensemble dans la forêt.",
+          specsTitle: "Spécifications principales",
+          spec1: "Conteneurs maritimes : 12 unités (40 pieds)",
+          spec2: "Occupants : 12 à 15 personnes",
+          spec3: "Niveaux : 3 (2 habitables + 1 refuge)",
+          spec4: "Surface habitable : ± 420 m²",
+          spec5: "Autonomie ciblée : 3 à 6 mois (prolongeable)",
+          spec6: "Hauteur sous plafond : 2,4 m",
+          spec7: "Profondeur d’enfouissement : 2,5 à 3,5 m",
+          spec8: "Structure : conteneurs acier Corten + béton",
+          spec9: "Toit : 30 à 60 cm de terre végétale (camouflage)",
+          spec10: "Entrées en chicane, portes étanches",
+          spec11: "Emprise au sol : 36 m × 28 m (vue de dessus)",
+          e3t: "Étage 3 — Garage & tampon",
+          e3n: "(non habité en cas de radiation)",
+          e3i1: "Garage vélomobiles (4 à 5 unités)",
+          e3i2: "Atelier, outils, pièces, vélos",
+          e3i3: "Zone tampon, stockage matériel",
+          e3i4: "Accès sécurisé, ventilation filtrée",
+          e2t: "Étage 2 — Espaces de vie",
+          e2i1: "Cuisine entièrement équipée",
+          e2i2: "Salle à manger",
+          e2i3: "Salon / salle familiale",
+          e2i4: "2 chambres",
+          e2i5: "Salle de bain",
+          e2i6: "Buanderie",
+          e1t: "Étage 1 — Production & provisions",
+          e1i1: "Culture sabloponique (légumes, fines herbes, fruits)",
+          e1i2: "Système aquaponique (poissons en contenants 1000 L)",
+          e1i3: "Réserve alimentaire",
+          e1i4: "Transformation alimentaire",
+          n1t: "Niveau -1 — Technique & sécurité",
+          n1i1: "Réserve d’eau (citernes)",
+          n1i2: "Système de filtration & traitement",
+          n1i3: "Batteries & système électrique",
+          n1i4: "Ventilation, pompes, contrôle",
+          n1i5: "Refuge sécurisé (zone la plus protégée)",
+          critT: "Mode situation critique — Étage 3 isolé",
+          critIntro: "En cas d’alerte (radiation, tempête, etc.), l’étage 3 est condamné et l’accès scellé.",
+          crit1: "Accès scellés et ventilations fermées",
+          crit2: "Déplacement vers les niveaux inférieurs",
+          crit3: "Niveau -1 : zone la plus protégée (terre + structure)",
+          crit4: "Systèmes autonomes en fonctionnement",
+          veloT: "Vélomobiles sur le site",
+          velo1: "Vélomobiles électriques pour transport quotidien silencieux et autonome",
+          velo2: "Autonomie : 60 à 100 km selon modèle",
+          velo3: "Recharge solaire intégrée au site",
+          aquaT: "Aquaponie — Contenants 1000 L alimentaires",
+          aqua1: "Chaque contenant : 42 × 48 × 48 pouces (1000 litres)",
+          aqua2: "Poissons élevés dans des contenants alimentaires 1000 L",
+          aqua3: "Alimentation naturelle et équilibrée",
+          aqua4: "Eau filtrée par les plantes",
+          aqua5: "Système modulaire, facile à entretenir",
+          aqua6: "Production continue de protéines fraîches",
+          chicT: "Entrées en chicane",
+          chicText: "Accès avec virages pour limiter les ondes de souffle et les infiltrations. Portes étanches à chaque entrée.",
+          sys1: "Énergie solaire + batteries",
+          sys2: "Eau de pluie récupérée & filtrée",
+          sys3: "Alimentation produite sur place",
+          sys4: "Déchets organiques compostés",
+          sys5: "Air filtré renouvelé",
+          sys6: "Connectivité internet satellite",
+          sys7: "Sécurité : caméras & alarmes",
+          usage: "Utilisation en temps normal — vacances en famille : arrivée en famille, confort & détente, cuisine & repas, activités & loisirs, production maison."
         },
         poster: {
           kicker: "Affiche interactive",
@@ -1863,23 +2105,91 @@
       en: {
         header: {
           kicker: "Premium infographic",
-          title: "Self-sufficient forest bunker | Modulimo",
+          title: "Residential forest bunker | Modulimo V5.1",
           fullscreen: "Fullscreen poster"
         },
         hero: {
-          eyebrow: "Interactive infographic",
-          title: "Self-sufficient forest bunker",
-          subtext: "Explore each project subsystem: food forest, three visible access stairs, secure core, underground farming, water recycling, solar energy, sand battery, thermal composting and bioclimatic ventilation.",
+          eyebrow: "Interactive infographic — Modulimo V5.1",
+          title: "Residential forest bunker",
+          subtext: "Underground dwelling built from shipping containers for 12 to 15 people, self-sufficient and resilient. Explore each project subsystem: living and production levels, aquaponics, sandponic farming, velomobiles, solar energy, secure refuge and critical-situation mode.",
           reset: "Reset exploration",
           focusAccess: "Show access points"
         },
         stats: {
           peopleLabel: "Capacity",
-          peopleValue: "30 people",
-          accessLabel: "Entries",
-          accessValue: "3 visible accesses",
-          levelsLabel: "Structure",
-          levelsValue: "2 underground levels"
+          peopleValue: "12 to 15 people",
+          accessLabel: "Living area",
+          accessValue: "± 420 m²",
+          levelsLabel: "Target autonomy",
+          levelsValue: "3 to 6 months"
+        },
+        v5: {
+          eyebrow: "Modulimo V5.1 — Self-sufficient & resilient",
+          title: "Residential forest bunker",
+          intro: "Underground dwelling built from shipping containers for 12 to 15 people. Four stacked levels combine living spaces, food production, technical systems and a secure refuge, under a topsoil roof that camouflages the whole structure in the forest.",
+          specsTitle: "Key specifications",
+          spec1: "Shipping containers: 12 units (40-foot)",
+          spec2: "Occupants: 12 to 15 people",
+          spec3: "Levels: 3 (2 habitable + 1 refuge)",
+          spec4: "Living area: ± 420 m²",
+          spec5: "Target autonomy: 3 to 6 months (extendable)",
+          spec6: "Ceiling height: 2.4 m",
+          spec7: "Burial depth: 2.5 to 3.5 m",
+          spec8: "Structure: Corten steel containers + concrete",
+          spec9: "Roof: 30 to 60 cm of topsoil (camouflage)",
+          spec10: "Baffled entrances, watertight doors",
+          spec11: "Footprint: 36 m × 28 m (top view)",
+          e3t: "Level 3 — Garage & buffer",
+          e3n: "(uninhabited in case of radiation)",
+          e3i1: "Velomobile garage (4 to 5 units)",
+          e3i2: "Workshop, tools, parts, bicycles",
+          e3i3: "Buffer zone, equipment storage",
+          e3i4: "Secured access, filtered ventilation",
+          e2t: "Level 2 — Living spaces",
+          e2i1: "Fully equipped kitchen",
+          e2i2: "Dining room",
+          e2i3: "Living / family room",
+          e2i4: "2 bedrooms",
+          e2i5: "Bathroom",
+          e2i6: "Laundry room",
+          e1t: "Level 1 — Production & provisions",
+          e1i1: "Sandponic farming (vegetables, herbs, fruits)",
+          e1i2: "Aquaponic system (fish in 1000 L containers)",
+          e1i3: "Food reserve",
+          e1i4: "Food processing",
+          n1t: "Level -1 — Technical & security",
+          n1i1: "Water reserve (cisterns)",
+          n1i2: "Filtration & treatment system",
+          n1i3: "Batteries & electrical system",
+          n1i4: "Ventilation, pumps, controls",
+          n1i5: "Secure refuge (most protected zone)",
+          critT: "Critical-situation mode — Level 3 isolated",
+          critIntro: "In case of alert (radiation, storm, etc.), level 3 is sealed off and its access locked down.",
+          crit1: "Accesses sealed and ventilation closed",
+          crit2: "Occupants move to the lower levels",
+          crit3: "Level -1: most protected zone (earth + structure)",
+          crit4: "Autonomous systems keep running",
+          veloT: "Velomobiles on site",
+          velo1: "Electric velomobiles for quiet, autonomous daily transport",
+          velo2: "Range: 60 to 100 km depending on model",
+          velo3: "Solar charging integrated on site",
+          aquaT: "Aquaponics — Food-grade 1000 L containers",
+          aqua1: "Each container: 42 × 48 × 48 inches (1000 litres)",
+          aqua2: "Fish raised in food-grade 1000 L containers",
+          aqua3: "Natural, balanced feeding",
+          aqua4: "Water filtered by the plants",
+          aqua5: "Modular system, easy to maintain",
+          aqua6: "Continuous production of fresh protein",
+          chicT: "Baffled entrances",
+          chicText: "Access with turns to limit blast waves and infiltration. Watertight doors at every entrance.",
+          sys1: "Solar energy + batteries",
+          sys2: "Rainwater collected & filtered",
+          sys3: "Food produced on site",
+          sys4: "Organic waste composted",
+          sys5: "Filtered, renewed air",
+          sys6: "Satellite internet connectivity",
+          sys7: "Security: cameras & alarms",
+          usage: "Normal-times use — family vacations: family arrival, comfort & relaxation, cooking & meals, activities & leisure, home production."
         },
         poster: {
           kicker: "Interactive poster",
