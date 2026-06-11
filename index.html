@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bunker forestier autosuffisant | Modulimo</title>
+  <title>Bunker forestier résidentiel — Modulimo V5.1</title>
   <style>
     :root {
       --bg: #071018;
@@ -1272,6 +1272,54 @@
     #bunkerV4Panel .bv4-footer { text-align: center; margin-top: 10px; font-size: 8px; color: #1a3050; letter-spacing: 2px; padding-bottom: 4px; }
     @media (max-width: 900px) { #bunkerV4Panel .bv4-grid { grid-template-columns: 1fr; } }
 
+    /* ── Modulimo V5.1 section ── */
+    .v5-section {
+      width: min(1500px, calc(100% - 32px));
+      margin: 0 auto 28px;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+    .v5-header { margin-bottom: 22px; }
+    .v5-title { margin: 6px 0 10px; font-size: clamp(1.5rem, 2.6vw, 2.1rem); }
+    .v5-intro { color: var(--muted); max-width: 880px; margin: 0; line-height: 1.6; }
+    .v5-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .v5-card {
+      background: var(--panel-2);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+    }
+    .v5-card h3 {
+      margin: 0 0 10px;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .v5-card ul { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.55; font-size: 0.92rem; }
+    .v5-card li { margin-bottom: 5px; }
+    .v5-card p { color: var(--muted); font-size: 0.92rem; line-height: 1.55; margin: 0 0 10px; }
+    .v5-note { margin: -6px 0 10px; font-size: 0.8rem; color: var(--soft); font-style: italic; }
+    .v5-card.v5-critical { border-color: rgba(255, 82, 97, 0.35); background: rgba(255, 82, 97, 0.06); }
+    .v5-card.v5-critical h3 { color: var(--red); }
+    .v5-systems { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .v5-chip {
+      background: var(--chip);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .v5-usage { margin: 16px 0 0; color: var(--soft); font-size: 0.88rem; line-height: 1.55; }
+
   </style>
 </head>
 <body>
@@ -1284,7 +1332,7 @@
           </span>
           <span class="brand-meta">
             <span class="brand-kicker" data-i18n="header.kicker">Deep-tech project</span>
-            <span class="brand-title" data-i18n="header.title">Bunker forestier autosuffisant | Modulimo</span>
+            <span class="brand-title" data-i18n="header.title">Bunker forestier résidentiel | Modulimo V5.1</span>
           </span>
         </a>
 
@@ -1303,10 +1351,10 @@
     <section class="hero">
       <div class="hero-grid">
         <div>
-          <div class="eyebrow" data-i18n="hero.eyebrow">Infographie interactive</div>
-          <h1 class="hero-title" data-i18n="hero.title">Bunker forestier autosuffisant</h1>
+          <div class="eyebrow" data-i18n="hero.eyebrow">Infographie interactive — Modulimo V5.1</div>
+          <h1 class="hero-title" data-i18n="hero.title">Bunker forestier résidentiel</h1>
           <p class="hero-subtext" data-i18n="hero.subtext">
-            Explore chaque composante du projet : forêt nourricière, trois escaliers d’accès, noyau sécurisé, agriculture souterraine, recyclage de l’eau, énergie solaire, batterie au sable, compost thermique et ventilation bioclimatique.
+            Habitation souterraine en conteneurs maritimes pour 12 à 15 personnes, autosuffisante et résiliente. Explore chaque composante du projet : étages de vie et de production, aquaponie, culture sabloponique, vélomobiles, énergie solaire, refuge sécurisé et mode situation critique.
           </p>
           <div class="hero-cta-row">
             <button class="pill-btn" type="button" id="heroResetBtn" data-i18n="hero.reset">Réinitialiser l’exploration</button>
@@ -1317,20 +1365,174 @@
         <div class="hero-stats">
           <div class="stat-card">
             <span class="stat-label" data-i18n="stats.peopleLabel">Capacité</span>
-            <span class="stat-value" data-i18n="stats.peopleValue">30 personnes</span>
+            <span class="stat-value" data-i18n="stats.peopleValue">12 à 15 personnes</span>
           </div>
           <div class="stat-card">
-            <span class="stat-label" data-i18n="stats.accessLabel">Entrées</span>
-            <span class="stat-value" data-i18n="stats.accessValue">3 accès visibles</span>
+            <span class="stat-label" data-i18n="stats.accessLabel">Surface habitable</span>
+            <span class="stat-value" data-i18n="stats.accessValue">± 420 m²</span>
           </div>
           <div class="stat-card">
-            <span class="stat-label" data-i18n="stats.levelsLabel">Structure</span>
-            <span class="stat-value" data-i18n="stats.levelsValue">2 niveaux souterrains</span>
+            <span class="stat-label" data-i18n="stats.levelsLabel">Autonomie ciblée</span>
+            <span class="stat-value" data-i18n="stats.levelsValue">3 à 6 mois</span>
           </div>
         </div>
       </div>
     </section>
 
+
+    <!-- ══ MODULIMO V5.1 — SPECIFICATIONS ══ -->
+    <section class="v5-section" id="v5Section">
+      <div class="v5-header">
+        <div class="eyebrow" data-i18n="v5.eyebrow">Modulimo V5.1 — Autosuffisant &amp; résilient</div>
+        <h2 class="v5-title" data-i18n="v5.title">Bunker forestier résidentiel</h2>
+        <p class="v5-intro" data-i18n="v5.intro">
+          Habitation souterraine en conteneurs maritimes pour 12 à 15 personnes — vacances en famille en temps normal, sécurité en cas d’urgence. Quatre niveaux superposés combinent garage tampon, espaces de vie, production alimentaire, systèmes techniques et refuge sécurisé, sous un toit de terre végétale planté d’un verger nourricier qui camoufle l’ensemble dans la forêt.
+        </p>
+      </div>
+
+      <div class="v5-grid">
+        <div class="v5-card">
+          <h3 data-i18n="v5.specsTitle">Spécifications principales</h3>
+          <ul>
+            <li data-i18n="v5.spec1">Conteneurs maritimes : 12 unités (40 pieds)</li>
+            <li data-i18n="v5.spec2">Occupants : 12 à 15 personnes</li>
+            <li data-i18n="v5.spec3">Niveaux : 3 (2 habitables + 1 refuge technique)</li>
+            <li data-i18n="v5.spec4">Surface habitable : ± 420 m²</li>
+            <li data-i18n="v5.spec5">Autonomie ciblée : 3 à 6 mois (prolongeable)</li>
+            <li data-i18n="v5.spec6">Hauteur sous plafond : 2,4 m</li>
+            <li data-i18n="v5.spec7">Profondeur d’enfouissement : 2,5 à 3,5 m</li>
+            <li data-i18n="v5.spec8">Structure : conteneurs acier Corten + béton</li>
+            <li data-i18n="v5.spec9">Toit : 30 à 60 cm de terre végétale (camouflage)</li>
+            <li data-i18n="v5.spec10">Entrées : en chicane, portes étanches</li>
+            <li data-i18n="v5.spec11">Ventilation : filtres HEPA + charbon actif</li>
+            <li data-i18n="v5.spec12">Sécurité : caméras, capteurs, système d’alarme</li>
+            <li data-i18n="v5.spec13">Emprise au sol : 36 m × 28 m (vue de dessus)</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.surfT">Surface — Verger &amp; petits fruits</h3>
+          <ul>
+            <li data-i18n="v5.surf1">Pommiers, poiriers, pruniers</li>
+            <li data-i18n="v5.surf2">Camerisiers, framboisiers, bleuetiers</li>
+            <li data-i18n="v5.surf3">Panneaux solaires</li>
+            <li data-i18n="v5.surf4">Récupération d’eau de pluie</li>
+            <li data-i18n="v5.surf5">Prise d’air filtrée et sortie d’urgence</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.e2t">Étage 2 — Garage &amp; tampon</h3>
+          <p class="v5-note" data-i18n="v5.e2n">(non habité en cas de radiation)</p>
+          <ul>
+            <li data-i18n="v5.e2i1">Garage vélomobiles (4 à 5 unités)</li>
+            <li data-i18n="v5.e2i2">Atelier, outils, pièces</li>
+            <li data-i18n="v5.e2i3">Stockage matériel</li>
+            <li data-i18n="v5.e2i4">Zone tampon / décontamination</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.e1t">Étage 1 — Espaces de vie</h3>
+          <ul>
+            <li data-i18n="v5.e1i1">3 logements familiaux (5½)</li>
+            <li data-i18n="v5.e1i2">3 studios</li>
+            <li data-i18n="v5.e1i3">Salle commune / cuisine</li>
+            <li data-i18n="v5.e1i4">Salle de jeux / cinéma</li>
+            <li data-i18n="v5.e1i5">Buanderie</li>
+            <li data-i18n="v5.e1i6">Toilettes &amp; douches communes</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.e0t">Étage 0 — Production alimentaire</h3>
+          <ul>
+            <li data-i18n="v5.e0i1">Aquaponie (poissons + plantes) en contenants 1000 L alimentaires</li>
+            <li data-i18n="v5.e0i2">Cultures sabloponiques</li>
+            <li data-i18n="v5.e0i3">Microgreens / pousses</li>
+            <li data-i18n="v5.e0i4">Transformation &amp; conservation</li>
+            <li data-i18n="v5.e0i5">Chambre froide</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.n1t">Niveau -1 — Technique &amp; sécurité</h3>
+          <ul>
+            <li data-i18n="v5.n1i1">Réserve d’eau (citernes)</li>
+            <li data-i18n="v5.n1i2">Filtration multi-étapes (sable, charbon, osmose, UV)</li>
+            <li data-i18n="v5.n1i3">Système pompes &amp; contrôle</li>
+            <li data-i18n="v5.n1i4">Batterie à sable (stockage thermique)</li>
+            <li data-i18n="v5.n1i5">Four biomasse (chauffage &amp; cuisson)</li>
+            <li data-i18n="v5.n1i6">Réservoir thermique (eau chaude)</li>
+            <li data-i18n="v5.n1i7">Batteries &amp; système électrique</li>
+            <li data-i18n="v5.n1i8">Ventilation &amp; traitement d’air</li>
+            <li data-i18n="v5.n1i9">Refuge sécurisé (zone la plus protégée)</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.eauT">Système eau</h3>
+          <ul>
+            <li data-i18n="v5.eau1">Collecte d’eau de pluie</li>
+            <li data-i18n="v5.eau2">Filtration : sable, charbon, osmose, UV</li>
+            <li data-i18n="v5.eau3">Réservoir d’eau propre</li>
+          </ul>
+        </div>
+
+        <div class="v5-card v5-critical">
+          <h3 data-i18n="v5.critT">Mode situation critique — Étage garage isolé</h3>
+          <p data-i18n="v5.critIntro">En cas d’alerte (radiation, tempête, etc.), l’étage garage &amp; tampon est condamné et l’accès scellé.</p>
+          <ul>
+            <li data-i18n="v5.crit1">Accès scellés et ventilations fermées</li>
+            <li data-i18n="v5.crit2">Déplacement vers les niveaux inférieurs</li>
+            <li data-i18n="v5.crit3">Niveau -1 : zone la plus protégée (terre + structure)</li>
+            <li data-i18n="v5.crit4">Systèmes autonomes en fonctionnement</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.veloT">Vélomobiles sur le site</h3>
+          <ul>
+            <li data-i18n="v5.velo1">Véhicule léger, robuste et tout-terrain</li>
+            <li data-i18n="v5.velo2">Autonomie : jusqu’à 200 km (assistance)</li>
+            <li data-i18n="v5.velo3">Recharge solaire possible</li>
+            <li data-i18n="v5.velo4">Idéal pour déplacements discrets et durables</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.aquaT">Aquaponie — Contenants 1000 L alimentaires</h3>
+          <ul>
+            <li data-i18n="v5.aqua1">Chaque contenant : 42 × 48 × 48 pouces (1000 litres)</li>
+            <li data-i18n="v5.aqua2">Poissons élevés dans des contenants alimentaires 1000 L</li>
+            <li data-i18n="v5.aqua3">Alimentation naturelle et équilibrée</li>
+            <li data-i18n="v5.aqua4">Eau filtrée par les plantes</li>
+            <li data-i18n="v5.aqua5">Système modulaire, facile à entretenir</li>
+            <li data-i18n="v5.aqua6">Production continue de protéines fraîches</li>
+          </ul>
+        </div>
+
+        <div class="v5-card">
+          <h3 data-i18n="v5.chicT">Entrées en chicane</h3>
+          <p data-i18n="v5.chicText">Accès avec virages pour limiter les ondes de souffle et les infiltrations. Portes étanches à chaque entrée.</p>
+        </div>
+      </div>
+
+      <div class="v5-systems">
+        <span class="v5-chip" data-i18n="v5.sys1">Énergie solaire + batteries</span>
+        <span class="v5-chip" data-i18n="v5.sys2">Eau de pluie récupérée &amp; filtrée</span>
+        <span class="v5-chip" data-i18n="v5.sys3">Alimentation produite sur place</span>
+        <span class="v5-chip" data-i18n="v5.sys4">Déchets organiques compostés</span>
+        <span class="v5-chip" data-i18n="v5.sys5">Air filtré renouvelé</span>
+        <span class="v5-chip" data-i18n="v5.sys6">Connectivité internet satellite</span>
+        <span class="v5-chip" data-i18n="v5.sys7">Sécurité : caméras &amp; alarmes</span>
+      </div>
+
+      <p class="v5-usage" data-i18n="v5.usage">
+        Utilisation en temps normal — vacances en famille : arrivée en famille, confort &amp; détente, cuisine &amp; repas, activités &amp; loisirs, jardinage &amp; récoltes, vélomobile &amp; exploration.
+      </p>
+    </section>
+    <!-- ══ FIN MODULIMO V5.1 ══ -->
 
     <!-- ══ BUNKER V4 ACCORDEON ══ -->
     <div class="bunker-v4-accordion">
@@ -1343,7 +1545,7 @@
       >
         <span class="btn-label">
           <span class="btn-icon">&#8853;</span>
-          Plan Technique V4 &mdash; Structure en croix
+          Plan Technique V4 &mdash; Structure en croix (version précédente)
         </span>
         <span class="btn-chevron">&#9660;</span>
       </button>
@@ -1656,8 +1858,9 @@
                 <div class="poster-media" id="posterMedia">
                   <img
                     class="poster-image"
-                    src="images/plan/bunker.png"
-                    alt="Diagramme interactif du bunker forestier autosuffisant"
+                    src="images/plan/bunker-v5.png"
+                    onerror="this.onerror=null;this.src='images/plan/bunker.png';"
+                    alt="Infographie du bunker forestier résidentiel Modulimo V5.1"
                     id="posterImage"
                   />
                   <div class="poster-grid-hint"></div>
@@ -1678,7 +1881,7 @@
 
             <div class="poster-legend">
               <span><span class="legend-dot standard"></span><span data-i18n="poster.legendStandard">Composantes</span></span>
-              <span><span class="legend-dot stair"></span><span data-i18n="poster.legendStairs">Escaliers A / B / C</span></span>
+              <span><span class="legend-dot stair"></span><span data-i18n="poster.legendStairs">Accès &amp; refuge</span></span>
             </div>
           </div>
         </div>
@@ -1689,7 +1892,7 @@
           <div class="panel-header">
             <div>
               <div class="panel-kicker" data-i18n="detail.kicker">Fiche de composante</div>
-              <h2 class="component-title" id="componentTitle">Escalier A – accès principal</h2>
+              <h2 class="component-title" id="componentTitle">Étage 2 – Garage &amp; tampon</h2>
             </div>
             <div class="component-id-badge" id="componentBadge">01</div>
           </div>
@@ -1742,7 +1945,7 @@
             <div class="catalog-topline">
               <div class="catalog-count">
                 <span data-i18n="catalog.countLabel">Éléments affichés</span>
-                <strong id="catalogCount">17</strong>
+                <strong id="catalogCount">20</strong>
               </div>
               <button class="list-reset-btn" type="button" id="catalogResetBtn" data-i18n="catalog.reset">
                 Réinitialiser
@@ -1785,8 +1988,9 @@
             <div class="poster-media" id="fullscreenMedia">
               <img
                 class="poster-image"
-                src="images/plan/bunker.png"
-                alt="Diagramme interactif plein écran du bunker forestier autosuffisant"
+                src="images/plan/bunker-v5.png"
+                onerror="this.onerror=null;this.src='images/plan/bunker.png';"
+                alt="Infographie plein écran du bunker forestier résidentiel Modulimo V5.1"
               />
               <div class="poster-grid-hint"></div>
               <div class="hotspot-layer" id="fullscreenHotspotLayer"></div>
@@ -1803,23 +2007,109 @@
       fr: {
         header: {
           kicker: "Infographie premium",
-          title: "Bunker forestier autosuffisant | Modulimo",
+          title: "Bunker forestier résidentiel | Modulimo V5.1",
           fullscreen: "Affiche plein écran"
         },
         hero: {
-          eyebrow: "Infographie interactive",
-          title: "Bunker forestier autosuffisant",
-          subtext: "Explore chaque composante du projet : forêt nourricière, trois escaliers d’accès, noyau sécurisé, agriculture souterraine, recyclage de l’eau, énergie solaire, batterie au sable, compost thermique et ventilation bioclimatique.",
+          eyebrow: "Infographie interactive — Modulimo V5.1",
+          title: "Bunker forestier résidentiel",
+          subtext: "Habitation souterraine en conteneurs maritimes pour 12 à 15 personnes, autosuffisante et résiliente. Explore chaque composante du projet : étages de vie et de production, aquaponie, culture sabloponique, vélomobiles, énergie solaire, refuge sécurisé et mode situation critique.",
           reset: "Réinitialiser l’exploration",
           focusAccess: "Voir les accès"
         },
         stats: {
           peopleLabel: "Capacité",
-          peopleValue: "30 personnes",
-          accessLabel: "Entrées",
-          accessValue: "3 accès visibles",
-          levelsLabel: "Structure",
-          levelsValue: "2 niveaux souterrains"
+          peopleValue: "12 à 15 personnes",
+          accessLabel: "Surface habitable",
+          accessValue: "± 420 m²",
+          levelsLabel: "Autonomie ciblée",
+          levelsValue: "3 à 6 mois"
+        },
+        v5: {
+          eyebrow: "Modulimo V5.1 — Autosuffisant & résilient",
+          title: "Bunker forestier résidentiel",
+          intro: "Habitation souterraine en conteneurs maritimes pour 12 à 15 personnes — vacances en famille en temps normal, sécurité en cas d’urgence. Quatre niveaux superposés combinent garage tampon, espaces de vie, production alimentaire, systèmes techniques et refuge sécurisé, sous un toit de terre végétale planté d’un verger nourricier qui camoufle l’ensemble dans la forêt.",
+          specsTitle: "Spécifications principales",
+          spec1: "Conteneurs maritimes : 12 unités (40 pieds)",
+          spec2: "Occupants : 12 à 15 personnes",
+          spec3: "Niveaux : 3 (2 habitables + 1 refuge technique)",
+          spec4: "Surface habitable : ± 420 m²",
+          spec5: "Autonomie ciblée : 3 à 6 mois (prolongeable)",
+          spec6: "Hauteur sous plafond : 2,4 m",
+          spec7: "Profondeur d’enfouissement : 2,5 à 3,5 m",
+          spec8: "Structure : conteneurs acier Corten + béton",
+          spec9: "Toit : 30 à 60 cm de terre végétale (camouflage)",
+          spec10: "Entrées : en chicane, portes étanches",
+          spec11: "Ventilation : filtres HEPA + charbon actif",
+          spec12: "Sécurité : caméras, capteurs, système d’alarme",
+          spec13: "Emprise au sol : 36 m × 28 m (vue de dessus)",
+          surfT: "Surface — Verger & petits fruits",
+          surf1: "Pommiers, poiriers, pruniers",
+          surf2: "Camerisiers, framboisiers, bleuetiers",
+          surf3: "Panneaux solaires",
+          surf4: "Récupération d’eau de pluie",
+          surf5: "Prise d’air filtrée et sortie d’urgence",
+          e2t: "Étage 2 — Garage & tampon",
+          e2n: "(non habité en cas de radiation)",
+          e2i1: "Garage vélomobiles (4 à 5 unités)",
+          e2i2: "Atelier, outils, pièces",
+          e2i3: "Stockage matériel",
+          e2i4: "Zone tampon / décontamination",
+          e1t: "Étage 1 — Espaces de vie",
+          e1i1: "3 logements familiaux (5½)",
+          e1i2: "3 studios",
+          e1i3: "Salle commune / cuisine",
+          e1i4: "Salle de jeux / cinéma",
+          e1i5: "Buanderie",
+          e1i6: "Toilettes & douches communes",
+          e0t: "Étage 0 — Production alimentaire",
+          e0i1: "Aquaponie (poissons + plantes) en contenants 1000 L alimentaires",
+          e0i2: "Cultures sabloponiques",
+          e0i3: "Microgreens / pousses",
+          e0i4: "Transformation & conservation",
+          e0i5: "Chambre froide",
+          n1t: "Niveau -1 — Technique & sécurité",
+          n1i1: "Réserve d’eau (citernes)",
+          n1i2: "Filtration multi-étapes (sable, charbon, osmose, UV)",
+          n1i3: "Système pompes & contrôle",
+          n1i4: "Batterie à sable (stockage thermique)",
+          n1i5: "Four biomasse (chauffage & cuisson)",
+          n1i6: "Réservoir thermique (eau chaude)",
+          n1i7: "Batteries & système électrique",
+          n1i8: "Ventilation & traitement d’air",
+          n1i9: "Refuge sécurisé (zone la plus protégée)",
+          eauT: "Système eau",
+          eau1: "Collecte d’eau de pluie",
+          eau2: "Filtration : sable, charbon, osmose, UV",
+          eau3: "Réservoir d’eau propre",
+          critT: "Mode situation critique — Étage garage isolé",
+          critIntro: "En cas d’alerte (radiation, tempête, etc.), l’étage garage & tampon est condamné et l’accès scellé.",
+          crit1: "Accès scellés et ventilations fermées",
+          crit2: "Déplacement vers les niveaux inférieurs",
+          crit3: "Niveau -1 : zone la plus protégée (terre + structure)",
+          crit4: "Systèmes autonomes en fonctionnement",
+          veloT: "Vélomobiles sur le site",
+          velo1: "Véhicule léger, robuste et tout-terrain",
+          velo2: "Autonomie : jusqu’à 200 km (assistance)",
+          velo3: "Recharge solaire possible",
+          velo4: "Idéal pour déplacements discrets et durables",
+          aquaT: "Aquaponie — Contenants 1000 L alimentaires",
+          aqua1: "Chaque contenant : 42 × 48 × 48 pouces (1000 litres)",
+          aqua2: "Poissons élevés dans des contenants alimentaires 1000 L",
+          aqua3: "Alimentation naturelle et équilibrée",
+          aqua4: "Eau filtrée par les plantes",
+          aqua5: "Système modulaire, facile à entretenir",
+          aqua6: "Production continue de protéines fraîches",
+          chicT: "Entrées en chicane",
+          chicText: "Accès avec virages pour limiter les ondes de souffle et les infiltrations. Portes étanches à chaque entrée.",
+          sys1: "Énergie solaire + batteries",
+          sys2: "Eau de pluie récupérée & filtrée",
+          sys3: "Alimentation produite sur place",
+          sys4: "Déchets organiques compostés",
+          sys5: "Air filtré renouvelé",
+          sys6: "Connectivité internet satellite",
+          sys7: "Sécurité : caméras & alarmes",
+          usage: "Utilisation en temps normal — vacances en famille : arrivée en famille, confort & détente, cuisine & repas, activités & loisirs, jardinage & récoltes, vélomobile & exploration."
         },
         poster: {
           kicker: "Affiche interactive",
@@ -1828,7 +2118,7 @@
           captionTitle: "Lecture du système",
           captionText: "Cliquez sur un point du schéma ou sur une composante du catalogue pour afficher sa fiche détaillée.",
           legendStandard: "Composantes",
-          legendStairs: "Escaliers A / B / C"
+          legendStairs: "Accès & refuge"
         },
         detail: {
           kicker: "Fiche de composante",
@@ -1863,23 +2153,109 @@
       en: {
         header: {
           kicker: "Premium infographic",
-          title: "Self-sufficient forest bunker | Modulimo",
+          title: "Residential forest bunker | Modulimo V5.1",
           fullscreen: "Fullscreen poster"
         },
         hero: {
-          eyebrow: "Interactive infographic",
-          title: "Self-sufficient forest bunker",
-          subtext: "Explore each project subsystem: food forest, three visible access stairs, secure core, underground farming, water recycling, solar energy, sand battery, thermal composting and bioclimatic ventilation.",
+          eyebrow: "Interactive infographic — Modulimo V5.1",
+          title: "Residential forest bunker",
+          subtext: "Underground dwelling built from shipping containers for 12 to 15 people, self-sufficient and resilient. Explore each project subsystem: living and production levels, aquaponics, sandponic farming, velomobiles, solar energy, secure refuge and critical-situation mode.",
           reset: "Reset exploration",
           focusAccess: "Show access points"
         },
         stats: {
           peopleLabel: "Capacity",
-          peopleValue: "30 people",
-          accessLabel: "Entries",
-          accessValue: "3 visible accesses",
-          levelsLabel: "Structure",
-          levelsValue: "2 underground levels"
+          peopleValue: "12 to 15 people",
+          accessLabel: "Living area",
+          accessValue: "± 420 m²",
+          levelsLabel: "Target autonomy",
+          levelsValue: "3 to 6 months"
+        },
+        v5: {
+          eyebrow: "Modulimo V5.1 — Self-sufficient & resilient",
+          title: "Residential forest bunker",
+          intro: "Underground dwelling built from shipping containers for 12 to 15 people — family vacations in normal times, safety in case of emergency. Four stacked levels combine a buffer garage, living spaces, food production, technical systems and a secure refuge, under a topsoil roof planted with a food orchard that camouflages the whole structure in the forest.",
+          specsTitle: "Key specifications",
+          spec1: "Shipping containers: 12 units (40-foot)",
+          spec2: "Occupants: 12 to 15 people",
+          spec3: "Levels: 3 (2 habitable + 1 technical refuge)",
+          spec4: "Living area: ± 420 m²",
+          spec5: "Target autonomy: 3 to 6 months (extendable)",
+          spec6: "Ceiling height: 2.4 m",
+          spec7: "Burial depth: 2.5 to 3.5 m",
+          spec8: "Structure: Corten steel containers + concrete",
+          spec9: "Roof: 30 to 60 cm of topsoil (camouflage)",
+          spec10: "Entrances: baffled, watertight doors",
+          spec11: "Ventilation: HEPA filters + activated carbon",
+          spec12: "Security: cameras, sensors, alarm system",
+          spec13: "Footprint: 36 m × 28 m (top view)",
+          surfT: "Surface — Orchard & berries",
+          surf1: "Apple, pear and plum trees",
+          surf2: "Haskap, raspberry and blueberry bushes",
+          surf3: "Solar panels",
+          surf4: "Rainwater collection",
+          surf5: "Filtered air intake and emergency exit",
+          e2t: "Level 2 — Garage & buffer",
+          e2n: "(uninhabited in case of radiation)",
+          e2i1: "Velomobile garage (4 to 5 units)",
+          e2i2: "Workshop, tools, parts",
+          e2i3: "Equipment storage",
+          e2i4: "Buffer / decontamination zone",
+          e1t: "Level 1 — Living spaces",
+          e1i1: "3 family units (2-bedroom)",
+          e1i2: "3 studios",
+          e1i3: "Common room / kitchen",
+          e1i4: "Game room / cinema",
+          e1i5: "Laundry room",
+          e1i6: "Shared toilets & showers",
+          e0t: "Level 0 — Food production",
+          e0i1: "Aquaponics (fish + plants) in food-grade 1000 L containers",
+          e0i2: "Sandponic crops",
+          e0i3: "Microgreens / sprouts",
+          e0i4: "Processing & preservation",
+          e0i5: "Cold room",
+          n1t: "Level -1 — Technical & security",
+          n1i1: "Water reserve (cisterns)",
+          n1i2: "Multi-stage filtration (sand, carbon, osmosis, UV)",
+          n1i3: "Pump & control system",
+          n1i4: "Sand battery (thermal storage)",
+          n1i5: "Biomass stove (heating & cooking)",
+          n1i6: "Thermal tank (hot water)",
+          n1i7: "Batteries & electrical system",
+          n1i8: "Ventilation & air treatment",
+          n1i9: "Secure refuge (most protected zone)",
+          eauT: "Water system",
+          eau1: "Rainwater collection",
+          eau2: "Filtration: sand, carbon, osmosis, UV",
+          eau3: "Clean-water tank",
+          critT: "Critical-situation mode — Garage level isolated",
+          critIntro: "In case of alert (radiation, storm, etc.), the garage & buffer level is sealed off and its access locked down.",
+          crit1: "Accesses sealed and ventilation closed",
+          crit2: "Occupants move to the lower levels",
+          crit3: "Level -1: most protected zone (earth + structure)",
+          crit4: "Autonomous systems keep running",
+          veloT: "Velomobiles on site",
+          velo1: "Light, rugged, all-terrain vehicle",
+          velo2: "Range: up to 200 km (assisted)",
+          velo3: "Solar charging available",
+          velo4: "Ideal for discreet, sustainable travel",
+          aquaT: "Aquaponics — Food-grade 1000 L containers",
+          aqua1: "Each container: 42 × 48 × 48 inches (1000 litres)",
+          aqua2: "Fish raised in food-grade 1000 L containers",
+          aqua3: "Natural, balanced feeding",
+          aqua4: "Water filtered by the plants",
+          aqua5: "Modular system, easy to maintain",
+          aqua6: "Continuous production of fresh protein",
+          chicT: "Baffled entrances",
+          chicText: "Access with turns to limit blast waves and infiltration. Watertight doors at every entrance.",
+          sys1: "Solar energy + batteries",
+          sys2: "Rainwater collected & filtered",
+          sys3: "Food produced on site",
+          sys4: "Organic waste composted",
+          sys5: "Filtered, renewed air",
+          sys6: "Satellite internet connectivity",
+          sys7: "Security: cameras & alarms",
+          usage: "Normal-times use — family vacations: family arrival, comfort & relaxation, cooking & meals, activities & leisure, gardening & harvests, velomobile & exploration."
         },
         poster: {
           kicker: "Interactive poster",
@@ -1888,7 +2264,7 @@
           captionTitle: "System reading",
           captionText: "Click a point on the diagram or a component in the catalog to display its detailed card.",
           legendStandard: "Components",
-          legendStairs: "Stairs A / B / C"
+          legendStairs: "Access & refuge"
         },
         detail: {
           kicker: "Component card",
@@ -1924,558 +2300,662 @@
 
     const baseComponents = [
       {
-        id: "stair-left",
-        number: 1,
-        x: 19.7,
-        y: 44.5,
-        category: "access",
-        fr: {
-          title: "Escalier A – accès principal",
-          short: "Escalier colimaçon visible dans un puits dédié à gauche. Elle descend dans un tunnel en chicane, l’espace au sol et l’espace en dessous sont séparés par une couche de terre suffisante pour protéger de la radiation.",
-          role: "Entrée principale sécurisée dans un conteneur de 10 pieds orienté vers le sud avec des panneaux solaires sur le toit sur une structure pour les disposer à 55 degré vers le soleil.",
-          benefits: "Redondance, orientation simple, accès familles.",
-          details: "Premier des trois accès. Le puits descend depuis un conteneur discret en surface et mène à un couloir en chicane vers le noyau central. Il est volontairement très visible dans cette version pour la lecture pédagogique.",
-          features: [
-            "Escalier colimaçon dans un puits vertical distinct",
-            "Tunnel traversant une couche de terre en chicane avant le noyau central",
-            "Puit de lumière un tube apporte la lumière en bas.",
-            "Positionné dans le triangle des trois accès"
+        "id": "surface-solar",
+        "number": 1,
+        "x": 37,
+        "y": 12,
+        "category": "resources",
+        "fr": {
+          "title": "Panneaux solaires",
+          "short": "Champ solaire discret installé sur le toit végétalisé, couplé aux batteries du niveau -1.",
+          "role": "Production électrique principale du site.",
+          "benefits": "Énergie renouvelable, silencieuse, sans approvisionnement extérieur.",
+          "details": "Les panneaux alimentent l’éclairage horticole, les pompes, la ventilation et la recharge des vélomobiles. L’énergie excédentaire est stockée dans les batteries et dans la batterie à sable du niveau technique.",
+          "features": [
+            "Intégrés au toit végétalisé",
+            "Couplés aux batteries du niveau -1",
+            "Recharge des vélomobiles",
+            "Production dimensionnée pour l’autonomie 3 à 6 mois"
           ]
         },
-        en: {
-          title: "Stair A – main access",
-          short: "Visible spiral stair shaft on the left side.",
-          role: "Primary secure entry.",
-          benefits: "Redundancy, easy orientation, family access.",
-          details: "First of the three access shafts. The shaft drops from a discreet surface container and connects to the secure core through a zigzag corridor.",
-          features: [
-            "Dedicated spiral stair shaft",
-            "Zigzag corridor before the secure core",
-            "Part of the three-access triangle"
+        "en": {
+          "title": "Solar panels",
+          "short": "Discreet solar array on the green roof, coupled to the level -1 batteries.",
+          "role": "Main electrical production of the site.",
+          "benefits": "Renewable, silent energy with no external supply.",
+          "details": "The panels power grow lights, pumps, ventilation and velomobile charging. Surplus energy is stored in the batteries and in the sand battery of the technical level.",
+          "features": [
+            "Integrated into the green roof",
+            "Coupled to level -1 batteries",
+            "Velomobile charging",
+            "Sized for 3 to 6 months of autonomy"
           ]
         }
       },
       {
-        id: "stair-center",
-        number: 2,
-        x: 49.5,
-        y: 47.5,
-        category: "access",
-        fr: {
-          title: "Escalier B – accès central sous la tour",
-          short: "Puits central lisible sous la tour bioclimatique végétalisée.",
-          role: "Accès central et circulation verticale.",
-          benefits: "Lien direct avec la tour, lumière, ventilation.",
-          details: "Accès central placé sous la tour bioclimatique. Il peut cumuler les fonctions de circulation, d’éclairage indirect et de distribution d’air.",
-          features: [
-            "Sous la tour végétalisée",
-            "Puit de lumière un tube apporte la lumière en bas.",
-            "Fonction mixte : circulation, lumière et ventilation",
-            "Dessert les deux niveaux du bunker"
+        "id": "surface-air",
+        "number": 2,
+        "x": 42.5,
+        "y": 12,
+        "category": "surface",
+        "fr": {
+          "title": "Prise d’air filtrée",
+          "short": "Entrée d’air principale du bunker, protégée par filtres HEPA et charbon actif.",
+          "role": "Alimentation en air frais de tous les niveaux.",
+          "benefits": "Air sain en tout temps, même en situation critique.",
+          "details": "L’air capté en surface traverse une filtration HEPA + charbon actif avant d’être distribué. En mode situation critique, les ventilations de l’étage garage sont fermées et l’air est traité au niveau technique.",
+          "features": [
+            "Filtres HEPA + charbon actif",
+            "Capot discret dans la végétation",
+            "Fermeture étanche en cas d’alerte",
+            "Reliée au traitement d’air du niveau -1"
           ]
         },
-        en: {
-          title: "Stair B – central access under the tower",
-          short: "Central shaft clearly visible beneath the vegetated tower.",
-          role: "Central access and vertical circulation.",
-          benefits: "Linked to tower, light and ventilation.",
-          details: "Central access located under the bioclimatic tower. It can combine circulation, indirect light and air distribution.",
-          features: [
-            "Located below the tower",
-            "Mixed role: circulation, light and ventilation",
-            "Connects both underground levels"
+        "en": {
+          "title": "Filtered air intake",
+          "short": "Main air intake of the bunker, protected by HEPA and activated-carbon filters.",
+          "role": "Fresh-air supply for all levels.",
+          "benefits": "Healthy air at all times, even in critical situations.",
+          "details": "Surface air passes through HEPA + activated-carbon filtration before distribution. In critical-situation mode, the garage level vents are closed and air is treated at the technical level.",
+          "features": [
+            "HEPA + activated-carbon filters",
+            "Discreet cowl in the vegetation",
+            "Airtight closure on alert",
+            "Linked to level -1 air treatment"
           ]
         }
       },
       {
-        id: "stair-right",
-        number: 3,
-        x: 82.0,
-        y: 44.8,
-        category: "access",
-        fr: {
-          title: "Escalier C – accès secours",
-          short: "Troisième accès, indépendant, à droite du bunker. Elle descend dans un tunnel en chicane, l’espace au sol et l’espace en dessous sont séparés par une couche de terre suffisante pour protéger de la radiation.",
-          role: "Sortie de secours et accès technique.",
-          benefits: "Résilience, évacuation, maintenance.",
-          details: "Troisième puits d’escalier, physiquement séparé des deux autres. Il augmente fortement la robustesse globale. Sécurisée dans un conteneur de 10 pieds orienté vers le sud avec des panneaux solaires sur le toit sur une structure pour les disposer à 55 degré vers le soleil.",
-          features: [
-            "Séparé des deux autres accès",
-            "Connecté au noyau sécurisé par un couloir",
-            "Puit de lumière un tube apporte la lumière en bas.",
-            "Peut aussi servir à la maintenance"
+        "id": "surface-orchard",
+        "number": 3,
+        "x": 60,
+        "y": 8,
+        "category": "agriculture",
+        "fr": {
+          "title": "Verger & petits fruits",
+          "short": "Verger nourricier planté sur et autour du toit de terre végétale.",
+          "role": "Production fruitière extérieure et camouflage du site.",
+          "benefits": "Récoltes saisonnières, biodiversité, intégration paysagère totale.",
+          "details": "Pommiers, poiriers et pruniers côtoient camerisiers, framboisiers et bleuetiers. Le verger complète la production souterraine et rend le site indiscernable d’une parcelle forestière ordinaire.",
+          "features": [
+            "Pommiers, poiriers, pruniers",
+            "Camerisiers, framboisiers, bleuetiers",
+            "Sur 30 à 60 cm de terre végétale",
+            "Camouflage naturel du bunker"
           ]
         },
-        en: {
-          title: "Stair C – emergency access",
-          short: "Third independent stair shaft on the right.",
-          role: "Emergency exit and technical access.",
-          benefits: "Resilience, evacuation, maintenance.",
-          details: "Third stair shaft, physically separated from the others. It strongly improves overall robustness.",
-          features: [
-            "Separated from the other two accesses",
-            "Connected to the secure core",
-            "Can also serve maintenance tasks"
+        "en": {
+          "title": "Orchard & berries",
+          "short": "Food orchard planted on and around the topsoil roof.",
+          "role": "Outdoor fruit production and site camouflage.",
+          "benefits": "Seasonal harvests, biodiversity, complete landscape integration.",
+          "details": "Apple, pear and plum trees grow alongside haskap, raspberry and blueberry bushes. The orchard complements the underground production and makes the site indistinguishable from an ordinary forest plot.",
+          "features": [
+            "Apple, pear and plum trees",
+            "Haskap, raspberry and blueberry bushes",
+            "On 30 to 60 cm of topsoil",
+            "Natural camouflage of the bunker"
           ]
         }
       },
       {
-        id: "tower",
-        number: 4,
-        x: 49.5,
-        y: 20.2,
-        category: "surface",
-        fr: {
-          title: "Tour bioclimatique végétalisée",
-          short: "Émergence de surface assurant lecture du site, ventilation contrôlée et présence végétale.",
-          role: "Interface climatique entre la surface et le bunker.",
-          benefits: "Ventilation passive, lumière indirecte, signature discrète.",
-          details: "La tour centralise plusieurs fonctions visibles : entrée de lumière, extraction d’air, repère spatial et tampon thermique. Son enveloppe végétalisée améliore l’intégration paysagère et réduit les contrastes thermiques.",
-          features: [
-            "Volume vertical au-dessus du noyau central",
-            "Habillage végétalisé et lecture pédagogique du système",
-            "Peut accueillir prises d’air, extraction et contrôle solaire",
-            "Repère central visible depuis les trois accès"
+        "id": "surface-rain",
+        "number": 4,
+        "x": 65,
+        "y": 16,
+        "category": "resources",
+        "fr": {
+          "title": "Récupération d’eau de pluie",
+          "short": "Collecte de l’eau de pluie en surface vers les citernes du niveau -1.",
+          "role": "Source d’eau principale du système eau.",
+          "benefits": "Ressource renouvelable, indépendance complète du réseau.",
+          "details": "L’eau de pluie est collectée puis dirigée vers la réserve en citernes. Elle traverse ensuite la filtration multi-étapes (sable, charbon, osmose, UV) avant d’alimenter le réservoir d’eau propre.",
+          "features": [
+            "Collecte en surface",
+            "Stockage en citernes au niveau -1",
+            "Filtration sable, charbon, osmose, UV",
+            "Réservoir d’eau propre dédié"
           ]
         },
-        en: {
-          title: "Vegetated bioclimatic tower",
-          short: "Surface emergence providing site legibility, controlled ventilation and planted presence.",
-          role: "Climatic interface between the surface and the bunker.",
-          benefits: "Passive ventilation, indirect light, discreet signature.",
-          details: "The tower combines several visible functions: light intake, air exhaust, spatial landmark and thermal buffer. Its planted envelope improves landscape integration and reduces thermal contrasts.",
-          features: [
-            "Vertical volume above the central core",
-            "Vegetated skin with didactic system readability",
-            "Can host air intake, exhaust and solar control",
-            "Central landmark visible from the three accesses"
+        "en": {
+          "title": "Rainwater collection",
+          "short": "Surface rainwater collection feeding the level -1 cisterns.",
+          "role": "Primary source of the water system.",
+          "benefits": "Renewable resource, complete independence from the grid.",
+          "details": "Rainwater is collected and routed to the cistern reserve. It then passes through multi-stage filtration (sand, carbon, osmosis, UV) before feeding the clean-water tank.",
+          "features": [
+            "Surface collection",
+            "Cistern storage at level -1",
+            "Sand, carbon, osmosis and UV filtration",
+            "Dedicated clean-water tank"
           ]
         }
       },
       {
-        id: "orchard-left",
-        number: 5,
-        x: 22.2,
-        y: 27.7,
-        category: "surface",
-        fr: {
-          title: "Forêt nourricière – secteur ouest",
-          short: "Zone de production alimentaire de surface intégrée au couvert forestier.",
-          role: "Apport vivrier complémentaire et camouflage écologique.",
-          benefits: "Résilience alimentaire, biodiversité, discrétion visuelle.",
-          details: "Cette première zone de forêt nourricière combine arbres fruitiers, arbustes, plantes vivaces et couverture du sol. Elle augmente l’autonomie saisonnière tout en rendant la surface cohérente avec un paysage naturel.",
-          features: [
-            "Plantation en strates inspirée des écosystèmes forestiers",
-            "Production répartie et moins vulnérable à une seule culture",
-            "Renforce le microclimat autour du site",
-            "Compatible avec récupération organique locale"
+        "id": "emergency-exit",
+        "number": 5,
+        "x": 18.5,
+        "y": 22,
+        "category": "access",
+        "fr": {
+          "title": "Sortie d’urgence",
+          "short": "Issue de secours indépendante, dissimulée dans le talus à l’ouest du site.",
+          "role": "Évacuation alternative si l’accès principal est compromis.",
+          "benefits": "Redondance des accès, évacuation rapide et discrète.",
+          "details": "La sortie d’urgence complète l’entrée principale en chicane. Porte étanche, dégagement protégé et cheminement séparé : aucun point de défaillance unique pour entrer ou sortir du bunker.",
+          "features": [
+            "Porte étanche",
+            "Dissimulée dans le talus",
+            "Cheminement séparé de l’entrée principale",
+            "Utilisable dans les deux sens"
           ]
         },
-        en: {
-          title: "Food forest – west sector",
-          short: "Surface food-production zone integrated into the forest cover.",
-          role: "Supplementary food source and ecological camouflage.",
-          benefits: "Food resilience, biodiversity, visual discretion.",
-          details: "This first food-forest area combines fruit trees, shrubs, perennials and ground cover. It improves seasonal autonomy while keeping the surface coherent with a natural landscape.",
-          features: [
-            "Layered planting inspired by forest ecosystems",
-            "Distributed production less vulnerable than single-crop layouts",
-            "Strengthens the local microclimate",
-            "Compatible with local organic-loop recovery"
+        "en": {
+          "title": "Emergency exit",
+          "short": "Independent escape route concealed in the embankment west of the site.",
+          "role": "Alternative evacuation if the main access is compromised.",
+          "benefits": "Access redundancy, fast and discreet evacuation.",
+          "details": "The emergency exit complements the main baffled entrance. Watertight door, protected clearance and a separate path: no single point of failure to enter or leave the bunker.",
+          "features": [
+            "Watertight door",
+            "Concealed in the embankment",
+            "Path separate from the main entrance",
+            "Usable in both directions"
           ]
         }
       },
       {
-        id: "orchard-right",
-        number: 6,
-        x: 80.1,
-        y: 22.9,
-        category: "surface",
-        fr: {
-          title: "Forêt nourricière – secteur est",
-          short: "Deuxième pôle de culture extérieure pour équilibrer la production et l’entretien.",
-          role: "Redondance agricole de surface et diversification des récoltes.",
-          benefits: "Répartition des risques, rendements variés, flexibilité d’usage.",
-          details: "Le secteur est complète la zone ouest avec une autre implantation nourricière. La séparation spatiale limite les pertes simultanées et facilite la gestion par zones selon l’ensoleillement, le vent et les cycles de récolte.",
-          features: [
-            "Deuxième massif nourricier distinct",
-            "Répartition stratégique des espèces selon exposition",
-            "Favorise pollinisation et résilience de l’ensemble",
-            "Peut intégrer petits fruits, herbacées et plantes médicinales"
+        "id": "garage",
+        "number": 6,
+        "x": 42,
+        "y": 26,
+        "category": "access",
+        "fr": {
+          "title": "Étage 2 – Garage & tampon",
+          "short": "Niveau supérieur non habité en cas de radiation : garage, atelier et zone tampon.",
+          "role": "Zone d’arrivée, de stockage et de décontamination.",
+          "benefits": "Protège les niveaux de vie en absorbant le contact avec l’extérieur.",
+          "details": "On y gare 4 à 5 vélomobiles et on y trouve l’atelier et le stockage de matériel. En mode situation critique, cet étage est condamné : accès scellés, ventilations fermées, occupants repliés vers les niveaux inférieurs.",
+          "features": [
+            "Garage vélomobiles (4 à 5 unités)",
+            "Zone tampon / décontamination",
+            "Condamnable en cas d’alerte",
+            "Accès sécurisé, ventilation filtrée"
           ]
         },
-        en: {
-          title: "Food forest – east sector",
-          short: "Second outdoor cultivation pole balancing production and maintenance.",
-          role: "Surface agriculture redundancy and harvest diversification.",
-          benefits: "Risk distribution, varied yields, flexible use.",
-          details: "The east sector complements the west zone with another food-oriented planting area. Spatial separation limits simultaneous losses and supports zone-based management depending on sun, wind and harvest cycles.",
-          features: [
-            "Second distinct food-forest mass",
-            "Strategic species placement by exposure",
-            "Supports pollination and overall resilience",
-            "Can integrate berries, herbs and medicinal plants"
+        "en": {
+          "title": "Level 2 – Garage & buffer",
+          "short": "Upper level, uninhabited in case of radiation: garage, workshop and buffer zone.",
+          "role": "Arrival, storage and decontamination zone.",
+          "benefits": "Protects the living levels by absorbing contact with the outside.",
+          "details": "It houses 4 to 5 velomobiles, the workshop and equipment storage. In critical-situation mode this level is sealed off: accesses locked, vents closed, occupants withdrawn to the lower levels.",
+          "features": [
+            "Velomobile garage (4 to 5 units)",
+            "Buffer / decontamination zone",
+            "Sealable on alert",
+            "Secured access, filtered ventilation"
           ]
         }
       },
       {
-        id: "containers",
-        number: 7,
-        x: 84.4,
-        y: 36.9,
-        category: "surface",
-        fr: {
-          title: "Conteneurs techniques de surface",
-          short: "Volumes compacts servant d’abris d’accès, de stockage et de support énergétique.",
-          role: "Enveloppes discrètes pour accès, équipements et logistique.",
-          benefits: "Modularité, robustesse, déploiement rapide.",
-          details: "Les conteneurs de 10 pieds visibles en surface servent de têtes d’accès, de points techniques et de supports pour les panneaux solaires. Leur format standard facilite la fabrication, le transport et la maintenance sur site.",
-          features: [
-            "Format modulaire facile à installer",
-            "Peuvent héberger accès, stockage et équipements",
-            "Toiture exploitable pour panneaux solaires inclinés",
-            "Lecture claire entre infrastructure visible et noyau enterré"
+        "id": "atelier",
+        "number": 7,
+        "x": 61,
+        "y": 26,
+        "category": "access",
+        "fr": {
+          "title": "Atelier & stockage matériel",
+          "short": "Atelier équipé (outils, pièces) à l’extrémité est de l’étage garage.",
+          "role": "Entretien des vélomobiles et des systèmes du bunker.",
+          "benefits": "Réparations sur place, autonomie technique complète.",
+          "details": "L’atelier regroupe outils, pièces de rechange et établi. Il permet d’entretenir les vélomobiles, les pompes, la ventilation et l’ensemble des équipements sans dépendre de services extérieurs.",
+          "features": [
+            "Outils et pièces de rechange",
+            "Établi et zone de réparation",
+            "Stockage de matériel adjacent",
+            "Situé dans la zone tampon"
           ]
         },
-        en: {
-          title: "Surface technical containers",
-          short: "Compact volumes used as access shelters, storage nodes and energy supports.",
-          role: "Discreet envelopes for access, equipment and logistics.",
-          benefits: "Modularity, robustness, rapid deployment.",
-          details: "The 10-foot containers visible on the surface act as access heads, technical points and support structures for solar panels. Their standard format simplifies fabrication, transport and site maintenance.",
-          features: [
-            "Modular format that is easy to install",
-            "Can host access, storage and equipment",
-            "Usable roof area for tilted solar panels",
-            "Clear reading between visible infrastructure and buried core"
+        "en": {
+          "title": "Workshop & equipment storage",
+          "short": "Equipped workshop (tools, parts) at the east end of the garage level.",
+          "role": "Maintenance of velomobiles and bunker systems.",
+          "benefits": "On-site repairs, full technical autonomy.",
+          "details": "The workshop gathers tools, spare parts and a workbench. It keeps the velomobiles, pumps, ventilation and all equipment running without relying on outside services.",
+          "features": [
+            "Tools and spare parts",
+            "Workbench and repair area",
+            "Adjacent equipment storage",
+            "Located in the buffer zone"
           ]
         }
       },
       {
-        id: "living",
-        number: 8,
-        x: 29.6,
-        y: 47.6,
-        category: "living",
-        fr: {
-          title: "Zone de vie – 5 familles de 5 personnes",
-          short: "Espace d’habitation principal dimensionné pour environ 25 occupants permanents.",
-          role: "Assurer vie quotidienne, repos, intimité et routines collectives.",
-          benefits: "Organisation familiale, confort minimal, stabilité psychologique.",
-          details: "Cette zone regroupe les fonctions de vie essentielles : couchage, rangements, alcôves, petits espaces communs et services associés. L’objectif est de structurer une occupation durable avec séparation lisible entre espaces privés et zones partagées.",
-          features: [
-            "Capacité pensée pour cinq cellules familiales",
-            "Organisation rationnelle des volumes habitables",
-            "Proximité avec le noyau pour sécurité et distribution",
-            "Peut intégrer mobilier modulaire et rangement compact"
+        "id": "living-common",
+        "number": 8,
+        "x": 45,
+        "y": 37.5,
+        "category": "living",
+        "fr": {
+          "title": "Étage 1 – Espaces communs",
+          "short": "Salle commune, cuisine, salle à manger et salle de jeux / cinéma.",
+          "role": "Cœur de la vie collective des 12 à 15 occupants.",
+          "benefits": "Convivialité, repas partagés, loisirs en commun.",
+          "details": "L’étage des espaces de vie regroupe la salle commune avec cuisine, la salle de jeux / cinéma, la buanderie ainsi que les toilettes et douches communes. C’est le niveau des vacances en famille en temps normal.",
+          "features": [
+            "Salle commune / cuisine",
+            "Salle de jeux / cinéma",
+            "Buanderie",
+            "Toilettes & douches communes"
           ]
         },
-        en: {
-          title: "Living zone – 5 families of 5 people",
-          short: "Main habitation area sized for about 25 permanent occupants.",
-          role: "Support daily life, rest, privacy and collective routines.",
-          benefits: "Family organization, baseline comfort, psychological stability.",
-          details: "This area groups the essential living functions: sleeping, storage, alcoves, small common spaces and related services. The goal is to support long-duration occupancy with a clear separation between private and shared zones.",
-          features: [
-            "Capacity planned for five family cells",
-            "Rational organization of habitable volume",
-            "Close to the core for security and distribution",
-            "Can integrate modular furniture and compact storage"
+        "en": {
+          "title": "Level 1 – Common spaces",
+          "short": "Common room, kitchen, dining area and game room / cinema.",
+          "role": "Heart of collective life for the 12 to 15 occupants.",
+          "benefits": "Conviviality, shared meals, group leisure.",
+          "details": "The living level gathers the common room with kitchen, the game room / cinema, the laundry room and the shared toilets and showers. In normal times this is the family-vacation level.",
+          "features": [
+            "Common room / kitchen",
+            "Game room / cinema",
+            "Laundry room",
+            "Shared toilets & showers"
           ]
         }
       },
       {
-        id: "core",
-        number: 9,
-        x: 50.1,
-        y: 38.3,
-        category: "access",
-        fr: {
-          title: "Noyau sécurisé central",
-          short: "Cœur structurel et logistique reliant les accès, la vie et la production souterraine.",
-          role: "Distribuer les flux critiques et concentrer les fonctions stratégiques.",
-          benefits: "Robustesse, lisibilité, circulation protégée.",
-          details: "Le noyau central agit comme colonne vertébrale du bunker. Il relie les trois escaliers, les niveaux souterrains et les systèmes vitaux dans une géométrie compacte, facile à défendre, à ventiler et à entretenir.",
-          features: [
-            "Connexion directe avec les trois accès",
-            "Point de distribution des circulations et des réseaux",
-            "Zone logique pour équipements critiques et contrôle",
-            "Permet une lecture claire du plan général"
+        "id": "living-units",
+        "number": 9,
+        "x": 60,
+        "y": 37.5,
+        "category": "living",
+        "fr": {
+          "title": "Logements familiaux & studios",
+          "short": "3 logements familiaux (5½) et 3 studios privatifs.",
+          "role": "Espaces de nuit et d’intimité des familles.",
+          "benefits": "Chaque famille conserve son espace privé malgré la vie collective.",
+          "details": "Les trois logements familiaux de type 5½ accueillent les familles, complétés par trois studios pour couples ou personnes seules. La capacité totale atteint 12 à 15 personnes.",
+          "features": [
+            "3 logements familiaux (5½)",
+            "3 studios",
+            "Capacité 12 à 15 personnes",
+            "Hauteur sous plafond 2,4 m"
           ]
         },
-        en: {
-          title: "Central secure core",
-          short: "Structural and logistical heart connecting access, living and underground production.",
-          role: "Distribute critical flows and concentrate strategic functions.",
-          benefits: "Robustness, legibility, protected circulation.",
-          details: "The central core acts as the bunker’s backbone. It links the three stairs, the underground levels and the vital systems in a compact geometry that is easier to defend, ventilate and maintain.",
-          features: [
-            "Direct connection to the three accesses",
-            "Distribution point for circulation and networks",
-            "Logical zone for critical equipment and control",
-            "Provides a clear reading of the overall plan"
+        "en": {
+          "title": "Family units & studios",
+          "short": "3 family units (2-bedroom) and 3 private studios.",
+          "role": "Sleeping quarters and family privacy.",
+          "benefits": "Each family keeps private space within collective life.",
+          "details": "Three 2-bedroom family units host the families, complemented by three studios for couples or singles. Total capacity reaches 12 to 15 people.",
+          "features": [
+            "3 family units (2-bedroom)",
+            "3 studios",
+            "Capacity 12 to 15 people",
+            "2.4 m ceiling height"
           ]
         }
       },
       {
-        id: "sabloponie",
-        number: 10,
-        x: 30.4,
-        y: 64.3,
-        category: "agriculture",
-        fr: {
-          title: "Sabloponie",
-          short: "Culture filtrante sur substrat minéral pour produire avec peu d’eau et une bonne stabilité biologique.",
-          role: "Production végétale sobre en intrants et en énergie.",
-          benefits: "Faible consommation d’eau, résilience, entretien maîtrisable.",
-          details: "La sabloponie repose sur un substrat granulaire jouant à la fois le rôle de support racinaire et de filtre biologique. Elle est pertinente dans une logique d’autonomie parce qu’elle tolère mieux certaines variations qu’un système très finement instrumenté.",
-          features: [
-            "Substrat minéral stable et durable",
-            "Filtration biologique intégrée au système de culture",
-            "Compatible avec circuits d’eau recirculés",
-            "Approche robuste pour production de légumes variés"
+        "id": "aquaponics",
+        "number": 10,
+        "x": 31,
+        "y": 51,
+        "category": "agriculture",
+        "fr": {
+          "title": "Aquaponie – poissons + plantes",
+          "short": "Poissons élevés en contenants alimentaires 1000 L, plantes nourries par l’eau du bassin.",
+          "role": "Production continue de protéines fraîches et de légumes.",
+          "benefits": "Boucle fermée : les plantes filtrent l’eau, les poissons nourrissent les plantes.",
+          "details": "Chaque contenant alimentaire de 1000 litres (42 × 48 × 48 po) accueille les poissons. L’eau chargée en nutriments irrigue les cultures qui la filtrent en retour. Le système est modulaire et facile à entretenir.",
+          "features": [
+            "Contenants 1000 L alimentaires (42 × 48 × 48 po)",
+            "Alimentation naturelle et équilibrée",
+            "Eau filtrée par les plantes",
+            "Production continue de protéines fraîches"
           ]
         },
-        en: {
-          title: "Sandponics",
-          short: "Mineral-substrate cultivation producing food with limited water use and good biological stability.",
-          role: "Low-input, energy-aware plant production.",
-          benefits: "Low water demand, resilience, manageable maintenance.",
-          details: "Sandponics relies on a granular substrate acting both as root support and biological filter. It fits self-sufficiency logic because it can tolerate certain variations better than very finely tuned systems.",
-          features: [
-            "Stable and durable mineral substrate",
-            "Biological filtration integrated into the growing system",
-            "Compatible with recirculating water loops",
-            "Robust approach for varied vegetable production"
+        "en": {
+          "title": "Aquaponics – fish + plants",
+          "short": "Fish raised in food-grade 1000 L containers, plants fed by the tank water.",
+          "role": "Continuous production of fresh protein and vegetables.",
+          "benefits": "Closed loop: plants filter the water, fish feed the plants.",
+          "details": "Each food-grade 1000-litre container (42 × 48 × 48 in) hosts the fish. Nutrient-rich water irrigates the crops, which filter it in return. The system is modular and easy to maintain.",
+          "features": [
+            "Food-grade 1000 L containers (42 × 48 × 48 in)",
+            "Natural, balanced feeding",
+            "Water filtered by the plants",
+            "Continuous fresh protein production"
           ]
         }
       },
       {
-        id: "aquaponie",
-        number: 11,
-        x: 39.5,
-        y: 68.3,
-        category: "agriculture",
-        fr: {
-          title: "Aquaponie",
-          short: "Boucle productive couplant élevage aquatique et culture végétale en recirculation.",
-          role: "Créer une synergie entre protéines, nutriments et végétaux.",
-          benefits: "Valorisation des rejets, production multiple, cycle intégré.",
-          details: "L’aquaponie associe bassins et zones de culture pour transformer les nutriments issus de la vie aquatique en fertilisation végétale. Dans le bunker, elle enrichit la diversité alimentaire tout en donnant une lecture claire d’un écosystème technique fermé.",
-          features: [
-            "Recirculation de l’eau entre bassins et cultures",
-            "Production végétale et aquatique dans une même logique",
-            "Réduction des pertes nutritives",
-            "Peut compléter d’autres modules agricoles souterrains"
+        "id": "sandponics",
+        "number": 11,
+        "x": 44,
+        "y": 45,
+        "category": "agriculture",
+        "fr": {
+          "title": "Cultures sabloponiques",
+          "short": "Légumes, fines herbes et fruits cultivés sur substrat de sable sous éclairage horticole.",
+          "role": "Production végétale principale de l’étage 0.",
+          "benefits": "Substrat stable, propre et réutilisable indéfiniment.",
+          "details": "Les rangées de culture sabloponique occupent l’étage production sous éclairage DEL horticole. Le sable sert de support inerte, irrigué en circuit fermé avec les nutriments issus de l’aquaponie et du compost.",
+          "features": [
+            "Légumes, fines herbes, fruits",
+            "Éclairage DEL horticole",
+            "Irrigation en circuit fermé",
+            "Substrat de sable réutilisable"
           ]
         },
-        en: {
-          title: "Aquaponics",
-          short: "Productive loop coupling aquatic rearing and plant cultivation in recirculation.",
-          role: "Create synergy between protein, nutrients and plant growth.",
-          benefits: "Waste valorization, multiple outputs, integrated cycle.",
-          details: "Aquaponics links tanks and grow areas to convert aquatic nutrients into plant fertilization. Inside the bunker, it diversifies food production while clearly expressing a closed technical ecosystem.",
-          features: [
-            "Water recirculation between tanks and crops",
-            "Plant and aquatic production in one logic",
-            "Reduced nutrient losses",
-            "Can complement other underground agriculture modules"
+        "en": {
+          "title": "Sandponic crops",
+          "short": "Vegetables, herbs and fruits grown on a sand substrate under grow lights.",
+          "role": "Main plant production of level 0.",
+          "benefits": "Stable, clean substrate, reusable indefinitely.",
+          "details": "Rows of sandponic crops fill the production level under horticultural LED lighting. Sand acts as an inert medium, irrigated in a closed loop with nutrients from aquaponics and compost.",
+          "features": [
+            "Vegetables, herbs, fruits",
+            "Horticultural LED lighting",
+            "Closed-loop irrigation",
+            "Reusable sand substrate"
           ]
         }
       },
       {
-        id: "microgreens",
-        number: 12,
-        x: 54.0,
-        y: 57.6,
-        category: "agriculture",
-        fr: {
-          title: "Micro-pousses",
-          short: "Production rapide, dense et nutritive pour renouveler fréquemment l’apport frais.",
-          role: "Assurer un flux court de verdure et de micronutriments.",
-          benefits: "Cycles rapides, faible empreinte, forte densité nutritionnelle.",
-          details: "Les micro-pousses sont adaptées aux environnements contrôlés car elles exigent peu d’espace et offrent des récoltes fréquentes. Elles jouent un rôle important dans la variété alimentaire, le moral des occupants et l’efficacité surfacique.",
-          features: [
-            "Cycles de production très courts",
-            "Faible volume pour rendement nutritionnel élevé",
-            "Faciles à intégrer près des zones techniques",
-            "Complètent bien légumes, champignons et protéines"
+        "id": "microgreens",
+        "number": 12,
+        "x": 58,
+        "y": 45,
+        "category": "agriculture",
+        "fr": {
+          "title": "Microgreens / pousses",
+          "short": "Étagères de pousses et microgreens à croissance rapide.",
+          "role": "Apport quotidien de verdure fraîche et de vitamines.",
+          "benefits": "Récolte en quelques jours, très peu d’espace et d’eau.",
+          "details": "Les plateaux de microgreens complètent les cultures principales : croissance en 7 à 14 jours, densité nutritionnelle élevée et rotation continue, même en situation critique prolongée.",
+          "features": [
+            "Croissance en 7 à 14 jours",
+            "Étagères superposées compactes",
+            "Faible consommation d’eau",
+            "Rotation continue toute l’année"
           ]
         },
-        en: {
-          title: "Microgreens",
-          short: "Fast, dense and nutritious production renewing fresh intake frequently.",
-          role: "Provide a short-cycle stream of greens and micronutrients.",
-          benefits: "Fast cycles, low footprint, high nutritional density.",
-          details: "Microgreens fit controlled environments well because they need little space and provide frequent harvests. They contribute to food variety, occupant morale and high surface efficiency.",
-          features: [
-            "Very short production cycles",
-            "Low volume for high nutritional output",
-            "Easy to integrate near technical zones",
-            "Pairs well with vegetables, fungi and protein systems"
+        "en": {
+          "title": "Microgreens / sprouts",
+          "short": "Racks of fast-growing sprouts and microgreens.",
+          "role": "Daily supply of fresh greens and vitamins.",
+          "benefits": "Harvest within days, minimal space and water.",
+          "details": "Microgreen trays complement the main crops: 7 to 14 day growth, high nutritional density and continuous rotation, even during an extended critical situation.",
+          "features": [
+            "7 to 14 day growth",
+            "Compact stacked racks",
+            "Low water use",
+            "Year-round continuous rotation"
           ]
         }
       },
       {
-        id: "fungi",
-        number: 13,
-        x: 62.4,
-        y: 59.2,
-        category: "agriculture",
-        fr: {
-          title: "Champignons",
-          short: "Module fongique exploitant humidité, matière organique et zones peu lumineuses.",
-          role: "Diversifier la production alimentaire avec un système compact.",
-          benefits: "Valorisation de substrats, faible besoin lumineux, rendement utile.",
-          details: "La culture de champignons s’intègre naturellement aux espaces contrôlés du bunker. Elle permet de convertir certaines biomasses en nourriture tout en occupant des volumes où d’autres cultures seraient moins performantes.",
-          features: [
-            "Compatible avec ambiance fraîche et humide",
-            "Utilise des substrats organiques valorisables",
-            "Production complémentaire aux cultures éclairées",
-            "Bon usage des zones souterraines moins sollicitées"
+        "id": "coldroom",
+        "number": 13,
+        "x": 62,
+        "y": 51,
+        "category": "agriculture",
+        "fr": {
+          "title": "Transformation & chambre froide",
+          "short": "Zone de transformation, conservation et chambre froide de l’étage 0.",
+          "role": "Mise en réserve des récoltes et des protéines produites sur place.",
+          "benefits": "Stocks stables pour 3 à 6 mois d’autonomie alimentaire.",
+          "details": "Les récoltes et les poissons sont transformés puis conservés : mise en conserve, déshydratation, fermentation et entreposage en chambre froide. C’est le maillon entre la production et la réserve alimentaire.",
+          "features": [
+            "Chambre froide",
+            "Mise en conserve et déshydratation",
+            "Réserve alimentaire attenante",
+            "Dimensionnée pour 3 à 6 mois"
           ]
         },
-        en: {
-          title: "Fungi",
-          short: "Fungal module using humidity, organic matter and low-light areas.",
-          role: "Diversify food production with a compact system.",
-          benefits: "Substrate valorization, low light demand, useful yield.",
-          details: "Mushroom cultivation fits naturally in the bunker’s controlled spaces. It can convert certain biomasses into food while occupying volumes where other crops would be less efficient.",
-          features: [
-            "Compatible with cool and humid conditions",
-            "Uses recoverable organic substrates",
-            "Complementary to lit crop systems",
-            "Good use of less-demanded underground zones"
+        "en": {
+          "title": "Processing & cold room",
+          "short": "Processing, preservation and cold-room zone of level 0.",
+          "role": "Storing the harvests and proteins produced on site.",
+          "benefits": "Stable stocks for 3 to 6 months of food autonomy.",
+          "details": "Harvests and fish are processed then preserved: canning, dehydration, fermentation and cold-room storage. It is the link between production and the food reserve.",
+          "features": [
+            "Cold room",
+            "Canning and dehydration",
+            "Adjacent food reserve",
+            "Sized for 3 to 6 months"
           ]
         }
       },
       {
-        id: "insects",
-        number: 14,
-        x: 61.2,
-        y: 65.4,
-        category: "agriculture",
-        fr: {
-          title: "Élevage d’insectes",
-          short: "Source protéique compacte et très efficace en conversion de matière.",
-          role: "Produire protéines et valoriser certaines fractions organiques.",
-          benefits: "Rendement surfacique élevé, cycle court, boucle circulaire.",
-          details: "L’élevage d’insectes ajoute une filière protéique robuste avec une faible emprise spatiale. Il s’intègre bien à un écosystème fermé où les flux organiques doivent être transformés efficacement.",
-          features: [
-            "Densité de production importante",
-            "Peut valoriser certains coproduits organiques",
-            "Intérêt pour alimentation animale ou humaine selon scénario",
-            "Module pertinent pour autonomie en protéines"
+        "id": "cisterns",
+        "number": 14,
+        "x": 32,
+        "y": 61.5,
+        "category": "resources",
+        "fr": {
+          "title": "Réserve d’eau – citernes",
+          "short": "Citernes du niveau -1 stockant l’eau de pluie collectée en surface.",
+          "role": "Réserve d’eau brute du bunker.",
+          "benefits": "Volume tampon pour traverser les périodes sans précipitations.",
+          "details": "Les citernes reçoivent l’eau de pluie et alimentent la chaîne de filtration multi-étapes. Le système pompes & contrôle surveille les niveaux et la qualité en continu.",
+          "features": [
+            "Stockage d’eau de pluie",
+            "Alimente la filtration multi-étapes",
+            "Niveaux surveillés en continu",
+            "Situées en zone protégée"
           ]
         },
-        en: {
-          title: "Insect farming",
-          short: "Compact protein source with very efficient matter conversion.",
-          role: "Produce protein and valorize selected organic fractions.",
-          benefits: "High surface yield, short cycles, circular loop.",
-          details: "Insect farming adds a robust protein pathway with very small spatial requirements. It fits closed ecosystems where organic flows must be transformed efficiently.",
-          features: [
-            "High production density",
-            "Can valorize selected organic co-products",
-            "Relevant for animal feed or human food depending on the scenario",
-            "Strong module for protein autonomy"
+        "en": {
+          "title": "Water reserve – cisterns",
+          "short": "Level -1 cisterns storing rainwater collected at the surface.",
+          "role": "Raw-water reserve of the bunker.",
+          "benefits": "Buffer volume to get through dry spells.",
+          "details": "The cisterns receive rainwater and feed the multi-stage filtration chain. The pump & control system continuously monitors levels and quality.",
+          "features": [
+            "Rainwater storage",
+            "Feeds the multi-stage filtration",
+            "Continuously monitored levels",
+            "Located in the protected zone"
           ]
         }
       },
       {
-        id: "chickens",
-        number: 15,
-        x: 59.5,
-        y: 75.5,
-        category: "agriculture",
-        fr: {
-          title: "Poulailler contrôlé",
-          short: "Petit élevage pour œufs, compostage assisté et boucle organique complémentaire.",
-          role: "Ajouter une production animale légère et des flux organiques utiles.",
-          benefits: "Œufs, valorisation organique, diversité de système.",
-          details: "Le module avicole reste volontairement dimensionné à petite échelle. Il contribue à la diversité alimentaire, à la récupération de matière organique et à certains échanges thermiques ou biologiques avec d’autres sous-systèmes.",
-          features: [
-            "Production régulière d’œufs",
-            "Intégrable à une chaîne organique et compostage",
-            "Dimension compacte compatible avec gestion intérieure",
-            "Doit être associé à contrôle d’air et hygiène stricte"
+        "id": "filtration",
+        "number": 15,
+        "x": 44,
+        "y": 62,
+        "category": "resources",
+        "fr": {
+          "title": "Filtration multi-étapes",
+          "short": "Chaîne de traitement : sable, charbon, osmose inverse et UV.",
+          "role": "Production d’eau potable à partir de l’eau de pluie.",
+          "benefits": "Eau propre garantie, sans dépendance extérieure.",
+          "details": "Quatre barrières successives : filtre à sable, charbon actif, osmose inverse puis stérilisation UV. L’eau traitée rejoint le réservoir d’eau propre qui dessert tous les niveaux.",
+          "features": [
+            "Filtre à sable",
+            "Charbon actif",
+            "Osmose inverse",
+            "Stérilisation UV"
           ]
         },
-        en: {
-          title: "Controlled chicken module",
-          short: "Small-scale husbandry for eggs, assisted composting and complementary organic looping.",
-          role: "Add light animal production and useful organic flows.",
-          benefits: "Eggs, organic valorization, system diversity.",
-          details: "The poultry module is intentionally kept small in scale. It contributes to food diversity, organic-matter recovery and selected thermal or biological interactions with other subsystems.",
-          features: [
-            "Regular egg production",
-            "Can connect to an organic loop and composting chain",
-            "Compact scale compatible with indoor management",
-            "Requires air control and strict hygiene"
+        "en": {
+          "title": "Multi-stage filtration",
+          "short": "Treatment chain: sand, carbon, reverse osmosis and UV.",
+          "role": "Producing drinking water from rainwater.",
+          "benefits": "Guaranteed clean water with no external dependency.",
+          "details": "Four successive barriers: sand filter, activated carbon, reverse osmosis then UV sterilisation. Treated water reaches the clean-water tank serving every level.",
+          "features": [
+            "Sand filter",
+            "Activated carbon",
+            "Reverse osmosis",
+            "UV sterilisation"
           ]
         }
       },
       {
-        id: "sand-battery",
-        number: 16,
-        x: 71.4,
-        y: 62.9,
-        category: "resources",
-        fr: {
-          title: "Batterie au sable chauffée par compost",
-          short: "Stockage thermique massif couplé à une source de chaleur organique lente.",
-          role: "Accumuler et redistribuer l’énergie thermique dans le temps.",
-          benefits: "Inertie, sobriété énergétique, valorisation de chaleur basse température.",
-          details: "Le stockage thermique dans un médium granulaire permet de lisser les apports de chaleur. Couplé à un compost thermique ou à d’autres sources lentes, il soutient les besoins du bunker sans dépendre uniquement d’une énergie instantanée.",
-          features: [
-            "Masse thermique importante pour déphasage",
-            "Compatible avec chaleur issue du compost",
-            "Utile pour stabiliser certains espaces techniques ou agricoles",
-            "Approche de stockage simple et robuste"
+        "id": "biomass",
+        "number": 16,
+        "x": 51.5,
+        "y": 63,
+        "category": "resources",
+        "fr": {
+          "title": "Four biomasse",
+          "short": "Four à biomasse assurant chauffage et cuisson, couplé au réservoir thermique.",
+          "role": "Source de chaleur de secours et de cuisson autonome.",
+          "benefits": "Fonctionne au bois de la forêt environnante, sans électricité.",
+          "details": "Le four biomasse chauffe l’eau du réservoir thermique (eau chaude) et permet la cuisson. Il complète la batterie à sable pour traverser l’hiver sans dépendre uniquement du solaire.",
+          "features": [
+            "Chauffage & cuisson",
+            "Couplé au réservoir thermique (eau chaude)",
+            "Combustible local renouvelable",
+            "Indépendant du réseau électrique"
           ]
         },
-        en: {
-          title: "Sand battery heated by compost",
-          short: "Mass thermal storage coupled with a slow organic heat source.",
-          role: "Accumulate and redistribute thermal energy over time.",
-          benefits: "Thermal inertia, energy sobriety, low-grade heat valorization.",
-          details: "Thermal storage in a granular medium helps smooth heat inputs over time. Coupled with thermal composting or other slow sources, it supports bunker needs without relying only on instantaneous energy.",
-          features: [
-            "High thermal mass for time-shifting heat",
-            "Compatible with compost-derived heat",
-            "Useful to stabilize technical or agricultural spaces",
-            "Simple and robust storage approach"
+        "en": {
+          "title": "Biomass stove",
+          "short": "Biomass stove for heating and cooking, coupled to the thermal tank.",
+          "role": "Backup heat source and autonomous cooking.",
+          "benefits": "Runs on wood from the surrounding forest, no electricity needed.",
+          "details": "The biomass stove heats the thermal tank water (hot water) and allows cooking. It complements the sand battery to get through winter without relying solely on solar.",
+          "features": [
+            "Heating & cooking",
+            "Coupled to the thermal hot-water tank",
+            "Local renewable fuel",
+            "Independent from the electrical system"
           ]
         }
       },
       {
-        id: "water",
-        number: 17,
-        x: 86.3,
-        y: 44.4,
-        category: "resources",
-        fr: {
-          title: "Citernes et gestion de l’eau",
-          short: "Deux citernes visibles : à gauche eau propre. À droite eau grise; au centre en bas : captage du ruissellement.",
-          role: "Sécurisation de la ressource critique.",
-          benefits: "Autonomie, recyclage, lecture claire du système d’eau.",
-          details: "Le visuel doit montrer clairement deux citernes distinctes à proximité du bunker : une pour l’eau propre et une pour l’eau grise. Il doit aussi faire voir le captage de l’eau de ruissellement vers le réseau de gestion hydrique.",
-          features: [
-            "Citerne d’eau propre clairement identifiée",
-            "Citerne d’eau grise séparée",
-            "Captage du ruissellement visible vers le système d’eau"
+        "id": "energy",
+        "number": 17,
+        "x": 57,
+        "y": 62,
+        "category": "resources",
+        "fr": {
+          "title": "Batterie à sable & système électrique",
+          "short": "Stockage thermique dans le sable, batteries et distribution électrique.",
+          "role": "Stockage et distribution de l’énergie du site.",
+          "benefits": "Chaleur stockée à long terme, électricité stable jour et nuit.",
+          "details": "La batterie à sable emmagasine la chaleur excédentaire du solaire pour la restituer lentement. Les batteries électriques alimentent éclairage, pompes, ventilation et contrôle. L’ensemble est piloté depuis le niveau technique.",
+          "features": [
+            "Batterie à sable (stockage thermique)",
+            "Batteries & système électrique",
+            "Pilotage centralisé",
+            "Couplage solaire + biomasse"
           ]
         },
-        en: {
-          title: "Water tanks and water management",
-          short: "Two visible tanks: clean water, greywater and runoff capture.",
-          role: "Securing the critical resource.",
-          benefits: "Autonomy, recycling, clearer water system reading.",
-          details: "The visual should clearly show two separate tanks near the bunker: one for clean water and one for greywater. It should also show runoff capture feeding the water-management system.",
-          features: [
-            "Clearly identified clean-water tank",
-            "Separate greywater tank",
-            "Visible runoff capture into the water system"
+        "en": {
+          "title": "Sand battery & electrical system",
+          "short": "Thermal storage in sand, batteries and electrical distribution.",
+          "role": "Storing and distributing the site’s energy.",
+          "benefits": "Long-term stored heat, stable electricity day and night.",
+          "details": "The sand battery stores surplus solar heat and releases it slowly. The electrical batteries power lighting, pumps, ventilation and controls. Everything is managed from the technical level.",
+          "features": [
+            "Sand battery (thermal storage)",
+            "Batteries & electrical system",
+            "Centralised control",
+            "Solar + biomass coupling"
+          ]
+        }
+      },
+      {
+        "id": "refuge",
+        "number": 18,
+        "x": 62,
+        "y": 61.5,
+        "category": "access",
+        "fr": {
+          "title": "Refuge sécurisé",
+          "short": "Zone la plus protégée du bunker, au niveau -1, sous terre et structure.",
+          "role": "Abri ultime des occupants en situation critique.",
+          "benefits": "Protection maximale : profondeur, masse de terre et structure combinées.",
+          "details": "En cas d’alerte, l’étage garage est condamné et les occupants descendent vers les niveaux inférieurs. Le refuge du niveau -1 bénéficie de la protection terre + structure, avec les systèmes autonomes maintenus en fonctionnement.",
+          "features": [
+            "Zone la plus protégée (terre + structure)",
+            "Systèmes autonomes en fonctionnement",
+            "Accès aux réserves d’eau et de nourriture",
+            "Ventilation filtrée autonome"
+          ]
+        },
+        "en": {
+          "title": "Secure refuge",
+          "short": "The most protected zone of the bunker, at level -1, under earth and structure.",
+          "role": "Ultimate shelter for occupants in a critical situation.",
+          "benefits": "Maximum protection: depth, earth mass and structure combined.",
+          "details": "On alert, the garage level is sealed and occupants move down to the lower levels. The level -1 refuge benefits from earth + structure protection, with autonomous systems kept running.",
+          "features": [
+            "Most protected zone (earth + structure)",
+            "Autonomous systems running",
+            "Access to water and food reserves",
+            "Autonomous filtered ventilation"
+          ]
+        }
+      },
+      {
+        "id": "plan-view",
+        "number": 19,
+        "x": 85,
+        "y": 16,
+        "category": "surface",
+        "fr": {
+          "title": "Plan d’ensemble – vue de dessus",
+          "short": "Emprise de 36 m × 28 m entièrement végétalisée, avec stationnement discret.",
+          "role": "Lecture de l’implantation du site en surface.",
+          "benefits": "Le bunker disparaît complètement dans le couvert forestier.",
+          "details": "Vue de dessus, seuls les panneaux solaires, les accès et quelques capots techniques trahissent l’installation. Le verger et la terre végétale recouvrent l’ensemble des 12 conteneurs.",
+          "features": [
+            "Emprise 36 m × 28 m",
+            "Toit entièrement végétalisé",
+            "Stationnement en lisière",
+            "Accès en chicane discrets"
+          ]
+        },
+        "en": {
+          "title": "Site plan – top view",
+          "short": "A 36 m × 28 m footprint fully covered in vegetation, with discreet parking.",
+          "role": "Reading the surface layout of the site.",
+          "benefits": "The bunker disappears completely under the forest cover.",
+          "details": "Seen from above, only the solar panels, the accesses and a few technical cowls reveal the installation. The orchard and topsoil cover all 12 containers.",
+          "features": [
+            "36 m × 28 m footprint",
+            "Fully vegetated roof",
+            "Edge-of-site parking",
+            "Discreet baffled accesses"
+          ]
+        }
+      },
+      {
+        "id": "chicane",
+        "number": 20,
+        "x": 93,
+        "y": 52,
+        "category": "access",
+        "fr": {
+          "title": "Entrées en chicane",
+          "short": "Accès avec virages pour limiter les ondes de souffle et les infiltrations.",
+          "role": "Entrée principale protégée du bunker.",
+          "benefits": "Aucune ligne droite entre l’extérieur et les espaces habités.",
+          "details": "Chaque entrée impose des virages successifs qui brisent les ondes de souffle et bloquent les infiltrations directes. Des portes étanches ferment chaque segment du parcours.",
+          "features": [
+            "Virages successifs anti-souffle",
+            "Portes étanches",
+            "Protection contre les infiltrations",
+            "Complétée par la sortie d’urgence"
+          ]
+        },
+        "en": {
+          "title": "Baffled entrances",
+          "short": "Access with turns to limit blast waves and infiltration.",
+          "role": "Main protected entrance of the bunker.",
+          "benefits": "No straight line between the outside and the living spaces.",
+          "details": "Each entrance imposes successive turns that break blast waves and block direct infiltration. Watertight doors close every segment of the path.",
+          "features": [
+            "Successive anti-blast turns",
+            "Watertight doors",
+            "Infiltration protection",
+            "Complemented by the emergency exit"
           ]
         }
       }
@@ -2483,7 +2963,7 @@
 
     const state = {
       lang: "fr",
-      activeId: "stair-left",
+      activeId: "garage",
       filter: "all",
       query: "",
       zoom: 1,
@@ -2659,7 +3139,7 @@
       const local = getLocalized(comp);
       const btn = document.createElement("button");
       btn.type = "button";
-      const isStair = ["stair-left", "stair-center", "stair-right"].includes(comp.id);
+      const isStair = ["emergency-exit", "chicane", "refuge"].includes(comp.id);
       btn.className = "hotspot" + (isStair ? " stair" : "") + (state.activeId === comp.id ? " active" : "");
       btn.id = isFullscreen ? `${comp.id}-fs` : comp.id;
       btn.style.setProperty("--x", `${comp.x}%`);
@@ -2739,7 +3219,7 @@
     function resetExplorer() {
       state.query = "";
       state.filter = "all";
-      state.activeId = "stair-left";
+      state.activeId = "garage";
       els.searchInput.value = "";
       renderFilters();
       renderCatalog();
